@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/views/login_view.dart';
 import 'package:myexpenses/views/register_view.dart';
 import 'package:myexpenses/views/verify_email_view.dart';
@@ -17,9 +18,9 @@ void main() {
       ),
       home: const HomePage(),
       routes: {
-        '/login/':(context) => const LoginView(),
-        '/register/':(context) => const RegisterView(),
-        '/myexpenses/':(context) => const MyexpensesView(),
+        loginRoute:(context) => const LoginView(),
+        registerRoute:(context) => const RegisterView(),
+        myexpensesRoute:(context) => const MyexpensesView(),
       },
     ),
   );
@@ -79,7 +80,7 @@ class _MyexpensesViewState extends State<MyexpensesView> {
                 if(shouldLogout){
                   await FirebaseAuth.instance.signOut();
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/login/',
+                    loginRoute,
                      (_) => false,
                      );
                 }
