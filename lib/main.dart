@@ -6,7 +6,6 @@ import 'package:myexpenses/views/login_view.dart';
 import 'package:myexpenses/views/register_view.dart';
 import 'package:myexpenses/views/verify_email_view.dart';
 import 'firebase_options.dart';
-import 'dart:developer' as devtools show log;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +20,7 @@ void main() {
         loginRoute:(context) => const LoginView(),
         registerRoute:(context) => const RegisterView(),
         myexpensesRoute:(context) => const MyexpensesView(),
+        verifyEmailRoute:(context) => const VerifyEmailView(),
       },
     ),
   );
