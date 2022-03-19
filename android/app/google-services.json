@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "930119215565",
+    "project_id": "my-expenses-flutter-project",
+    "storage_bucket": "my-expenses-flutter-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930119215565:android:4ab5d649078f7d3250bc84",
+        "android_client_info": {
+          "package_name": "com.budgetapp.myexpenses"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930119215565-sbtqeka1767tnf4s54v6sjqo3foremkk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.budgetapp.myexpenses",
+            "certificate_hash": "f123b8170c3f439b94a0a9b390b705580e955894"
+          }
+        },
+        {
+          "client_id": "930119215565-dovc11qih6dqrmfgbqqcu2csrhleuegb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH46JD8WzBoHCeolkyT9Be3GMW14OkC5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930119215565-dovc11qih6dqrmfgbqqcu2csrhleuegb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "930119215565-jcspgqfid2362ov3h0825g81kf3896uh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.budgetapp.myexpenses"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,7 @@ import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_exceptions.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/utilities/show_error_dialog.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -104,6 +105,23 @@ class _LoginViewState extends State<LoginView> {
               );
             },
             child: const Text('Not registered yet? Register here!'),
+          ),
+          SignInButton(
+            Buttons.Google,
+            onPressed: () async {
+              try {
+                await AuthService.firebase().signInWithGoogle();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  myexpensesRoute,
+                  (route) => false,
+                );
+              } on GenericAuthException {
+                await showErrorDialog(
+                  context,
+                  'Google Sign-in failed',
+                );
+              }
+            },
           )
         ],
       ),
