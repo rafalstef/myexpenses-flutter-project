@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
+import 'package:myexpenses/views/forgot_password_view.dart';
 import 'package:myexpenses/views/login_view.dart';
 import 'package:myexpenses/views/myexpenses_view.dart';
 import 'package:myexpenses/views/register_view.dart';
@@ -20,6 +21,7 @@ void main() {
         registerRoute: (context) => const RegisterView(),
         myexpensesRoute: (context) => const MyexpensesView(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
+        forgotPasswordRoute: (context) => const ForgotPasswordView(),
       },
     ),
   );

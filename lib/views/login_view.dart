@@ -106,6 +106,15 @@ class _LoginViewState extends State<LoginView> {
             },
             child: const Text('Not registered yet? Register here!'),
           ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                forgotPasswordRoute,
+                (route) => false,
+              );
+            },
+            child: const Text('Forgot your password?'),
+          ),
           SignInButton(
             Buttons.Google,
             onPressed: () async {
