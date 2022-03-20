@@ -44,4 +44,7 @@ class AuthService implements AuthProvider {
 
   @override
   Future<AuthUser> signInWithGoogle() => provider.signInWithGoogle();
+  @override
+  Future<void> sendPasswordReset({required String toEmail}) =>
+      provider.sendPasswordReset(toEmail: toEmail);
 }
