@@ -38,28 +38,30 @@ class FirebaseCloudStorage {
           )
           .get()
           .then(
-            (value) => value.docs.map((doc) {
-              return CloudAccount(
-                documentId: doc.id,
-                ownerUserId: doc.data()[ownerUserIdFieldName] as String,
-                accountName: doc.data()[accountNameFieldName] as String,
-                accountAmount: doc.data()[amountFieldName] as double,
-                includeInBalance: doc.data()[includeInBalanceFieldName] as bool,
-              );
-            }),
+            (value) => value.docs.map(
+              (doc) => CloudAccount.fromSnapshot(doc),
+            ),
           );
     } catch (e) {
       throw CouldNotGetAllAccountsException();
     }
   }
 
-  void createNewAccount({required String ownerUserId}) async {
-    await accounts.add({
+  Future<CloudAccount> createNewAccount({required String ownerUserId}) async {
+    final document = await accounts.add({
       ownerUserIdFieldName: ownerUserId,
       accountNameFieldName: '',
       amountFieldName: 0,
       includeInBalanceFieldName: false,
     });
+    final fetchedAccount = await document.get();
+    return CloudAccount(
+      documentId: fetchedAccount.id,
+      ownerUserId: ownerUserId,
+      accountName: '',
+      accountAmount: 0,
+      includeInBalance: false,
+    );
   }
 
   static final FirebaseCloudStorage _shared =
