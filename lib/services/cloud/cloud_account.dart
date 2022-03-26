@@ -6,15 +6,15 @@ import 'package:flutter/foundation.dart';
 class CloudAccount {
   final String documentId;
   final String ownerUserId;
-  final String accountName;
-  final double accountAmount;
+  final String name;
+  final double amount;
   final bool includeInBalance;
 
   const CloudAccount({
     required this.documentId,
     required this.ownerUserId,
-    required this.accountName,
-    required this.accountAmount,
+    required this.name,
+    required this.amount,
     required this.includeInBalance,
   });
 
@@ -22,8 +22,8 @@ class CloudAccount {
       QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
-        accountName = snapshot.data()[accountNameFieldName],
-        accountAmount =
+        name = snapshot.data()[accountNameFieldName],
+        amount =
             double.parse(snapshot.data()[amountFieldName].toString()),
         includeInBalance = snapshot.data()[includeInBalanceFieldName];
 }

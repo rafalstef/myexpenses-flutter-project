@@ -66,8 +66,8 @@ class FirebaseCloudStorage {
     return CloudAccount(
       documentId: fetchedAccount.id,
       ownerUserId: ownerUserId,
-      accountName: '',
-      accountAmount: 0,
+      name: '',
+      amount: 0,
       includeInBalance: false,
     );
   }
