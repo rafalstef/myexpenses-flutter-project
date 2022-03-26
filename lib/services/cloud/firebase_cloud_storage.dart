@@ -4,7 +4,7 @@ import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_exceptions.dart';
 
 class FirebaseCloudStorage {
-  final accounts = FirebaseFirestore.instance.collection('accounts');
+  final accounts = FirebaseFirestore.instance.collection('account');
 
   Future<void> deleteAccount({required String documentId}) async {
     try {
@@ -14,10 +14,18 @@ class FirebaseCloudStorage {
     }
   }
 
-  Future<void> updateAccount(
-      {required String documentId, required double ammount}) async {
+  Future<void> updateAccount({
+    required String documentId,
+    required String name,
+    required double ammount,
+  }) async {
     try {
-      await accounts.doc(documentId).update({amountFieldName: ammount});
+      await accounts.doc(documentId).update(
+        {
+          accountNameFieldName: name,
+          amountFieldName: ammount,
+        },
+      );
     } catch (e) {
       throw CouldNotCreateUpdateAccontException();
     }
@@ -63,9 +71,4 @@ class FirebaseCloudStorage {
       includeInBalance: false,
     );
   }
-
-  static final FirebaseCloudStorage _shared =
-      FirebaseCloudStorage._sharedInstance();
-  FirebaseCloudStorage._sharedInstance();
-  factory FirebaseCloudStorage() => _shared;
 }
