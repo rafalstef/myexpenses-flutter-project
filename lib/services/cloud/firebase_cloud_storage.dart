@@ -18,12 +18,14 @@ class FirebaseCloudStorage {
     required String documentId,
     required String name,
     required double ammount,
+    required bool includeToBalance,
   }) async {
     try {
       await accounts.doc(documentId).update(
         {
           accountNameFieldName: name,
           amountFieldName: ammount,
+          includeInBalanceFieldName: includeToBalance,
         },
       );
     } catch (e) {
