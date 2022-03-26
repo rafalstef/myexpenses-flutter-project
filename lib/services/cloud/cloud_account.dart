@@ -23,7 +23,6 @@ class CloudAccount {
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
         name = snapshot.data()[accountNameFieldName],
-        amount =
-            double.parse(snapshot.data()[amountFieldName].toString()),
+        amount = double.parse(snapshot.data()[amountFieldName].toString()),
         includeInBalance = snapshot.data()[includeInBalanceFieldName];
 }

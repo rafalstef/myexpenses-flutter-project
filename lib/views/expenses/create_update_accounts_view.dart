@@ -18,6 +18,7 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
   late final TextEditingController _nameController;
   late final TextEditingController _ammountController;
   bool _includeValue = false;
+  bool _income = false;
 
   @override
   void initState() {
@@ -56,6 +57,7 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
       name: newName,
       ammount: newAmmount,
       includeToBalance: _includeValue,
+      income: _income,
     );
 
     Navigator.pushNamedAndRemoveUntil(
@@ -101,18 +103,30 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
                   ),
                   TextField(
                     controller: _ammountController,
-                    keyboardType: TextInputType.number,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(signed: true),
                     maxLines: 1,
                     decoration: const InputDecoration(
                       hintText: 'Ammount',
                     ),
                   ),
                   SwitchListTile(
-                    title: const Text('Include in balance?'),
+                    title: const Text('Include in balance'),
                     value: _includeValue,
                     onChanged: (value) {
                       setState(() {
                         _includeValue = value;
+                      });
+                    },
+                    activeTrackColor: const Color.fromARGB(255, 89, 119, 255),
+                    activeColor: const Color.fromARGB(255, 25, 28, 185),
+                  ),
+                  SwitchListTile(
+                    title: const Text('Income'),
+                    value: _income,
+                    onChanged: (value) {
+                      setState(() {
+                        _income = value;
                       });
                     },
                     activeTrackColor: const Color.fromARGB(255, 89, 119, 255),
