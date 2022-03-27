@@ -3,14 +3,14 @@ import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
-class CloudAccount {
+class Account {
   final String documentId;
   final String ownerUserId;
   final String name;
   final double amount;
   final bool includeInBalance;
 
-  const CloudAccount({
+  const Account({
     required this.documentId,
     required this.ownerUserId,
     required this.name,
@@ -18,11 +18,11 @@ class CloudAccount {
     required this.includeInBalance,
   });
 
-  CloudAccount.fromSnapshot(
+  Account.fromSnapshot(
       QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
-        name = snapshot.data()[accountNameFieldName],
+        name = snapshot.data()[nameFieldName],
         amount = double.parse(snapshot.data()[amountFieldName].toString()),
         includeInBalance = snapshot.data()[includeInBalanceFieldName];
 }

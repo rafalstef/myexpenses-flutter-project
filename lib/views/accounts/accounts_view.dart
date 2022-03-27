@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/enums/menu_action.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
-import 'package:myexpenses/services/cloud/cloud_account.dart';
-import 'package:myexpenses/services/cloud/firebase_cloud_storage.dart';
+import 'package:myexpenses/services/cloud/account/account.dart';
+import 'package:myexpenses/services/cloud/account/firebase_account.dart';
 import 'package:myexpenses/utilities/show_logout_dialog.dart';
-import 'package:myexpenses/views/expenses/accounts_list_view.dart';
+import 'package:myexpenses/views/accounts/accounts_list_view.dart';
 
 class AccountsView extends StatefulWidget {
   const AccountsView({Key? key}) : super(key: key);
@@ -15,12 +15,12 @@ class AccountsView extends StatefulWidget {
 }
 
 class _AccountsViewState extends State<AccountsView> {
-  late final FirebaseCloudStorage _accountsService;
+  late final FirebaseAccount _accountsService;
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _accountsService = FirebaseCloudStorage();
+    _accountsService = FirebaseAccount();
     super.initState();
   }
 
@@ -69,7 +69,7 @@ class _AccountsViewState extends State<AccountsView> {
             case ConnectionState.waiting:
             case ConnectionState.active:
               if (snapshot.hasData) {
-                final allAccounts = snapshot.data as Iterable<CloudAccount>;
+                final allAccounts = snapshot.data as Iterable<Account>;
                 return AccountsListView(
                   accounts: allAccounts,
                   onDeleteAccount: (account) async {

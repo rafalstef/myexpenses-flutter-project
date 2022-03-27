@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:myexpenses/services/cloud/cloud_account.dart';
+import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_exceptions.dart';
 
-class FirebaseCloudStorage {
+class FirebaseAccount {
   final accounts = FirebaseFirestore.instance.collection('account');
 
   Future<void> deleteAccount({required String documentId}) async {
@@ -23,7 +23,7 @@ class FirebaseCloudStorage {
     try {
       await accounts.doc(documentId).update(
         {
-          accountNameFieldName: name,
+          nameFieldName: name,
           amountFieldName: ammount,
           includeInBalanceFieldName: includeToBalance,
         },
@@ -33,13 +33,12 @@ class FirebaseCloudStorage {
     }
   }
 
-  Stream<Iterable<CloudAccount>> allAccounts({required String ownerUserId}) =>
+  Stream<Iterable<Account>> allAccounts({required String ownerUserId}) =>
       accounts.snapshots().map((event) => event.docs
-          .map((doc) => CloudAccount.fromSnapshot(doc))
+          .map((doc) => Account.fromSnapshot(doc))
           .where((account) => account.ownerUserId == ownerUserId));
 
-  Future<Iterable<CloudAccount>> getAccounts(
-      {required String owenrUserId}) async {
+  Future<Iterable<Account>> getAccounts({required String owenrUserId}) async {
     try {
       return await accounts
           .where(
@@ -49,7 +48,7 @@ class FirebaseCloudStorage {
           .get()
           .then(
             (value) => value.docs.map(
-              (doc) => CloudAccount.fromSnapshot(doc),
+              (doc) => Account.fromSnapshot(doc),
             ),
           );
     } catch (e) {
@@ -57,15 +56,15 @@ class FirebaseCloudStorage {
     }
   }
 
-  Future<CloudAccount> createNewAccount({required String ownerUserId}) async {
+  Future<Account> createNewAccount({required String ownerUserId}) async {
     final document = await accounts.add({
       ownerUserIdFieldName: ownerUserId,
-      accountNameFieldName: '',
+      nameFieldName: '',
       amountFieldName: 0,
       includeInBalanceFieldName: false,
     });
     final fetchedAccount = await document.get();
-    return CloudAccount(
+    return Account(
       documentId: fetchedAccount.id,
       ownerUserId: ownerUserId,
       name: '',

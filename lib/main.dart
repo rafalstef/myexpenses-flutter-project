@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
-import 'package:myexpenses/views/expenses/accounts_sumary_view.dart';
-import 'package:myexpenses/views/expenses/accounts_view.dart';
-import 'package:myexpenses/views/expenses/create_update_accounts_view.dart';
+import 'package:myexpenses/views/accounts/accounts_sumary_view.dart';
+import 'package:myexpenses/views/accounts/accounts_view.dart';
+import 'package:myexpenses/views/accounts/create_update_accounts_view.dart';
 import 'package:myexpenses/views/user_authentication/forgot_password_view.dart';
 import 'package:myexpenses/views/user_authentication/login_view.dart';
 import 'package:myexpenses/views/user_authentication/register_view.dart';

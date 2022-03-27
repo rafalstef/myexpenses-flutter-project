@@ -5,7 +5,7 @@ import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/enums/menu_action.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/utilities/show_logout_dialog.dart';
-import 'package:myexpenses/views/expenses/accounts_view.dart';
+import 'package:myexpenses/views/accounts/accounts_view.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({Key? key}) : super(key: key);

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:myexpenses/services/cloud/cloud_account.dart';
+import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/utilities/show_delete_dialog.dart';
 
-typedef AccountCallback = void Function(CloudAccount account);
+typedef AccountCallback = void Function(Account account);
 
 class AccountsListView extends StatelessWidget {
-  final Iterable<CloudAccount> accounts;
+  final Iterable<Account> accounts;
   final AccountCallback onDeleteAccount;
   final AccountCallback onTap;
 

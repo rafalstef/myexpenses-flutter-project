@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import '../../enums/menu_action.dart';
 import '../../services/auth/auth_service.dart';
-import '../../services/cloud/firebase_cloud_storage.dart';
+import 'package:myexpenses/services/cloud/account/firebase_account.dart';
 import '../../utilities/show_logout_dialog.dart';
 
 var sumup = 0;
@@ -17,12 +17,12 @@ class SummaryView extends StatefulWidget {
 }
 
 class _SummaryViewState extends State<SummaryView> {
-  late final FirebaseCloudStorage _summaryService;
+  late final FirebaseAccount _summaryService;
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _summaryService = FirebaseCloudStorage();
+    _summaryService = FirebaseAccount();
     super.initState();
   }
 

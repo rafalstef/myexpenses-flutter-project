@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
-import 'package:myexpenses/services/cloud/cloud_account.dart';
-import 'package:myexpenses/services/cloud/firebase_cloud_storage.dart';
+import 'package:myexpenses/services/cloud/account/account.dart';
+import 'package:myexpenses/services/cloud/account/firebase_account.dart';
 import 'package:myexpenses/utilities/generics/get_arguments.dart';
 
 class CreateUpdateAccountView extends StatefulWidget {
@@ -13,15 +13,15 @@ class CreateUpdateAccountView extends StatefulWidget {
 }
 
 class _CreateAccountViewState extends State<CreateUpdateAccountView> {
-  CloudAccount? _account;
-  late final FirebaseCloudStorage _accountsService;
+  Account? _account;
+  late final FirebaseAccount _accountsService;
   late final TextEditingController _nameController;
   late final TextEditingController _ammountController;
   bool _includeValue = false;
 
   @override
   void initState() {
-    _accountsService = FirebaseCloudStorage();
+    _accountsService = FirebaseAccount();
     _nameController = TextEditingController();
     _ammountController = TextEditingController();
     super.initState();
@@ -65,8 +65,8 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
     );
   }
 
-  Future<CloudAccount?> getExistingAccount(BuildContext context) async {
-    final widgetAccount = context.getArgument<CloudAccount>();
+  Future<Account?> getExistingAccount(BuildContext context) async {
+    final widgetAccount = context.getArgument<Account>();
 
     if (widgetAccount == null) {
       return null;
