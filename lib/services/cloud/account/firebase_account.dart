@@ -29,7 +29,7 @@ class FirebaseAccount {
         },
       );
     } catch (e) {
-      throw CouldNotCreateUpdateAccontException();
+      throw CouldNotCreateUpdateAccountException();
     }
   }
 
