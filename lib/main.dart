@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
-import 'package:myexpenses/views/accounts/accounts_sumary_view.dart';
+import 'package:myexpenses/views/summary_view.dart';
 import 'package:myexpenses/views/accounts/accounts_view.dart';
 import 'package:myexpenses/views/accounts/create_update_accounts_view.dart';
 import 'package:myexpenses/views/categories/category_view.dart';

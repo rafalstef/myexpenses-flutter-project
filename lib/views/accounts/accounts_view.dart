@@ -91,16 +91,6 @@ class _AccountsViewState extends State<AccountsView> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            summaryViewRoute,
-            (route) => false,
-          );
-        },
-        icon: const Icon(Icons.account_balance_wallet),
-        label: const Text("Summary"),
-      ),
     );
   }
 }

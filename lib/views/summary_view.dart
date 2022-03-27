@@ -33,12 +33,6 @@ class _SummaryViewState extends State<SummaryView> {
         appBar: AppBar(
           title: const Text('Your summary'),
           actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(createOrUpdateAccountRoute);
-              },
-              icon: const Icon(Icons.add),
-            ),
             PopupMenuButton<MenuAction>(
               onSelected: (value) async {
                 switch (value) {
@@ -65,20 +59,31 @@ class _SummaryViewState extends State<SummaryView> {
             )
           ],
         ),
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
-            'Test',
-          )
-        ]),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              accountsViewRoute,
-              (route) => false,
-            );
-          },
-          icon: const Icon(Icons.analytics),
-          label: const Text("Accounts"),
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    categoryViewRoute,
+                  );
+                },
+                icon: const Icon(Icons.analytics),
+                label: const Text('Category'),
+              ),
+              const SizedBox(height: 30),
+              FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    accountsViewRoute,
+                  );
+                },
+                icon: const Icon(Icons.account_balance_wallet),
+                label: const Text("Accounts"),
+              ),
+            ],
+          ),
         ),
       ),
     );
