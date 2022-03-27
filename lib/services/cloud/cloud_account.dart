@@ -9,7 +9,6 @@ class CloudAccount {
   final String name;
   final double amount;
   final bool includeInBalance;
-  final bool income;
 
   const CloudAccount({
     required this.documentId,
@@ -17,7 +16,6 @@ class CloudAccount {
     required this.name,
     required this.amount,
     required this.includeInBalance,
-    required this.income,
   });
 
   CloudAccount.fromSnapshot(
@@ -26,6 +24,5 @@ class CloudAccount {
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
         name = snapshot.data()[accountNameFieldName],
         amount = double.parse(snapshot.data()[amountFieldName].toString()),
-        includeInBalance = snapshot.data()[includeInBalanceFieldName],
-        income = (snapshot.data()[incomeFieldName]);
+        includeInBalance = snapshot.data()[includeInBalanceFieldName];
 }

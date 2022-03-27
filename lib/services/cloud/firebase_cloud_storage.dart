@@ -19,7 +19,6 @@ class FirebaseCloudStorage {
     required String name,
     required double ammount,
     required bool includeToBalance,
-    required bool income,
   }) async {
     try {
       await accounts.doc(documentId).update(
@@ -27,7 +26,6 @@ class FirebaseCloudStorage {
           accountNameFieldName: name,
           amountFieldName: ammount,
           includeInBalanceFieldName: includeToBalance,
-          incomeFieldName: income,
         },
       );
     } catch (e) {
@@ -65,7 +63,6 @@ class FirebaseCloudStorage {
       accountNameFieldName: '',
       amountFieldName: 0,
       includeInBalanceFieldName: false,
-      incomeFieldName: false,
     });
     final fetchedAccount = await document.get();
     return CloudAccount(
@@ -74,7 +71,6 @@ class FirebaseCloudStorage {
       name: '',
       amount: 0,
       includeInBalance: false,
-      income: false,
     );
   }
 }
