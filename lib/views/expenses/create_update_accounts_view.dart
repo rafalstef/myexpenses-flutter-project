@@ -103,8 +103,7 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
                   ),
                   TextField(
                     controller: _ammountController,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(signed: true),
+                    keyboardType: TextInputType.number,
                     maxLines: 1,
                     decoration: const InputDecoration(
                       hintText: 'Ammount',

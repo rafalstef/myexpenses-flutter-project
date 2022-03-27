@@ -33,10 +33,14 @@ class AccountsListView extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            account.amount.toStringAsFixed(2) + ' PLN',
+            account.income
+                ? account.amount.toStringAsFixed(2) + ' PLN'
+                : '-' + account.amount.toStringAsFixed(2) + ' PLN',
             maxLines: 1,
             softWrap: true,
             overflow: TextOverflow.ellipsis,
+            style:
+                TextStyle(color: (account.income) ? Colors.green : Colors.red),
           ),
           trailing: IconButton(
             onPressed: () async {

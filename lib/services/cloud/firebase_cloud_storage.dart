@@ -65,6 +65,7 @@ class FirebaseCloudStorage {
       accountNameFieldName: '',
       amountFieldName: 0,
       includeInBalanceFieldName: false,
+      incomeFieldName: false,
     });
     final fetchedAccount = await document.get();
     return CloudAccount(
@@ -73,6 +74,7 @@ class FirebaseCloudStorage {
       name: '',
       amount: 0,
       includeInBalance: false,
+      income: false,
     );
   }
 }
