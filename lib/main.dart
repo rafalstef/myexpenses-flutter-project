@@ -21,7 +21,7 @@ void main() {
       routes: {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
-        myexpensesRoute: (context) => const AccountsView(),
+        myexpensesRoute: (context) => const SummaryView(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
         forgotPasswordRoute: (context) => const ForgotPasswordView(),
         createOrUpdateAccountRoute: (context) =>
