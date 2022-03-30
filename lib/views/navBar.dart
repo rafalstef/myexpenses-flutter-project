@@ -5,7 +5,8 @@ import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/enums/menu_action.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/utilities/show_logout_dialog.dart';
-import 'package:myexpenses/views/accounts/accounts_view.dart';
+import 'package:myexpenses/views/expenses/accounts_sumary_view.dart';
+import 'package:myexpenses/views/expenses/accounts_view.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({Key? key}) : super(key: key);
@@ -16,13 +17,7 @@ class SideDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           const DrawerHeader(
-            child: Center(
-              child: Text(
-                'Menu',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 25),
-              ),
-            ),
+            child: Center(),
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
@@ -35,23 +30,15 @@ class SideDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.account_balance_wallet),
             title: const Text('Accounts'),
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AccountsView(),
-                ),
-              )
+            onTap: () {
+              Navigator.pushReplacementNamed(context, accountsViewRoute);
             },
           ),
           ListTile(
             leading: const Icon(Icons.analytics),
             title: const Text('Summary'),
-            onTap: () => {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                summaryViewRoute,
-                (route) => false,
-              ),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, summaryViewRoute);
             },
           ),
           ListTile(
@@ -65,9 +52,8 @@ class SideDrawer extends StatelessWidget {
                       final shouldLogout = await showLogOutDialog(context);
                       if (shouldLogout) {
                         await AuthService.firebase().logOut();
-                        Navigator.of(context).pushNamedAndRemoveUntil(
+                        Navigator.of(context).pushNamed(
                           loginRoute,
-                          (_) => false,
                         );
                       }
                       break;

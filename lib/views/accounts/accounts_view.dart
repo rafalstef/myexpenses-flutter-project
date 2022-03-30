@@ -30,12 +30,6 @@ class _AccountsViewState extends State<AccountsView> {
       appBar: AppBar(
         title: const Text('Accounts'),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(createOrUpdateAccountRoute);
-            },
-            icon: const Icon(Icons.add),
-          ),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
@@ -90,6 +84,13 @@ class _AccountsViewState extends State<AccountsView> {
               return const CircularProgressIndicator();
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(createOrUpdateAccountRoute);
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
     );
   }
