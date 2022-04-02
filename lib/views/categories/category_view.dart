@@ -4,6 +4,7 @@ import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/category/firebase_category.dart';
 import 'package:myexpenses/views/categories/category_list_view.dart';
+import 'package:myexpenses/views/navBar.dart';
 
 class CategoryView extends StatefulWidget {
   const CategoryView({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class _CategoryViewState extends State<CategoryView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Categories')),
+      drawer: const SideDrawer(),
       body: StreamBuilder(
         stream: _categoryService.allCategories(ownerUserId: userId),
         builder: (context, snapshot) {
