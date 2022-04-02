@@ -14,15 +14,12 @@ class SideDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           const DrawerHeader(
-            child: Center(
-              child: Text(
-                'Menu',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 25),
-              ),
-            ),
+            child: Center(),
             decoration: BoxDecoration(
-              color: Colors.blue,
+              image: DecorationImage(
+                  image: NetworkImage(
+                      'https://i.postimg.cc/DzQzcPXz/money-background.png'),
+                  fit: BoxFit.cover),
             ),
           ),
           ListTile(
