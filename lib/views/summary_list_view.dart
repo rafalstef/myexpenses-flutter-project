@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:myexpenses/views/background.dart';
+import 'package:myexpenses/views/navBar.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 
 typedef AccountCallback = void Function(Account account);
@@ -111,6 +112,7 @@ class SummaryListView extends StatelessWidget {
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         actions: const <Widget>[],
+        automaticallyImplyLeading: false,
       ),
       backgroundColor: Colors.transparent,
       body: Stack(
