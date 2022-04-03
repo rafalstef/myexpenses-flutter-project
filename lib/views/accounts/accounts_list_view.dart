@@ -36,7 +36,12 @@ class AccountsListView extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            MoneyFormatter(amount: account.amount)
+            MoneyFormatter(
+                        amount: account.amount,
+                        settings: MoneyFormatterSettings(
+                          thousandSeparator: ' ',
+                          decimalSeparator: '.',
+                        ))
                     .fastCalc(
                         type: FastCalcType.addition, amount: account.amount)
                     .fastCalc(
