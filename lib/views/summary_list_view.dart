@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
-import 'package:myexpenses/utilities/show_delete_dialog.dart';
 import 'package:money_formatter/money_formatter.dart';
 
 typedef AccountCallback = void Function(Account account);
@@ -20,7 +19,7 @@ class SummaryListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle subtitleStyle = const TextStyle(fontSize: 25.0);
+    TextStyle subtitleStyle = const TextStyle(fontSize: 18.0);
     return Text(
       'TOTAL BALANCE: ' +
           MoneyFormatter(amount: _loopResult()!.toDouble())
