@@ -4,6 +4,7 @@ import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/category/firebase_category.dart';
 import 'package:myexpenses/views/categories/category_list_view.dart';
+import 'package:myexpenses/views/navBar.dart';
 
 class CategoryView extends StatefulWidget {
   const CategoryView({Key? key}) : super(key: key);
@@ -25,17 +26,8 @@ class _CategoryViewState extends State<CategoryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Categories'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(createOrUpdateCategoryRoute);
-            },
-            icon: const Icon(Icons.add),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('Categories')),
+      drawer: const SideDrawer(),
       body: StreamBuilder(
         stream: _categoryService.allCategories(ownerUserId: userId),
         builder: (context, snapshot) {
@@ -64,6 +56,13 @@ class _CategoryViewState extends State<CategoryView> {
               return const CircularProgressIndicator();
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(createOrUpdateCategoryRoute);
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
     );
   }

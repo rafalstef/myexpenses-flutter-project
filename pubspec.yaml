@@ -40,6 +40,11 @@ dependencies:
   firebase_analytics: ^9.1.2
   flutter_signin_button: ^2.0.0
   google_sign_in: ^5.2.4
+  get: ^4.6.1
+  intl: ^0.17.0
+  money_formatter: ^0.0.3
+  pattern_formatter: ^2.0.0
+  easy_sidemenu: ^0.1.1+1
 
 dev_dependencies:
   flutter_test:

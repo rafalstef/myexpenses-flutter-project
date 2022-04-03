@@ -2,10 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
+import 'package:myexpenses/views/navBar.dart';
 import '../../enums/menu_action.dart';
 import '../../services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
 import '../../utilities/show_logout_dialog.dart';
+import 'package:myexpenses/views/summary_list_view.dart';
+
+import '../services/cloud/account/account.dart';
 
 var sumup = 0;
 
@@ -28,63 +32,39 @@ class _SummaryViewState extends State<SummaryView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Your summary'),
-          actions: [
-            PopupMenuButton<MenuAction>(
-              onSelected: (value) async {
-                switch (value) {
-                  case MenuAction.logout:
-                    final shouldLogout = await showLogOutDialog(context);
-                    if (shouldLogout) {
-                      await AuthService.firebase().logOut();
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        loginRoute,
-                        (_) => false,
-                      );
-                    }
-                    break;
-                }
-              },
-              itemBuilder: (context) {
-                return const [
-                  PopupMenuItem<MenuAction>(
-                    value: MenuAction.logout,
-                    child: Text('Log out'),
-                  ),
-                ];
-              },
-            )
-          ],
-        ),
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FloatingActionButton.extended(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    categoryViewRoute,
-                  );
-                },
-                icon: const Icon(Icons.analytics),
-                label: const Text('Category'),
-              ),
-              const SizedBox(height: 30),
-              FloatingActionButton.extended(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    accountsViewRoute,
-                  );
-                },
-                icon: const Icon(Icons.account_balance_wallet),
-                label: const Text("Accounts"),
-              ),
-            ],
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Summary'),
+      ),
+      drawer: const SideDrawer(),
+      body: StreamBuilder(
+        stream: _summaryService.allAccounts(ownerUserId: userId),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              if (snapshot.hasData) {
+                final allAccounts = snapshot.data as Iterable<Account>;
+                return SummaryListView(
+                  accounts: allAccounts,
+                  onDeleteAccount: (account) async {
+                    await _summaryService.deleteAccount(
+                        documentId: account.documentId);
+                  },
+                  onTap: (account) {
+                    Navigator.of(context).pushNamed(
+                      createOrUpdateAccountRoute,
+                      arguments: account,
+                    );
+                  },
+                );
+              } else {
+                return const CircularProgressIndicator();
+              }
+            default:
+              return const CircularProgressIndicator();
+          }
+        },
       ),
     );
   }

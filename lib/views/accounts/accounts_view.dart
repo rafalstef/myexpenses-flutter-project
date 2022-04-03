@@ -6,6 +6,7 @@ import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
 import 'package:myexpenses/utilities/show_logout_dialog.dart';
 import 'package:myexpenses/views/accounts/accounts_list_view.dart';
+import 'package:myexpenses/views/navBar.dart';
 
 class AccountsView extends StatefulWidget {
   const AccountsView({Key? key}) : super(key: key);
@@ -29,39 +30,8 @@ class _AccountsViewState extends State<AccountsView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Accounts'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(createOrUpdateAccountRoute);
-            },
-            icon: const Icon(Icons.add),
-          ),
-          PopupMenuButton<MenuAction>(
-            onSelected: (value) async {
-              switch (value) {
-                case MenuAction.logout:
-                  final shouldLogout = await showLogOutDialog(context);
-                  if (shouldLogout) {
-                    await AuthService.firebase().logOut();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      loginRoute,
-                      (_) => false,
-                    );
-                  }
-                  break;
-              }
-            },
-            itemBuilder: (context) {
-              return const [
-                PopupMenuItem<MenuAction>(
-                  value: MenuAction.logout,
-                  child: Text('Log out'),
-                ),
-              ];
-            },
-          )
-        ],
       ),
+      drawer: const SideDrawer(),
       body: StreamBuilder(
         stream: _accountsService.allAccounts(ownerUserId: userId),
         builder: (context, snapshot) {
@@ -90,6 +60,13 @@ class _AccountsViewState extends State<AccountsView> {
               return const CircularProgressIndicator();
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(createOrUpdateAccountRoute);
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
     );
   }
