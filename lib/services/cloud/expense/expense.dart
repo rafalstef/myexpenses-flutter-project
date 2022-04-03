@@ -11,7 +11,6 @@ class Expense {
   final Account? account;
   final double cost;
   final DateTime date;
-  final bool isIncome;
 
   const Expense({
     required this.documentId,
@@ -20,7 +19,6 @@ class Expense {
     required this.account,
     required this.cost,
     required this.date,
-    required this.isIncome,
   });
 
   Expense.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
@@ -29,6 +27,5 @@ class Expense {
         category = snapshot.data()[categoryFieldName],
         account = snapshot.data()[accountFieldName],
         cost = double.parse(snapshot.data()[costFieldName].toString()),
-        date = snapshot.data()[dateFieldName],
-        isIncome = snapshot.data()[isIncomeNameField];
+        date = snapshot.data()[dateFieldName];
 }

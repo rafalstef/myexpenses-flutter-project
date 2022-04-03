@@ -22,7 +22,6 @@ class FirebaseExpense {
     required Account account,
     required double cost,
     required DateTime date,
-    required bool isIncome,
   }) async {
     try {
       await expenses.doc(documentId).update(
@@ -31,7 +30,6 @@ class FirebaseExpense {
           accountFieldName: account,
           costFieldName: cost,
           dateFieldName: date,
-          isIncomeNameField: isIncome,
         },
       );
     } catch (e) {
@@ -69,16 +67,15 @@ class FirebaseExpense {
       accountFieldName: null,
       costFieldName: 0,
       dateFieldName: null,
-      isIncomeNameField: false,
     });
     final fetchedExpense = await document.get();
     return Expense(
-        documentId: fetchedExpense.id,
-        ownerUserId: ownerUserId,
-        category: null,
-        account: null,
-        cost: 0,
-        date: DateTime.now(),
-        isIncome: false);
+      documentId: fetchedExpense.id,
+      ownerUserId: ownerUserId,
+      category: null,
+      account: null,
+      cost: 0,
+      date: DateTime.now(),
+    );
   }
 }
