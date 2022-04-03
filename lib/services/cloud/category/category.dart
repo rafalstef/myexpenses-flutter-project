@@ -7,15 +7,18 @@ class Category {
   final String documentId;
   final String ownerUserId;
   final String name;
+  final bool isIncome;
 
   const Category({
     required this.documentId,
     required this.ownerUserId,
     required this.name,
+    required this.isIncome,
   });
 
   Category.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
-        name = snapshot.data()[nameFieldName];
+        name = snapshot.data()[nameFieldName],
+        isIncome = snapshot.data()[isIncomeNameField];
 }

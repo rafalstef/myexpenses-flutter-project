@@ -17,9 +17,13 @@ class FirebaseCategory {
   Future<void> updateCategory({
     required String documentId,
     required String name,
+    required bool isIncome,
   }) async {
     try {
-      await categories.doc(documentId).update({nameFieldName: name});
+      await categories.doc(documentId).update({
+        nameFieldName: name,
+        isIncomeNameField: isIncome,
+      });
     } catch (e) {
       throw CouldNotCreateUpdateCategoryException();
     }
@@ -53,12 +57,14 @@ class FirebaseCategory {
     final document = await categories.add({
       ownerUserIdFieldName: ownerUserId,
       nameFieldName: '',
+      isIncomeNameField: false,
     });
     final fetchedAccount = await document.get();
     return Category(
       documentId: fetchedAccount.id,
       ownerUserId: ownerUserId,
       name: '',
+      isIncome: false,
     );
   }
 }
