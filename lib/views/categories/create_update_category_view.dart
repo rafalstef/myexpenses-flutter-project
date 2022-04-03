@@ -17,6 +17,7 @@ class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
   Category? _category;
   late final FirebaseCategory _categoryService;
   late final TextEditingController _nameController;
+  bool _isIncomeValue = false;
 
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
     await _categoryService.updateCategory(
       documentId: category!.documentId,
       name: newName,
+      isIncome: _isIncomeValue,
     );
 
     Navigator.pushNamedAndRemoveUntil(
@@ -91,6 +93,17 @@ class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
                     decoration: const InputDecoration(
                       hintText: 'Category name',
                     ),
+                  ),
+                  SwitchListTile(
+                    title: const Text('Income'),
+                    value: _isIncomeValue,
+                    onChanged: (value) {
+                      setState(() {
+                        _isIncomeValue = value;
+                      });
+                    },
+                    activeTrackColor: const Color.fromARGB(255, 89, 119, 255),
+                    activeColor: const Color.fromARGB(255, 25, 28, 185),
                   ),
                   TextButton(
                     onPressed: () async {
