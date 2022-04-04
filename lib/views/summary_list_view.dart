@@ -1,9 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:myexpenses/views/background.dart';
-import 'package:myexpenses/views/navBar.dart';
-import 'package:pattern_formatter/numeric_formatter.dart';
 
 typedef AccountCallback = void Function(Account account);
 double sumup = 0;
