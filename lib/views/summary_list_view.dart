@@ -196,7 +196,9 @@ class SummaryListView extends StatelessWidget {
     sumup = 0;
     for (int i = 0; i < accounts.length; i++) {
       final account = accounts.elementAt(i);
-      sumup = sumup + account.amount;
+      if (account.includeInBalance) {
+        sumup = sumup + account.amount;
+      }
     }
     return sumup;
   }
