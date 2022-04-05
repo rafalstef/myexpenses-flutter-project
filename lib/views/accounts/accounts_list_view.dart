@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/utilities/show_delete_dialog.dart';
 import 'package:money_formatter/money_formatter.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 typedef AccountCallback = void Function(Account account);
 
@@ -32,35 +33,24 @@ class AccountsListView extends StatelessWidget {
               children: <Widget>[
                 Container(
                     padding: const EdgeInsets.all(4.0),
-                    margin: const EdgeInsets.only(left: 35),
+                    margin: const EdgeInsets.only(left: 57),
                     width: 100.0,
                     child: const Text(
                       "Account",
                       style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                           color: Colors.white),
                     )),
                 Container(
                     padding: const EdgeInsets.all(4.0),
-                    margin: const EdgeInsets.only(left: 40),
+                    margin: const EdgeInsets.only(left: 100),
                     width: 100.0,
                     child: const Text(
                       "Balance",
                       style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white),
-                    )),
-                Container(
-                    padding: const EdgeInsets.all(4.0),
-                    margin: const EdgeInsets.only(left: 40),
-                    width: 100.0,
-                    child: const Text(
-                      "Edit",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                           color: Colors.white),
                     )),
               ],
@@ -74,64 +64,82 @@ class AccountsListView extends StatelessWidget {
               itemCount: accounts.length,
               itemBuilder: (context, index) {
                 final account = accounts.elementAt(index);
-                return ListTile(
-                  title: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                              padding: null,
-                              margin: const EdgeInsets.only(left: 25),
-                              width: 100.0,
-                              child: Text(
-                                account.name,
-                                style: const TextStyle(fontSize: 18),
-                              )),
-                          Container(
-                            padding: const EdgeInsets.all(4.0),
-                            margin: const EdgeInsets.only(left: 35),
-                            width: 100.0,
-                            child: Text(
-                              MoneyFormatter(
-                                          amount: account.amount,
-                                          settings: MoneyFormatterSettings(
-                                            thousandSeparator: ' ',
-                                            decimalSeparator: '.',
-                                          ))
-                                      .fastCalc(
-                                          type: FastCalcType.addition,
-                                          amount: account.amount)
-                                      .fastCalc(
-                                          type: FastCalcType.substraction,
-                                          amount: account.amount)
-                                      .output
-                                      .nonSymbol +
-                                  ' PLN',
-                              style: subtitleStyle,
-                              maxLines: 1,
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Container(
-                              margin: const EdgeInsets.only(left: 35),
-                              child: Material(
-                                child: IconButton(
-                                  onPressed: () async {
-                                    final shouldDelete =
-                                        await showDeleteDialog(context);
-                                    if (shouldDelete) {
-                                      onDeleteAccount(account);
-                                    }
-                                  },
-                                  icon: const Icon(Icons.delete),
+                return Slidable(
+                  actionPane: const SlidableDrawerActionPane(),
+                  actionExtentRatio: 0.45,
+                  child: Container(
+                      color: Colors.white,
+                      child: ListTile(
+                        title: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                    padding: const EdgeInsets.only(
+                                        top: 5, bottom: 5),
+                                    margin: const EdgeInsets.only(left: 45),
+                                    width: 100.0,
+                                    child: Text(
+                                      account.name,
+                                      style: subtitleStyle,
+                                    )),
+                                Container(
+                                  padding: null,
+                                  margin: const EdgeInsets.only(left: 100),
+                                  width: 100.0,
+                                  child: Text(
+                                    MoneyFormatter(
+                                                amount: account.amount,
+                                                settings: MoneyFormatterSettings(
+                                                  thousandSeparator: ' ',
+                                                  decimalSeparator: '.',
+                                                ))
+                                            .fastCalc(
+                                                type: FastCalcType.addition,
+                                                amount: account.amount)
+                                            .fastCalc(
+                                                type: FastCalcType.substraction,
+                                                amount: account.amount)
+                                            .output
+                                            .nonSymbol +
+                                        ' PLN',
+                                    maxLines: 1,
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: subtitleStyle,
+                                  ),
                                 ),
-                              )),
-                        ],
-                      ),
-                      const Divider(color: Colors.black38)
-                    ],
-                  ),
+                              ],
+                            ),
+                            const Divider(
+                              color: Colors.black38,
+                            )
+                          ],
+                        ),
+                      )),
+                  actions: <Widget>[
+                    IconSlideAction(
+                      caption: 'Delete',
+                      color: Colors.red,
+                      icon: Icons.delete,
+                      onTap: () async {
+                        final shouldDelete = await showDeleteDialog(context);
+                        if (shouldDelete) {
+                          onDeleteAccount(account);
+                        }
+                      },
+                    ),
+                  ],
+                  secondaryActions: <Widget>[
+                    IconSlideAction(
+                      caption: 'Edit',
+                      color: Colors.green,
+                      icon: Icons.edit,
+                      onTap: () {
+                        onTap(account);
+                      },
+                    ),
+                  ],
                 );
               },
             ),
@@ -141,4 +149,8 @@ class AccountsListView extends StatelessWidget {
       ),
     );
   }
+}
+
+void doNothing(BuildContext context) {
+  const Text('Co tu ma być');
 }
