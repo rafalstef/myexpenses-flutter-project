@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
-import 'package:myexpenses/enums/menu_action.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
-import 'package:myexpenses/utilities/show_logout_dialog.dart';
 import 'package:myexpenses/views/accounts/accounts_list_view.dart';
 import 'package:myexpenses/views/navBar.dart';
 

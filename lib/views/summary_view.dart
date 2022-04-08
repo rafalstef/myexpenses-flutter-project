@@ -3,10 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/views/navBar.dart';
-import '../../enums/menu_action.dart';
 import '../../services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
-import '../../utilities/show_logout_dialog.dart';
 import 'package:myexpenses/views/summary_list_view.dart';
 
 import '../services/cloud/account/account.dart';
