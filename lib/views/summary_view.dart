@@ -66,7 +66,7 @@ class _SummaryViewState extends State<SummaryView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(createOrUpdateAccountRoute);
+          Navigator.of(context).pushNamed(createOrUpdateExpenseRoute);
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
