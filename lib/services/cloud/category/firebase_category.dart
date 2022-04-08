@@ -35,12 +35,12 @@ class FirebaseCategory {
           .where((category) => category.ownerUserId == ownerUserId));
 
   Future<Iterable<Category>> getCategories(
-      {required String owenrUserId}) async {
+      {required String ownerUserId}) async {
     try {
       return await categories
           .where(
             ownerUserIdFieldName,
-            isEqualTo: owenrUserId,
+            isEqualTo: ownerUserId,
           )
           .get()
           .then(
