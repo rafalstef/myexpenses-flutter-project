@@ -24,14 +24,12 @@ class FirebaseExpense {
     required DateTime date,
   }) async {
     try {
-      await expenses.doc(documentId).update(
-        {
-          categoryFieldName: category,
-          accountFieldName: account,
-          costFieldName: cost,
-          dateFieldName: date,
-        },
-      );
+      await expenses.doc(documentId).update({
+        categoryFieldName: category.toMap(),
+        accountFieldName: account.toMap(),
+        costFieldName: cost,
+        dateFieldName: date,
+      });
     } catch (e) {
       throw CouldNotCreateUpdateExpenseException();
     }

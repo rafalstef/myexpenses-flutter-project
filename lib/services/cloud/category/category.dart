@@ -16,6 +16,13 @@ class Category {
     required this.isIncome,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      nameFieldName: name,
+      isIncomeNameField: isIncome,
+    };
+  }
+
   Category.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName],

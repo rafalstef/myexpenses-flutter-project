@@ -18,8 +18,15 @@ class Account {
     required this.includeInBalance,
   });
 
-  Account.fromSnapshot(
-      QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
+  Map<String, dynamic> toMap() {
+    return {
+      nameFieldName: name,
+      amountFieldName: amount,
+      includeInBalanceFieldName: includeInBalance,
+    };
+  }
+
+  Account.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
         name = snapshot.data()[nameFieldName],
