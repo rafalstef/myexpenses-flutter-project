@@ -110,6 +110,7 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
                           final text = newValue.text;
                           if (text.isNotEmpty) double.parse(text);
                           return newValue;
+                          // ignore: empty_catches
                         } catch (e) {}
                         return oldValue;
                       }),
