@@ -79,6 +79,11 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
       date: _selectedDate,
     );
 
+    await _accountService.updateAccountAmmount(
+      documentId: _account!.documentId,
+      amount: _account!.amount - cost,
+    );
+
     Navigator.pushNamedAndRemoveUntil(
       context,
       summaryViewRoute,

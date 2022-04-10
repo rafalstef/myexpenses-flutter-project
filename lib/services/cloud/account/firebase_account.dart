@@ -33,6 +33,19 @@ class FirebaseAccount {
     }
   }
 
+  Future<void> updateAccountAmmount({
+    required String documentId,
+    required double amount,
+  }) async {
+    try {
+      await accounts.doc(documentId).update(
+        {amountFieldName: amount},
+      );
+    } catch (e) {
+      throw CouldNotCreateUpdateAccountException();
+    }
+  }
+
   Stream<Iterable<Account>> allAccounts({required String ownerUserId}) =>
       accounts.snapshots().map((event) => event.docs
           .map((doc) => Account.fromSnapshot(doc))
