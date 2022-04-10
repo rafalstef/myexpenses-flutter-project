@@ -79,9 +79,13 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
       date: _selectedDate,
     );
 
+    final double newAmmount = (_category!.isIncome)
+        ? _account!.amount + cost
+        : _account!.amount - cost;
+
     await _accountService.updateAccountAmmount(
       documentId: _account!.documentId,
-      amount: _account!.amount - cost,
+      amount: newAmmount,
     );
 
     Navigator.pushNamedAndRemoveUntil(
