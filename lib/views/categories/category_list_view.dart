@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/utilities/show_delete_dialog.dart';
 
-typedef CategoryCallback = void Function(Category category);
+typedef CategoryCallback = void Function(ExpenseCategory category);
 
 class CategoryListView extends StatelessWidget {
-  final Iterable<Category> categories;
+  final Iterable<ExpenseCategory> categories;
   final CategoryCallback onDeleteCategory;
   final CategoryCallback onTap;
 

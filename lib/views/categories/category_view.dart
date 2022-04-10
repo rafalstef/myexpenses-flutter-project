@@ -35,7 +35,7 @@ class _CategoryViewState extends State<CategoryView> {
             case ConnectionState.waiting:
             case ConnectionState.active:
               if (snapshot.hasData) {
-                final allCategories = snapshot.data as Iterable<Category>;
+                final allCategories = snapshot.data as Iterable<ExpenseCategory>;
                 return CategoryListView(
                   categories: allCategories,
                   onDeleteCategory: (category) async {

@@ -20,7 +20,7 @@ class CreateUpdateExpenseView extends StatefulWidget {
 
 class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   Expense? _expense;
-  Category? _category;
+  ExpenseCategory? _category;
   Account? _account;
   late DateTime _selectedDate;
 
@@ -28,7 +28,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   late final TextEditingController _costController;
 
   late final FirebaseCategory _categoryService;
-  late final Iterable<Category> _allCategories;
+  late final Iterable<ExpenseCategory> _allCategories;
 
   late final FirebaseAccount _accountService;
   late final Iterable<Account> _allAccounts;

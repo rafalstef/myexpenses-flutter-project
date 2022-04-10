@@ -18,7 +18,7 @@ class FirebaseExpense {
 
   Future<void> updateExpense({
     required String documentId,
-    required Category category,
+    required ExpenseCategory category,
     required Account account,
     required double cost,
     required DateTime date,
