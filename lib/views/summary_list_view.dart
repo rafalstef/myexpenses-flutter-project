@@ -3,6 +3,7 @@ import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:myexpenses/services/cloud/expense/expense.dart';
 import 'package:myexpenses/views/background.dart';
+import 'package:myexpenses/views/expense_card.dart';
 
 typedef AccountCallback = void Function(Expense expense);
 
@@ -37,7 +38,7 @@ class SummaryListView extends StatelessWidget {
           padding: padding,
           child: InkWell(
             onTap: () {
-              print('Card selected');
+              // print('Card selected');
             },
             child: Container(
               decoration: BoxDecoration(
@@ -89,25 +90,24 @@ class SummaryListView extends StatelessWidget {
 
     final body = Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Your total balance: ' +
-              MoneyFormatter(
-                      amount: _loopResult().toDouble(),
-                      settings: MoneyFormatterSettings(
-                        thousandSeparator: ' ',
-                        decimalSeparator: '.',
-                      ))
-                  .fastCalc(
-                    type: FastCalcType.addition,
-                    amount: _loopResult().toDouble(),
-                  )
-                  .fastCalc(
-                      type: FastCalcType.substraction,
-                      amount: _loopResult().toDouble())
-                  .output
-                  .nonSymbol +
-              ' PLN',
-        ),
+        title: Text('Your total balance: ' +
+            MoneyFormatter(
+              amount: _loopResult().toDouble(),
+              settings: MoneyFormatterSettings(
+                thousandSeparator: ' ',
+                decimalSeparator: '.',
+                symbol: 'PLN',
+              ),
+            )
+                .fastCalc(
+                  type: FastCalcType.addition,
+                  amount: _loopResult().toDouble(),
+                )
+                .fastCalc(
+                    type: FastCalcType.substraction,
+                    amount: _loopResult().toDouble())
+                .output
+                .symbolOnRight),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         actions: const <Widget>[],
@@ -135,43 +135,12 @@ class SummaryListView extends StatelessWidget {
                         itemCount: expenses.length,
                         itemBuilder: (context, index) {
                           final expense = expenses.elementAt(index);
-                          return ListTile(
-                            title: Column(
-                              children: <Widget>[
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    Expanded(
-                                        child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const <Widget>[
-                                        Text(
-                                          'In progress (here will be amount of expense)',
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'In progress (here will be amount of expense)',
-                                          style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: Colors.black54,
-                                              fontWeight: FontWeight.normal),
-                                        )
-                                      ],
-                                    )),
-                                  ],
-                                ),
-                                const Divider(),
-                              ],
-                            ),
+                          return ExpenseCard(
+                            categoryName: expense.category!.name.toString(),
+                            accountName: expense.account!.name.toString(),
+                            isIncome: expense.category!.isIncome,
+                            date: expense.date,
+                            cost: expense.cost,
                           );
                         }))
               ],
