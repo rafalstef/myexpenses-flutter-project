@@ -85,7 +85,7 @@ class ExpenseCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateFormat('yyyy-mm-dd').format(expense.date).toString(),
+                      DateFormat('yyyy-MM-dd').format(expense.date).toString(),
                       style: TextStyle(
                         color: Colors.grey[900],
                         fontSize: 15,
