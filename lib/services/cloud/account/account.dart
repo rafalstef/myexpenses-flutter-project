@@ -20,11 +20,19 @@ class Account {
 
   Map<String, dynamic> toMap() {
     return {
+      documentIdFieldName: documentId,
       nameFieldName: name,
       amountFieldName: amount,
       includeInBalanceFieldName: includeInBalance,
     };
   }
+
+  Account.fromMap(Map<String, dynamic> accountMap, String owner)
+      : documentId = accountMap[documentIdFieldName],
+        ownerUserId = owner,
+        name = accountMap[nameFieldName],
+        amount = accountMap[amountFieldName],
+        includeInBalance = accountMap[includeInBalanceFieldName];
 
   Account.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,

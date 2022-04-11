@@ -1,4 +1,5 @@
 // generic
+const documentIdFieldName = 'document_id';
 const ownerUserIdFieldName = 'user_id';
 const nameFieldName = 'name';
 

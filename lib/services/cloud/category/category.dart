@@ -18,10 +18,18 @@ class ExpenseCategory {
 
   Map<String, dynamic> toMap() {
     return {
+      documentIdFieldName: documentId,
       nameFieldName: name,
       isIncomeNameField: isIncome,
     };
   }
+
+  ExpenseCategory.fromMap(Map<String, dynamic> categoryMap, String owner)
+      : documentId = categoryMap[documentIdFieldName],
+        ownerUserId = owner,
+        name = categoryMap[nameFieldName],
+        isIncome = categoryMap[isIncomeNameField];
+
 
   ExpenseCategory.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
