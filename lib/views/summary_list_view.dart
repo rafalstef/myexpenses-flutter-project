@@ -1,22 +1,22 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:money_formatter/money_formatter.dart';
+import 'package:myexpenses/services/cloud/expense/expense.dart';
 import 'package:myexpenses/views/background.dart';
 
-typedef AccountCallback = void Function(Account account);
-double sumup = 0;
+typedef AccountCallback = void Function(Expense expense);
 
 class SummaryListView extends StatelessWidget {
+  final Iterable<Expense> expenses;
   final Iterable<Account> accounts;
-  final AccountCallback onDeleteAccount;
+  final AccountCallback onDeleteExpense;
   final AccountCallback onTap;
 
   const SummaryListView({
     Key? key,
     required this.accounts,
-    required this.onDeleteAccount,
+    required this.expenses,
+    required this.onDeleteExpense,
     required this.onTap,
   }) : super(key: key);
 
@@ -55,7 +55,6 @@ class SummaryListView extends StatelessWidget {
                   fit: BoxFit.fitHeight,
                 ),
               ),
-//                                    height: 200.0,
               width: 200.0,
               child: Stack(
                 children: <Widget>[
@@ -93,18 +92,18 @@ class SummaryListView extends StatelessWidget {
         title: Text(
           'Your total balance: ' +
               MoneyFormatter(
-                      amount: _loopResult()!.toDouble(),
+                      amount: _loopResult().toDouble(),
                       settings: MoneyFormatterSettings(
                         thousandSeparator: ' ',
                         decimalSeparator: '.',
                       ))
                   .fastCalc(
                     type: FastCalcType.addition,
-                    amount: _loopResult()!.toDouble(),
+                    amount: _loopResult().toDouble(),
                   )
                   .fastCalc(
                       type: FastCalcType.substraction,
-                      amount: _loopResult()!.toDouble())
+                      amount: _loopResult().toDouble())
                   .output
                   .nonSymbol +
               ' PLN',
@@ -131,44 +130,50 @@ class SummaryListView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 300.0, width: _width, child: headerList),
-                Expanded(child: ListView.builder(itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Column(
-                      children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(
-                              width: 8.0,
-                            ),
-                            Expanded(
-                                child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const <Widget>[
-                                Text(
-                                  'In progress (here will be title of expense)',
-                                  style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold),
+                Expanded(
+                    child: ListView.builder(
+                        itemCount: expenses.length,
+                        itemBuilder: (context, index) {
+                          final expense = expenses.elementAt(index);
+                          return ListTile(
+                            title: Column(
+                              children: <Widget>[
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    const SizedBox(
+                                      width: 8.0,
+                                    ),
+                                    Expanded(
+                                        child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: const <Widget>[
+                                        Text(
+                                          'In progress (here will be amount of expense)',
+                                          style: TextStyle(
+                                              fontSize: 14.0,
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          'In progress (here will be amount of expense)',
+                                          style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.normal),
+                                        )
+                                      ],
+                                    )),
+                                  ],
                                 ),
-                                Text(
-                                  'In progress (here will be amount of expense)',
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.normal),
-                                )
+                                const Divider(),
                               ],
-                            )),
-                          ],
-                        ),
-                        const Divider(),
-                      ],
-                    ),
-                  );
-                }))
+                            ),
+                          );
+                        }))
               ],
             ),
           ),
@@ -192,8 +197,8 @@ class SummaryListView extends StatelessWidget {
     );
   }
 
-  double? _loopResult() {
-    sumup = 0;
+  double _loopResult() {
+    double sumup = 0;
     for (int i = 0; i < accounts.length; i++) {
       final account = accounts.elementAt(i);
       if (account.includeInBalance) {
