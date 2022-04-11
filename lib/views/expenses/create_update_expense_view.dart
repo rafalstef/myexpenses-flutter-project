@@ -104,6 +104,10 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
 
     _expense = widgetExpense;
     _costController.text = widgetExpense.cost.toString();
+    _category = widgetExpense.category;
+    _account = widgetExpense.account;
+    _selectedDate = widgetExpense.date;
+
     return widgetExpense;
   }
 

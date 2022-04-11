@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:myexpenses/services/cloud/expense/expense.dart';
@@ -130,11 +131,13 @@ class SummaryListView extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final expense = expenses.elementAt(index);
                           return ExpenseCard(
-                            categoryName: expense.category!.name.toString(),
-                            accountName: expense.account!.name.toString(),
-                            isIncome: expense.category!.isIncome,
-                            date: expense.date,
-                            cost: expense.cost,
+                            expense: expense,
+                            onTap: (expense) {
+                              Navigator.of(context).pushNamed(
+                                createOrUpdateExpenseRoute,
+                                arguments: expense,
+                              );
+                            },
                           );
                         }))
               ],
