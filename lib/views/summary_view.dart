@@ -50,16 +50,6 @@ class _SummaryViewState extends State<SummaryView> {
                     return SummaryListView(
                       expenses: allExpenses,
                       accounts: allAccounts,
-                      onDeleteExpense: (expense) async {
-                        await _expenseService.deleteExpense(
-                            documentId: expense.documentId);
-                      },
-                      onTap: (account) {
-                        Navigator.of(context).pushNamed(
-                          createOrUpdateAccountRoute,
-                          arguments: account,
-                        );
-                      },
                     );
                   } else {
                     return const CircularProgressIndicator();

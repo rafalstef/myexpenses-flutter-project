@@ -5,20 +5,14 @@ import 'package:myexpenses/services/cloud/expense/expense.dart';
 import 'package:myexpenses/views/background.dart';
 import 'package:myexpenses/views/expense_card.dart';
 
-typedef AccountCallback = void Function(Expense expense);
-
 class SummaryListView extends StatelessWidget {
   final Iterable<Expense> expenses;
   final Iterable<Account> accounts;
-  final AccountCallback onDeleteExpense;
-  final AccountCallback onTap;
 
   const SummaryListView({
     Key? key,
     required this.accounts,
     required this.expenses,
-    required this.onDeleteExpense,
-    required this.onTap,
   }) : super(key: key);
 
   @override
