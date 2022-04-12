@@ -9,6 +9,7 @@ import 'package:myexpenses/services/cloud/category/firebase_category.dart';
 import 'package:myexpenses/services/cloud/expense/expense.dart';
 import 'package:myexpenses/services/cloud/expense/firebase_expense.dart';
 import 'package:myexpenses/utilities/generics/get_arguments.dart';
+import 'package:myexpenses/utilities/show_delete_dialog.dart';
 
 class CreateUpdateExpenseView extends StatefulWidget {
   const CreateUpdateExpenseView({Key? key}) : super(key: key);
@@ -33,6 +34,8 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   late final FirebaseAccount _accountService;
   late final Iterable<Account> _allAccounts;
 
+  late final bool isDeleteButtonEnabled;
+
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
@@ -44,6 +47,10 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     _selectedDate = DateTime.now();
     super.initState();
     _initFirebaseData();
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      await _setButtonState(context);
+      setState(() {});
+    });
   }
 
   Future<void> _initFirebaseData() async {
@@ -180,11 +187,39 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     });
   }
 
+  Future<void> _setButtonState(BuildContext context) async {
+    final expense = context.getArgument<Expense>();
+    isDeleteButtonEnabled = (expense == null) ? false : true;
+  }
+
+  _deleteExpense() async {
+    final shouldDelete = await showDeleteDialog(context);
+    if (shouldDelete) {
+      await _expenseService.deleteExpense(documentId: _expense!.documentId);
+    }
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      summaryViewRoute,
+      (_) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Expense'),
+        actions: [
+          isDeleteButtonEnabled
+              ? IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () async {
+                    await _deleteExpense();
+                  },
+                )
+              : Container(),
+        ],
       ),
       body: FutureBuilder(
         future: getExistingExpense(context),
