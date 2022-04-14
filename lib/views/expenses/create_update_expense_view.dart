@@ -195,6 +195,20 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   _deleteExpense() async {
     final shouldDelete = await showDeleteDialog(context);
     if (shouldDelete) {
+      // get current value of money in account
+      final double accountAmount = await FirebaseAccount()
+          .getAccountAmount(documentId: _expense!.account!.documentId);
+      final double newAmmount = (_category!.isIncome)
+          ? accountAmount - _expense!.cost
+          : accountAmount + _expense!.cost;
+
+      // update account
+      await _accountService.updateAccountAmmount(
+        documentId: _account!.documentId,
+        amount: newAmmount,
+      );
+
+      // delete expense
       await _expenseService.deleteExpense(documentId: _expense!.documentId);
     }
 

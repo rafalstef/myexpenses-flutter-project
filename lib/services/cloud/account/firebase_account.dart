@@ -69,6 +69,16 @@ class FirebaseAccount {
     }
   }
 
+  Future<double> getAccountAmount({required String documentId}) async {
+    try {
+      return await accounts.doc(documentId).get().then(
+            (value) => value.data()![amountFieldName],
+          );
+    } catch (e) {
+      throw CouldNotGetAccountAmountException();
+    }
+  }
+
   Future<Account> createNewAccount({required String ownerUserId}) async {
     final document = await accounts.add({
       ownerUserIdFieldName: ownerUserId,
