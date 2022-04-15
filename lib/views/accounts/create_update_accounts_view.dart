@@ -36,7 +36,6 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
   }
 
   Future<void> _saveAccount() async {
-    final account = _account;
     final newName = _nameController.text;
     final newAmmount = double.parse(_ammountController.text);
 
@@ -53,7 +52,7 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
     }
 
     await _accountsService.updateAccount(
-      documentId: account!.documentId,
+      documentId: _account!.documentId,
       name: newName,
       ammount: newAmmount,
       includeToBalance: _includeValue,

@@ -33,7 +33,6 @@ class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
   }
 
   Future<void> _saveCategory() async {
-    final category = _category;
     final newName = _nameController.text;
 
     if (newName.isEmpty) {
@@ -49,7 +48,7 @@ class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
     }
 
     await _categoryService.updateCategory(
-      documentId: category!.documentId,
+      documentId: _category!.documentId,
       name: newName,
       isIncome: _isIncomeValue,
     );
