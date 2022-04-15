@@ -125,21 +125,7 @@ class SummaryListView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 300.0, width: _width, child: headerList),
-                Expanded(
-                    child: ListView.builder(
-                        itemCount: expenses.length,
-                        itemBuilder: (context, index) {
-                          final expense = expenses.elementAt(index);
-                          return ExpenseCard(
-                            expense: expense,
-                            onTap: (expense) {
-                              Navigator.of(context).pushNamed(
-                                createOrUpdateExpenseRoute,
-                                arguments: expense,
-                              );
-                            },
-                          );
-                        }))
+                Expanded(child: getExpensesListView()),
               ],
             ),
           ),
@@ -161,6 +147,25 @@ class SummaryListView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget getExpensesListView() {
+    return (expenses.isEmpty)
+        ? const Text('Add your first expense')
+        : ListView.builder(
+            itemCount: expenses.length,
+            itemBuilder: (context, index) {
+              final expense = expenses.elementAt(index);
+              return ExpenseCard(
+                expense: expense,
+                onTap: (expense) {
+                  Navigator.of(context).pushNamed(
+                    createOrUpdateExpenseRoute,
+                    arguments: expense,
+                  );
+                },
+              );
+            });
   }
 
   double _loopResult() {

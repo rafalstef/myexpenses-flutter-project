@@ -38,7 +38,11 @@ class _SummaryViewState extends State<SummaryView> {
       body: StreamBuilder(
         stream: _expenseService.allExpenses(ownerUserId: userId),
         builder: (context, snapshot) {
-          final allExpenses = snapshot.data as Iterable<Expense>;
+          // Iterable<Expense> allExpenses = snapshot.data as Iterable<Expense>;
+          // allExpenses ??= const Iterable.empty();
+          Iterable<Expense> allExpenses = (snapshot.data != null)
+              ? snapshot.data as Iterable<Expense>
+              : const Iterable.empty();
           return StreamBuilder(
             stream: _accountService.allAccounts(ownerUserId: userId),
             builder: (context, snapshot) {
