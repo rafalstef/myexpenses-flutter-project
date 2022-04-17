@@ -51,12 +51,12 @@ class FirebaseAccount {
           .map((doc) => Account.fromSnapshot(doc))
           .where((account) => account.ownerUserId == ownerUserId));
 
-  Future<Iterable<Account>> getAccounts({required String owenrUserId}) async {
+  Future<Iterable<Account>> getAccounts({required String ownerUserId}) async {
     try {
       return await accounts
           .where(
             ownerUserIdFieldName,
-            isEqualTo: owenrUserId,
+            isEqualTo: ownerUserId,
           )
           .get()
           .then(

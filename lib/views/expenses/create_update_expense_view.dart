@@ -55,7 +55,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
 
   Future<void> _initFirebaseData() async {
     _allCategories = await _categoryService.getCategories(ownerUserId: userId);
-    _allAccounts = await _accountService.getAccounts(owenrUserId: userId);
+    _allAccounts = await _accountService.getAccounts(ownerUserId: userId);
   }
 
   @override
