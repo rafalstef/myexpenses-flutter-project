@@ -58,6 +58,29 @@ class FirebaseExpense {
     }
   }
 
+  Future<Iterable<Expense>> getExpensesWithoutIncomes(
+      {required String ownerUserId}) async {
+    try {
+      return await expenses
+          .where(
+            ownerUserIdFieldName,
+            isEqualTo: ownerUserId,
+          )
+          .where(
+            categoryFieldName + '.' + isIncomeNameField,
+            isEqualTo: false,
+          )
+          .get()
+          .then(
+            (value) => value.docs.map(
+              (doc) => Expense.fromSnapshot(doc),
+            ),
+          );
+    } catch (e) {
+      throw CouldNotGetAllExpensesException();
+    }
+  }
+
   Future<Expense> createNewExpense({required String ownerUserId}) async {
     final document = await expenses.add({
       ownerUserIdFieldName: ownerUserId,
