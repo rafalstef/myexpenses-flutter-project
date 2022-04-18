@@ -87,12 +87,22 @@ class SummaryListView extends StatelessWidget {
   }
 
   Widget getExpensesListView() {
-    return (expenses.isEmpty)
-        ? const Text('Add your first expense')
+    final expensesList = expenses.toList();
+    expensesList.sort((a, b) => b.date.compareTo(a.date));
+    return (expensesList.isEmpty)
+        ? const Center(
+            child: Text(
+            'Add your first expense',
+            style: TextStyle(
+              fontStyle: FontStyle.normal,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+          ))
         : ListView.builder(
-            itemCount: expenses.length,
+            itemCount: expensesList.length,
             itemBuilder: (context, index) {
-              final expense = expenses.elementAt(index);
+              final expense = expensesList.elementAt(index);
               return ExpenseCard(
                 expense: expense,
                 onTap: (expense) {
