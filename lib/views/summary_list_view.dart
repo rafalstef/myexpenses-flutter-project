@@ -21,68 +21,6 @@ class SummaryListView extends StatelessWidget {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
 
-    final headerList = ListView.builder(
-      itemBuilder: (context, index) {
-        EdgeInsets padding = index == 0
-            ? const EdgeInsets.only(
-                left: 20.0, right: 10.0, top: 4.0, bottom: 30.0)
-            : const EdgeInsets.only(
-                left: 10.0, right: 10.0, top: 4.0, bottom: 30.0);
-
-        return Padding(
-          padding: padding,
-          child: InkWell(
-            onTap: () {
-              // print('Card selected');
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Colors.lightGreen,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withAlpha(70),
-                      offset: const Offset(3.0, 10.0),
-                      blurRadius: 15.0)
-                ],
-                image: const DecorationImage(
-                  image: NetworkImage(
-                      'https://theminimalistvegan.com/wp-content/uploads/2021/06/Minimalist-family-transition-period.001.png'),
-                  fit: BoxFit.fitHeight,
-                ),
-              ),
-              width: 200.0,
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                        decoration: const BoxDecoration(
-                            color: Color(0xFF273A48),
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0))),
-                        height: 30.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: <Widget>[
-                            const Text(
-                              'here will be diagram title',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        )),
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-      scrollDirection: Axis.horizontal,
-    );
-
     final body = Scaffold(
       appBar: AppBar(
         title: Text('Your total balance: ' +
@@ -124,7 +62,6 @@ class SummaryListView extends StatelessWidget {
                     padding: EdgeInsets.only(left: 8.0),
                   ),
                 ),
-                SizedBox(height: 300.0, width: _width, child: headerList),
                 Expanded(child: getExpensesListView()),
               ],
             ),
