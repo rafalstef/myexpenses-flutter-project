@@ -3,8 +3,8 @@ import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:myexpenses/services/cloud/expense/expense.dart';
-import 'package:myexpenses/views/background.dart';
-import 'package:myexpenses/views/expense_card.dart';
+import 'package:myexpenses/views/homepage/background.dart';
+import 'package:myexpenses/views/expenses/expense_card.dart';
 
 class SummaryListView extends StatelessWidget {
   final Iterable<Expense> expenses;

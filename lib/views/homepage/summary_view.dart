@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
+import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/expense/expense.dart';
 import 'package:myexpenses/services/cloud/expense/firebase_expense.dart';
 import 'package:myexpenses/views/navBar.dart';
 import '../../services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
-import 'package:myexpenses/views/summary_list_view.dart';
-import '../services/cloud/account/account.dart';
+import 'package:myexpenses/views/homepage/summary_list_view.dart';
 
 class SummaryView extends StatefulWidget {
   const SummaryView({Key? key}) : super(key: key);
