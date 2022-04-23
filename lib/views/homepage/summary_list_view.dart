@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
-import 'package:money_formatter/money_formatter.dart';
+import 'package:myexpenses/utilities/money_formats.dart';
 import 'package:myexpenses/services/cloud/expense/expense.dart';
 import 'package:myexpenses/views/homepage/background.dart';
 import 'package:myexpenses/views/expenses/expense_card.dart';
@@ -23,24 +23,7 @@ class SummaryListView extends StatelessWidget {
 
     final body = Scaffold(
       appBar: AppBar(
-        title: Text('Your total balance: ' +
-            MoneyFormatter(
-              amount: _loopResult().toDouble(),
-              settings: MoneyFormatterSettings(
-                thousandSeparator: ' ',
-                decimalSeparator: '.',
-                symbol: 'PLN',
-              ),
-            )
-                .fastCalc(
-                  type: FastCalcType.addition,
-                  amount: _loopResult().toDouble(),
-                )
-                .fastCalc(
-                    type: FastCalcType.substraction,
-                    amount: _loopResult().toDouble())
-                .output
-                .symbolOnRight),
+        title: Text('Your total balance: ' + moneyFormat(_loopResult())),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         actions: const <Widget>[],

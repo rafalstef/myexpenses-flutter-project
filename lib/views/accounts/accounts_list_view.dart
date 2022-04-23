@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/utilities/show_delete_dialog.dart';
-import 'package:money_formatter/money_formatter.dart';
+import 'package:myexpenses/utilities/money_formats.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 typedef AccountCallback = void Function(Account account);
@@ -88,21 +88,7 @@ class AccountsListView extends StatelessWidget {
                                   margin: const EdgeInsets.only(left: 100),
                                   width: 100.0,
                                   child: Text(
-                                    MoneyFormatter(
-                                                amount: account.amount,
-                                                settings: MoneyFormatterSettings(
-                                                  thousandSeparator: ' ',
-                                                  decimalSeparator: '.',
-                                                ))
-                                            .fastCalc(
-                                                type: FastCalcType.addition,
-                                                amount: account.amount)
-                                            .fastCalc(
-                                                type: FastCalcType.substraction,
-                                                amount: account.amount)
-                                            .output
-                                            .nonSymbol +
-                                        ' PLN',
+                                    moneyFormat(account.amount),
                                     maxLines: 1,
                                     softWrap: true,
                                     overflow: TextOverflow.ellipsis,

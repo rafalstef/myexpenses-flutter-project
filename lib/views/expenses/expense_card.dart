@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:money_formatter/money_formatter.dart';
+import 'package:myexpenses/utilities/money_formats.dart';
 import 'package:myexpenses/services/cloud/expense/expense.dart';
 
 typedef ExpenseCallback = void Function(Expense expense);
@@ -17,15 +17,6 @@ class ExpenseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _costFormat = MoneyFormatter(
-      amount: expense.cost,
-      settings: MoneyFormatterSettings(
-        thousandSeparator: ' ',
-        decimalSeparator: '.',
-        symbol: 'PLN',
-      ),
-    ).output.symbolOnRight;
-
     return Padding(
       padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
       child: GestureDetector(
@@ -74,8 +65,8 @@ class ExpenseCard extends StatelessWidget {
                   children: [
                     Text(
                       expense.category!.isIncome
-                          ? '+' + _costFormat
-                          : '-' + _costFormat,
+                          ? '+' + moneyFormat(expense.cost)
+                          : '-' + moneyFormat(expense.cost),
                       style: TextStyle(
                         color: expense.category!.isIncome
                             ? Colors.green
