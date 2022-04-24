@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
-import 'package:myexpenses/services/cloud/expense/expense.dart';
-import 'package:myexpenses/services/cloud/expense/firebase_expense.dart';
+import 'package:myexpenses/services/cloud/operation/operation.dart';
+import 'package:myexpenses/services/cloud/operation/firebase_operation.dart';
 import 'package:myexpenses/views/navBar.dart';
 import '../../services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
@@ -16,14 +16,14 @@ class SummaryView extends StatefulWidget {
 }
 
 class _SummaryViewState extends State<SummaryView> {
-  late final FirebaseExpense _expenseService;
+  late final FirebaseOperation _operationService;
   late final FirebaseAccount _accountService;
 
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _expenseService = FirebaseExpense();
+    _operationService = FirebaseOperation();
     _accountService = FirebaseAccount();
     super.initState();
   }
@@ -36,12 +36,12 @@ class _SummaryViewState extends State<SummaryView> {
       ),
       drawer: const SideDrawer(),
       body: StreamBuilder(
-        stream: _expenseService.allExpenses(ownerUserId: userId),
+        stream: _operationService.allOperations(ownerUserId: userId),
         builder: (context, snapshot) {
-          // Iterable<Expense> allExpenses = snapshot.data as Iterable<Expense>;
-          // allExpenses ??= const Iterable.empty();
-          Iterable<Expense> allExpenses = (snapshot.data != null)
-              ? snapshot.data as Iterable<Expense>
+          // Iterable<Operation> allOperations = snapshot.data as Iterable<Operation>;
+          // allOperations ??= const Iterable.empty();
+          Iterable<Operation> allOperations = (snapshot.data != null)
+              ? snapshot.data as Iterable<Operation>
               : const Iterable.empty();
           return StreamBuilder(
             stream: _accountService.allAccounts(ownerUserId: userId),
@@ -52,7 +52,7 @@ class _SummaryViewState extends State<SummaryView> {
                   if (snapshot.hasData) {
                     final allAccounts = snapshot.data as Iterable<Account>;
                     return SummaryListView(
-                      expenses: allExpenses,
+                      expenses: allOperations,
                       accounts: allAccounts,
                     );
                   } else {

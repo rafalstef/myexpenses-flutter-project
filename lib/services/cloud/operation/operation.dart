@@ -5,15 +5,15 @@ import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
-class Expense {
+class Operation {
   final String documentId;
   final String ownerUserId;
-  final ExpenseCategory? category;
+  final OperationCategory? category;
   final Account? account;
   final double cost;
   final DateTime date;
 
-  const Expense({
+  const Operation({
     required this.documentId,
     required this.ownerUserId,
     required this.category,
@@ -22,10 +22,10 @@ class Expense {
     required this.date,
   });
 
-  Expense.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
+  Operation.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
-        category = ExpenseCategory.fromMap(
+        category = OperationCategory.fromMap(
           snapshot.data()[categoryFieldName],
           snapshot.data()[ownerUserIdFieldName],
         ),

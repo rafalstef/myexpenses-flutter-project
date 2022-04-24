@@ -14,10 +14,10 @@ class CouldNotCreateUpdateCategoryException extends CloudStorageException {}
 
 class CouldNotDeleteCategoryException extends CloudStorageException {}
 
-class CouldNotGetAllExpensesException extends CloudStorageException {}
+class CouldNotGetAllOperationsException extends CloudStorageException {}
 
-class CouldNotCreateUpdateExpenseException extends CloudStorageException {}
+class CouldNotCreateUpdateOperationException extends CloudStorageException {}
 
-class CouldNotDeleteExpenseException extends CloudStorageException {}
+class CouldNotDeleteOperationException extends CloudStorageException {}
 
 class CouldNotGetAccountAmountException extends CloudStorageException {}

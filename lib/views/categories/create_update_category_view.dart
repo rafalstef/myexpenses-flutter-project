@@ -14,7 +14,7 @@ class CreateUpdateCategoryView extends StatefulWidget {
 }
 
 class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
-  ExpenseCategory? _category;
+  OperationCategory? _category;
   late final FirebaseCategory _categoryService;
   late final TextEditingController _nameController;
   bool _isIncomeValue = false;
@@ -60,8 +60,8 @@ class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
     );
   }
 
-  Future<ExpenseCategory?> getExistingCategory(BuildContext context) async {
-    final widgetCategory = context.getArgument<ExpenseCategory>();
+  Future<OperationCategory?> getExistingCategory(BuildContext context) async {
+    final widgetCategory = context.getArgument<OperationCategory>();
 
     if (widgetCategory == null) {
       return null;

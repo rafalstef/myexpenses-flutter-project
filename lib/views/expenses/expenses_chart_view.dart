@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
-import 'package:myexpenses/services/cloud/expense/expense.dart';
-import 'package:myexpenses/services/cloud/expense/firebase_expense.dart';
+import 'package:myexpenses/services/cloud/operation/operation.dart';
+import 'package:myexpenses/services/cloud/operation/firebase_operation.dart';
 import 'package:myexpenses/views/chart/chart_data.dart';
 import 'package:myexpenses/views/chart/chart_view.dart';
 import "package:collection/collection.dart";
@@ -10,20 +10,20 @@ class ExpensesPieChart extends StatefulWidget {
   const ExpensesPieChart({Key? key}) : super(key: key);
 
   @override
-  State<ExpensesPieChart> createState() => _ExpensesPieChartState();
+  State<ExpensesPieChart> createState() => _OperationsPieChartState();
 }
 
-class _ExpensesPieChartState extends State<ExpensesPieChart> {
-  late final FirebaseExpense _firebaseExpense;
+class _OperationsPieChartState extends State<ExpensesPieChart> {
+  late final FirebaseOperation _firebaseOperation;
   late final Future? myFuture = getChartData();
   late final List<ChartData> _chartData = List<ChartData>.empty(growable: true);
-  late double expensesSum;
+  late double operationsSum;
 
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _firebaseExpense = FirebaseExpense();
+    _firebaseOperation = FirebaseOperation();
     super.initState();
   }
 
@@ -35,15 +35,15 @@ class _ExpensesPieChartState extends State<ExpensesPieChart> {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               return Scaffold(
-                appBar: AppBar(title: const Text('Expenses chart')),
+                appBar: AppBar(title: const Text('Operations chart')),
                 body: OperationChart(
                   chartData: _chartData,
-                  operationsSum: expensesSum,
+                  operationsSum: operationsSum,
                 ),
               );
             default:
               return Scaffold(
-                appBar: AppBar(title: const Text('Expenses chart')),
+                appBar: AppBar(title: const Text('Operations chart')),
                 body: const Center(child: CircularProgressIndicator()),
               );
           }
@@ -51,24 +51,24 @@ class _ExpensesPieChartState extends State<ExpensesPieChart> {
   }
 
   Future<void> getChartData() async {
-    Iterable<Expense> allExpenses =
-        await _firebaseExpense.getExpensesWithoutIncomes(ownerUserId: userId);
-    allExpenses = allExpenses.toList();
+    Iterable<Operation> allOperations =
+        await _firebaseOperation.getOperationsWithoutIncomes(ownerUserId: userId);
+    allOperations = allOperations.toList();
 
-    // group by expense category name
+    // group by operation category name
     final groupedList =
-        groupBy(allExpenses, (Expense expense) => expense.category!.name);
+        groupBy(allOperations, (Operation operation) => operation.category!.name);
 
     double sum;
-    expensesSum = 0;
+    operationsSum = 0;
 
     groupedList.forEach((key, value) {
       sum = 0;
-      // iterate over list of expenses
+      // iterate over list of operations
       for (var element in value) {
         sum += element.cost;
       }
-      expensesSum += sum;
+      operationsSum += sum;
       _chartData.add(ChartData(key, sum));
     });
   }

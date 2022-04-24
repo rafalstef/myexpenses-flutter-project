@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/utilities/money_formats.dart';
-import 'package:myexpenses/services/cloud/expense/expense.dart';
+import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/views/homepage/background.dart';
 import 'package:myexpenses/views/expenses/expense_card.dart';
 
 class SummaryListView extends StatelessWidget {
-  final Iterable<Expense> expenses;
+  final Iterable<Operation> expenses;
   final Iterable<Account> accounts;
 
   const SummaryListView({

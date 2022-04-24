@@ -3,46 +3,46 @@ import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_exceptions.dart';
-import 'package:myexpenses/services/cloud/expense/expense.dart';
+import 'package:myexpenses/services/cloud/operation/operation.dart';
 
-class FirebaseExpense {
-  final expenses = FirebaseFirestore.instance.collection('expense');
+class FirebaseOperation {
+  final operations = FirebaseFirestore.instance.collection('operation');
 
-  Future<void> deleteExpense({required String documentId}) async {
+  Future<void> deleteOperation({required String documentId}) async {
     try {
-      await expenses.doc(documentId).delete();
+      await operations.doc(documentId).delete();
     } catch (e) {
-      throw CouldNotDeleteExpenseException();
+      throw CouldNotDeleteOperationException();
     }
   }
 
-  Future<void> updateExpense({
+  Future<void> updateOperation({
     required String documentId,
-    required ExpenseCategory category,
+    required OperationCategory category,
     required Account account,
     required double cost,
     required DateTime date,
   }) async {
     try {
-      await expenses.doc(documentId).update({
+      await operations.doc(documentId).update({
         categoryFieldName: category.toMap(),
         accountFieldName: account.toMap(),
         costFieldName: cost,
         dateFieldName: date,
       });
     } catch (e) {
-      throw CouldNotCreateUpdateExpenseException();
+      throw CouldNotCreateUpdateOperationException();
     }
   }
 
-  Stream<Iterable<Expense>> allExpenses({required String ownerUserId}) =>
-      expenses.snapshots().map((event) => event.docs
-          .map((doc) => Expense.fromSnapshot(doc))
-          .where((expense) => expense.ownerUserId == ownerUserId));
+  Stream<Iterable<Operation>> allOperations({required String ownerUserId}) =>
+      operations.snapshots().map((event) => event.docs
+          .map((doc) => Operation.fromSnapshot(doc))
+          .where((operation) => operation.ownerUserId == ownerUserId));
 
-  Future<Iterable<Expense>> getExpenses({required String owenrUserId}) async {
+  Future<Iterable<Operation>> getOperations({required String owenrUserId}) async {
     try {
-      return await expenses
+      return await operations
           .where(
             ownerUserIdFieldName,
             isEqualTo: owenrUserId,
@@ -50,18 +50,18 @@ class FirebaseExpense {
           .get()
           .then(
             (value) => value.docs.map(
-              (doc) => Expense.fromSnapshot(doc),
+              (doc) => Operation.fromSnapshot(doc),
             ),
           );
     } catch (e) {
-      throw CouldNotGetAllExpensesException();
+      throw CouldNotGetAllOperationsException();
     }
   }
 
-  Future<Iterable<Expense>> getExpensesWithoutIncomes(
+  Future<Iterable<Operation>> getOperationsWithoutIncomes(
       {required String ownerUserId}) async {
     try {
-      return await expenses
+      return await operations
           .where(
             ownerUserIdFieldName,
             isEqualTo: ownerUserId,
@@ -73,25 +73,25 @@ class FirebaseExpense {
           .get()
           .then(
             (value) => value.docs.map(
-              (doc) => Expense.fromSnapshot(doc),
+              (doc) => Operation.fromSnapshot(doc),
             ),
           );
     } catch (e) {
-      throw CouldNotGetAllExpensesException();
+      throw CouldNotGetAllOperationsException();
     }
   }
 
-  Future<Expense> createNewExpense({required String ownerUserId}) async {
-    final document = await expenses.add({
+  Future<Operation> createNewOperation({required String ownerUserId}) async {
+    final document = await operations.add({
       ownerUserIdFieldName: ownerUserId,
       categoryFieldName: null,
       accountFieldName: null,
       costFieldName: 0,
       dateFieldName: null,
     });
-    final fetchedExpense = await document.get();
-    return Expense(
-      documentId: fetchedExpense.id,
+    final fetchedOperation = await document.get();
+    return Operation(
+      documentId: fetchedOperation.id,
       ownerUserId: ownerUserId,
       category: null,
       account: null,

@@ -29,12 +29,12 @@ class FirebaseCategory {
     }
   }
 
-  Stream<Iterable<ExpenseCategory>> allCategories({required String ownerUserId}) =>
+  Stream<Iterable<OperationCategory>> allCategories({required String ownerUserId}) =>
       categories.snapshots().map((event) => event.docs
-          .map((doc) => ExpenseCategory.fromSnapshot(doc))
+          .map((doc) => OperationCategory.fromSnapshot(doc))
           .where((category) => category.ownerUserId == ownerUserId));
 
-  Future<Iterable<ExpenseCategory>> getCategories(
+  Future<Iterable<OperationCategory>> getCategories(
       {required String ownerUserId}) async {
     try {
       return await categories
@@ -45,7 +45,7 @@ class FirebaseCategory {
           .get()
           .then(
             (value) => value.docs.map(
-              (doc) => ExpenseCategory.fromSnapshot(doc),
+              (doc) => OperationCategory.fromSnapshot(doc),
             ),
           );
     } catch (e) {
@@ -53,14 +53,14 @@ class FirebaseCategory {
     }
   }
 
-  Future<ExpenseCategory> createNewCategory({required String ownerUserId}) async {
+  Future<OperationCategory> createNewCategory({required String ownerUserId}) async {
     final document = await categories.add({
       ownerUserIdFieldName: ownerUserId,
       nameFieldName: '',
       isIncomeNameField: false,
     });
     final fetchedAccount = await document.get();
-    return ExpenseCategory(
+    return OperationCategory(
       documentId: fetchedAccount.id,
       ownerUserId: ownerUserId,
       name: '',

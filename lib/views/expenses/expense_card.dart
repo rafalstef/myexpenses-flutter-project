@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myexpenses/utilities/money_formats.dart';
-import 'package:myexpenses/services/cloud/expense/expense.dart';
+import 'package:myexpenses/services/cloud/operation/operation.dart';
 
-typedef ExpenseCallback = void Function(Expense expense);
+typedef ExpenseCallback = void Function(Operation expense);
 
 class ExpenseCard extends StatelessWidget {
   const ExpenseCard({
@@ -12,7 +12,7 @@ class ExpenseCard extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
-  final Expense expense;
+  final Operation expense;
   final ExpenseCallback onTap;
 
   @override

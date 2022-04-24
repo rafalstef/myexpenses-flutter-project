@@ -6,8 +6,8 @@ import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/category/firebase_category.dart';
-import 'package:myexpenses/services/cloud/expense/expense.dart';
-import 'package:myexpenses/services/cloud/expense/firebase_expense.dart';
+import 'package:myexpenses/services/cloud/operation/firebase_operation.dart';
+import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/generics/get_arguments.dart';
 import 'package:myexpenses/utilities/show_delete_dialog.dart';
 
@@ -20,16 +20,16 @@ class CreateUpdateExpenseView extends StatefulWidget {
 }
 
 class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
-  Expense? _expense;
-  ExpenseCategory? _category;
+  Operation? _expense;
+  OperationCategory? _category;
   Account? _account;
   late DateTime _selectedDate;
 
-  late final FirebaseExpense _expenseService;
+  late final FirebaseOperation _expenseService;
   late final TextEditingController _costController;
 
   late final FirebaseCategory _categoryService;
-  late final Iterable<ExpenseCategory> _allCategories;
+  late final Iterable<OperationCategory> _allCategories;
 
   late final FirebaseAccount _accountService;
   late final Iterable<Account> _allAccounts;
@@ -42,7 +42,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   void initState() {
     _categoryService = FirebaseCategory();
     _accountService = FirebaseAccount();
-    _expenseService = FirebaseExpense();
+    _expenseService = FirebaseOperation();
     _costController = TextEditingController();
     _selectedDate = DateTime.now();
     super.initState();
@@ -74,11 +74,11 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
       final currentUser = AuthService.firebase().currentUser;
       final userId = currentUser!.id;
       final newExpense =
-          await _expenseService.createNewExpense(ownerUserId: userId);
+          await _expenseService.createNewOperation(ownerUserId: userId);
       _expense = newExpense;
     }
 
-    await _expenseService.updateExpense(
+    await _expenseService.updateOperation(
       documentId: _expense!.documentId,
       category: _category!,
       account: _account!,
@@ -102,8 +102,8 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     );
   }
 
-  Future<Expense?> getExistingExpense(BuildContext context) async {
-    final widgetExpense = context.getArgument<Expense>();
+  Future<Operation?> getExistingExpense(BuildContext context) async {
+    final widgetExpense = context.getArgument<Operation>();
 
     if (widgetExpense == null) {
       return null;
@@ -188,7 +188,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   }
 
   Future<void> _setButtonState(BuildContext context) async {
-    final expense = context.getArgument<Expense>();
+    final expense = context.getArgument<Operation>();
     isDeleteButtonEnabled = (expense == null) ? false : true;
   }
 
@@ -209,7 +209,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
       );
 
       // delete expense
-      await _expenseService.deleteExpense(documentId: _expense!.documentId);
+      await _expenseService.deleteOperation(documentId: _expense!.documentId);
     }
 
     Navigator.pushNamedAndRemoveUntil(
@@ -223,7 +223,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Expense'),
+        title: const Text('New Operation'),
         actions: [
           isDeleteButtonEnabled
               ? IconButton(
