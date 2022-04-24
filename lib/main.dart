@@ -8,6 +8,7 @@ import 'package:myexpenses/views/accounts/accounts_view.dart';
 import 'package:myexpenses/views/accounts/create_update_accounts_view.dart';
 import 'package:myexpenses/views/categories/category_view.dart';
 import 'package:myexpenses/views/categories/create_update_category_view.dart';
+import 'package:myexpenses/views/incomes/incomes_chart_view.dart';
 import 'package:myexpenses/views/user_authentication/forgot_password_view.dart';
 import 'package:myexpenses/views/user_authentication/login_view.dart';
 import 'package:myexpenses/views/user_authentication/register_view.dart';
@@ -38,6 +39,7 @@ void main() {
         createOrUpdateExpenseRoute: (context) =>
             const CreateUpdateExpenseView(),
         expensesChartRoute: (context) => const ExpensesPieChart(),
+        incomesChartRoute: (context) => const IncomesPieChart(),
       },
     ),
   );

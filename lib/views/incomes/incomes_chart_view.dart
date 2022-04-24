@@ -7,14 +7,14 @@ import 'package:myexpenses/views/chart/chart_view.dart';
 import "package:collection/collection.dart";
 import 'package:myexpenses/views/navBar.dart';
 
-class ExpensesPieChart extends StatefulWidget {
-  const ExpensesPieChart({Key? key}) : super(key: key);
+class IncomesPieChart extends StatefulWidget {
+  const IncomesPieChart({Key? key}) : super(key: key);
 
   @override
-  State<ExpensesPieChart> createState() => _ExpensesPieChartState();
+  State<IncomesPieChart> createState() => _IncomesPieChartState();
 }
 
-class _ExpensesPieChartState extends State<ExpensesPieChart> {
+class _IncomesPieChartState extends State<IncomesPieChart> {
   late final FirebaseOperation _firebaseOperation;
   late final Future? myFuture = getChartData();
   late final List<ChartData> _chartData = List<ChartData>.empty(growable: true);
@@ -37,7 +37,7 @@ class _ExpensesPieChartState extends State<ExpensesPieChart> {
             case ConnectionState.done:
               return Scaffold(
                 drawer: const SideDrawer(),
-                appBar: AppBar(title: const Text('Expenses chart')),
+                appBar: AppBar(title: const Text('Incomes chart')),
                 body: OperationChart(
                   chartData: _chartData,
                   operationsSum: operationsSum,
@@ -45,7 +45,7 @@ class _ExpensesPieChartState extends State<ExpensesPieChart> {
               );
             default:
               return Scaffold(
-                appBar: AppBar(title: const Text('Expenses chart')),
+                appBar: AppBar(title: const Text('Incomes chart')),
                 body: const Center(child: CircularProgressIndicator()),
               );
           }
@@ -54,7 +54,7 @@ class _ExpensesPieChartState extends State<ExpensesPieChart> {
 
   Future<void> getChartData() async {
     Iterable<Operation> allOperations =
-        await _firebaseOperation.getExpenseOperations(ownerUserId: userId);
+        await _firebaseOperation.getIncomeOperations(ownerUserId: userId);
     allOperations = allOperations.toList();
 
     // group by operation category name

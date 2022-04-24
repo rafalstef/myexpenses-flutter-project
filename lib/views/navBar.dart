@@ -37,9 +37,20 @@ class SideDrawer extends StatelessWidget {
             onTap: () => {Navigator.pushNamed(context, categoryViewRoute)},
           ),
           ListTile(
-            leading: const Icon(Icons.pie_chart),
+            leading: const Icon(
+              Icons.pie_chart,
+              color: Colors.red,
+            ),
             title: const Text('Expenses Chart'),
             onTap: () => {Navigator.pushNamed(context, expensesChartRoute)},
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.pie_chart,
+              color: Colors.green,
+            ),
+            title: const Text('Incomes Chart'),
+            onTap: () => {Navigator.pushNamed(context, incomesChartRoute)},
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),

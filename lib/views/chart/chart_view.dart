@@ -104,10 +104,12 @@ class _OperationChartState extends State<OperationChart> {
       child: Text(
         moneyFormat(categoryCost) +
             '\n' +
-            (categoryCost / widget.operationsSum * 100)
-                .roundToDouble()
-                .toStringAsFixed(0) +
-            ' %',
+            ((categoryCost == 0)
+                ? '100 %'
+                : (categoryCost / widget.operationsSum * 100)
+                        .roundToDouble()
+                        .toStringAsFixed(0) +
+                    ' %'),
         textAlign: TextAlign.left,
         style: const TextStyle(
           fontSize: 16,

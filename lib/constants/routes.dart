@@ -9,4 +9,5 @@ const summaryViewRoute = '/summary/';
 const categoryViewRoute = '/category/';
 const createOrUpdateCategoryRoute = '/new-category/';
 const createOrUpdateExpenseRoute = '/new-expense/';
-const expensesChartRoute = '/expenses-pie-chart/';
+const expensesChartRoute = '/expenses-chart/';
+const incomesChartRoute = '/incomes-chart/';
