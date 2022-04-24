@@ -58,7 +58,7 @@ class FirebaseOperation {
     }
   }
 
-  Future<Iterable<Operation>> getOperationsWithoutIncomes(
+  Future<Iterable<Operation>> getExpenseOperations(
       {required String ownerUserId}) async {
     try {
       return await operations
@@ -69,6 +69,29 @@ class FirebaseOperation {
           .where(
             categoryFieldName + '.' + isIncomeNameField,
             isEqualTo: false,
+          )
+          .get()
+          .then(
+            (value) => value.docs.map(
+              (doc) => Operation.fromSnapshot(doc),
+            ),
+          );
+    } catch (e) {
+      throw CouldNotGetAllOperationsException();
+    }
+  }
+
+  Future<Iterable<Operation>> getIncomeOperations(
+      {required String ownerUserId}) async {
+    try {
+      return await operations
+          .where(
+            ownerUserIdFieldName,
+            isEqualTo: ownerUserId,
+          )
+          .where(
+            categoryFieldName + '.' + isIncomeNameField,
+            isEqualTo: true,
           )
           .get()
           .then(

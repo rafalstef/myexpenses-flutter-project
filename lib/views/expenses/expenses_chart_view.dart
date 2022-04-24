@@ -52,7 +52,7 @@ class _OperationsPieChartState extends State<ExpensesPieChart> {
 
   Future<void> getChartData() async {
     Iterable<Operation> allOperations =
-        await _firebaseOperation.getOperationsWithoutIncomes(ownerUserId: userId);
+        await _firebaseOperation.getExpenseOperations(ownerUserId: userId);
     allOperations = allOperations.toList();
 
     // group by operation category name
