@@ -11,6 +11,8 @@ import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/generics/get_arguments.dart';
 import 'package:myexpenses/utilities/show_delete_dialog.dart';
 
+import '../numpad.dart';
+
 class CreateUpdateExpenseView extends StatefulWidget {
   const CreateUpdateExpenseView({Key? key}) : super(key: key);
 
@@ -242,13 +244,33 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
             case ConnectionState.done:
               return Column(
                 children: [
-                  TextField(
-                    controller: _costController,
-                    keyboardType: TextInputType.number,
-                    maxLines: null,
-                    decoration: const InputDecoration(
-                      hintText: 'Cost',
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: SizedBox(
+                      height: 70,
+                      child: Center(
+                          child: TextField(
+                        controller: _costController,
+                        textAlign: TextAlign.center,
+                        showCursor: false,
+                        style: const TextStyle(fontSize: 40),
+                        // Disable the default soft keybaord
+                        keyboardType: TextInputType.none,
+                      )),
                     ),
+                  ),
+                  // implement the custom NumPad
+                  NumPad(
+                    buttonSize: 75,
+                    buttonColor: Colors.blue,
+                    iconColor: Colors.green,
+                    controller: _costController,
+                    delete: () {
+                      _costController.text = _costController.text
+                          .substring(0, _costController.text.length - 1);
+                    },
+                    // do something with the input numbers
+                    onSubmit: () {},
                   ),
                   TextButton(
                     onPressed: () {
