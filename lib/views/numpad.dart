@@ -121,10 +121,10 @@ class NumPad extends StatelessWidget {
               ),
               // this button is used to submit the entered value
               IconButton(
-                onPressed: null,
+                onPressed: () => onSubmit(),
                 icon: Icon(
                   Icons.done_rounded,
-                  color: Colors.white,
+                  color: Colors.green,
                 ),
                 iconSize: buttonSize,
               ),

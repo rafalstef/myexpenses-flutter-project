@@ -221,6 +221,8 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     );
   }
 
+  var isVisible = true;
+  var isVisible2 = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -247,7 +249,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: SizedBox(
-                      height: 70,
+                      height: 40,
                       child: Center(
                           child: TextField(
                         controller: _costController,
@@ -260,18 +262,34 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                     ),
                   ),
                   // implement the custom NumPad
-                  NumPad(
-                    buttonSize: 75,
-                    buttonColor: Colors.blue,
-                    iconColor: Colors.green,
-                    controller: _costController,
-                    delete: () {
-                      _costController.text = _costController.text
-                          .substring(0, _costController.text.length - 1);
-                    },
-                    // do something with the input numbers
-                    onSubmit: () {},
-                  ),
+                  Visibility(
+                      visible: isVisible,
+                      child: NumPad(
+                          buttonSize: 75,
+                          buttonColor: Colors.blue,
+                          iconColor: Colors.green,
+                          controller: _costController,
+                          delete: () {
+                            _costController.text = _costController.text
+                                .substring(0, _costController.text.length - 1);
+                          },
+                          // do something with the input numbers
+                          onSubmit: () {
+                            setState(() {
+                              isVisible = !isVisible;
+                              isVisible2 = true;
+                            });
+                          })),
+
+                  Visibility(
+                      visible: isVisible2,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              isVisible = !isVisible;
+                            });
+                          },
+                          child: Text('Change amount'))),
                   TextButton(
                     onPressed: () {
                       _selectDateDialog(context);
