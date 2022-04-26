@@ -221,8 +221,10 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     );
   }
 
-  var isVisible = true;
-  var isVisible2 = false;
+  var isVisibleNumpad = true;
+  var isVisibleNumpadButton = false;
+  var isVisibleDetails = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -263,7 +265,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                   ),
                   // implement the custom NumPad
                   Visibility(
-                      visible: isVisible,
+                      visible: isVisibleNumpad,
                       child: NumPad(
                           buttonSize: 75,
                           buttonColor: Colors.blue,
@@ -276,29 +278,71 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                           // do something with the input numbers
                           onSubmit: () {
                             setState(() {
-                              isVisible = !isVisible;
-                              isVisible2 = !isVisible2;
+                              isVisibleNumpad = !isVisibleNumpad;
+                              isVisibleNumpadButton = !isVisibleNumpadButton;
                             });
                           })),
 
                   Visibility(
-                      visible: isVisible2,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              isVisible = !isVisible;
-                              isVisible2 = !isVisible2;
-                            });
-                          },
-                          child: const Text('Change amount'))),
-                  TextButton(
-                    onPressed: () {
-                      _selectDateDialog(context);
-                    },
-                    child: Text(
-                      DateFormat('yyyy-MM-dd').format(_selectedDate).toString(),
+                    visible: isVisibleNumpadButton,
+                    child: ListTile(
+                      title: const Text('Change amount'),
+                      trailing: const Icon(
+                        Icons.attach_money_outlined,
+                        color: Colors.white,
+                      ),
+                      onTap: () {
+                        setState(() {
+                          isVisibleNumpad = !isVisibleNumpad;
+                          isVisibleNumpadButton = !isVisibleNumpadButton;
+                        });
+                      },
+                      textColor: Colors.white,
+                      tileColor: const Color(0xFF023e8a),
                     ),
                   ),
+
+                  Container(
+                    color: const Color(0xFF0077b6),
+                    child: ExpansionTile(
+                      title: Text(
+                        DateFormat('yyyy-MM-dd')
+                                    .format(_selectedDate)
+                                    .toString() ==
+                                DateFormat('yyyy-MM-dd')
+                                    .format(DateTime.now())
+                                    .toString()
+                            ? 'TODAY'
+                            : DateFormat('yyyy-MM-dd')
+                                .format(_selectedDate)
+                                .toString(),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      trailing: const Icon(
+                        Icons.calendar_month_outlined,
+                        color: Colors.white,
+                      ),
+                      children: <Widget>[
+                        ListTile(
+                          title: Text(
+                            DateFormat('yyyy-MM-dd')
+                                .format(_selectedDate)
+                                .toString(),
+                          ),
+                          trailing: const Icon(
+                            Icons.create_outlined,
+                            color: Colors.white,
+                          ),
+                          onTap: () {
+                            _selectDateDialog(context);
+                          },
+                          textColor: Colors.white,
+                          tileColor: const Color(0xFF0077b6),
+                        ),
+                      ],
+                    ),
+                  ),
+
                   TextButton(
                     onPressed: () {
                       _selectCategoryDialog(context);
@@ -307,12 +351,27 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                         ? 'Choose Category'
                         : _category!.name),
                   ),
+
+                  const Padding(
+                    padding: EdgeInsets.all(5),
+                    child: SizedBox(
+                      height: 5,
+                      child: Center(),
+                    ),
+                  ),
                   TextButton(
                     onPressed: () {
                       _selectAccountDialog(context);
                     },
                     child: Text(
                         _account == null ? 'Choose Account' : _account!.name),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(5),
+                    child: SizedBox(
+                      height: 5,
+                      child: Center(),
+                    ),
                   ),
                   TextButton(
                     onPressed: () async {
