@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 const loginRoute = '/login/';
 const registerRoute = '/register/';
 const myexpensesRoute = '/myexpenses/';
@@ -11,3 +13,5 @@ const createOrUpdateCategoryRoute = '/new-category/';
 const createOrUpdateExpenseRoute = '/new-expense/';
 const expensesChartRoute = '/expenses-chart/';
 const incomesChartRoute = '/incomes-chart/';
+
+

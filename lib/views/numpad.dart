@@ -122,7 +122,7 @@ class NumPad extends StatelessWidget {
               // this button is used to submit the entered value
               IconButton(
                 onPressed: () => onSubmit(),
-                icon: Icon(
+                icon: const Icon(
                   Icons.done_rounded,
                   color: Colors.green,
                 ),
@@ -161,7 +161,7 @@ class NumberButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           primary: color,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(size / 3),
+            borderRadius: BorderRadius.circular(size / 2),
           ),
         ),
         onPressed: () {

@@ -228,6 +228,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         title: const Text('New Operation'),
         actions: [
@@ -247,9 +248,34 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Visibility(
+                      visible: isVisibleNumpadButton,
+                      child:Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: SizedBox(
+                      height: 40,
+                      child: Center(
+                          child: TextFormField(
+                        controller: _costController,
+                        textAlign: TextAlign.center,
+                        showCursor: false,
+                        style: const TextStyle(fontSize: 40),
+                        // Disable the default soft keybaord
+                        keyboardType: TextInputType.none,
+                          
+                      )),
+                    ),
+                  )),
+
+                  Visibility(
+                      visible: isVisibleNumpad,
+                      child: 
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.only(top: 100, left: 20, right: 20, bottom: 20),
                     child: SizedBox(
                       height: 40,
                       child: Center(
@@ -260,13 +286,16 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                         style: const TextStyle(fontSize: 40),
                         // Disable the default soft keybaord
                         keyboardType: TextInputType.none,
+                        
                       )),
                     ),
-                  ),
+                  )),
+                  
                   // implement the custom NumPad
                   Visibility(
                       visible: isVisibleNumpad,
                       child: NumPad(
+                        
                           buttonSize: 75,
                           buttonColor: Colors.blue,
                           iconColor: Colors.green,
@@ -301,7 +330,9 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       tileColor: const Color(0xFF023e8a),
                     ),
                   ),
-
+Visibility(
+                      visible: isVisibleNumpadButton,
+                      child: 
                   Container(
                     color: const Color(0xFF0077b6),
                     child: ExpansionTile(
@@ -341,44 +372,86 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                         ),
                       ],
                     ),
-                  ),
-
-                  TextButton(
-                    onPressed: () {
+                  )),
+Visibility(
+                      visible: isVisibleNumpadButton,
+                      child: 
+                  Container(
+                    color: const Color(0xFF0096c7),
+                    child: ExpansionTile(
+                      title: Text(_category == null
+                        ? 'Category'
+                        : _category!.name,
+                        style: const TextStyle(color: Colors.white),),
+                      trailing: const Icon(
+                        Icons.category,
+                        color: Colors.white,
+                      ),
+                      children: <Widget>[
+                        ListTile(
+                          title: const Text(
+                            'Choose category'
+                          ),
+                          trailing: const Icon(
+                            Icons.create_outlined,
+                            color: Colors.white,
+                          ),
+                          onTap: () {
                       _selectCategoryDialog(context);
                     },
-                    child: Text(_category == null
-                        ? 'Choose Category'
-                        : _category!.name),
-                  ),
-
-                  const Padding(
-                    padding: EdgeInsets.all(5),
-                    child: SizedBox(
-                      height: 5,
-                      child: Center(),
+                          textColor: Colors.white,
+                          tileColor: const Color(0xFF0096c7),
+                        ),
+                      ],
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
+                  )),
+
+Visibility(
+                      visible: isVisibleNumpadButton,
+                      child: 
+                  Container(
+                    color: const Color(0xFF00b4d8),
+                    child: ExpansionTile(
+                      title: Text(_account == null ? 'Account' : _account!.name,
+                        style: const TextStyle(color: Colors.white),),
+                      trailing: const Icon(
+                        Icons.account_balance_outlined,
+                        color: Colors.white,
+                      ),
+                      children: <Widget>[
+                        ListTile(
+                          title: const Text(
+                            'Choose account'
+                          ),
+                          trailing: const Icon(
+                            Icons.create_outlined,
+                            color: Colors.white,
+                          ),
+                          onTap: () {
                       _selectAccountDialog(context);
                     },
-                    child: Text(
-                        _account == null ? 'Choose Account' : _account!.name),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(5),
-                    child: SizedBox(
-                      height: 5,
-                      child: Center(),
+                          textColor: Colors.white,
+                          tileColor: const Color(0xFF00b4d8),
+                        ),
+                      ],
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () async {
+                  )),
+
+Visibility(
+                      visible: isVisibleNumpadButton,
+                      child: 
+                  ListTile(
+                      title: const Center(child: Icon(
+                        Icons.done_rounded,
+                        color: Colors.black,
+                      ),),
+                      
+                      onTap: () async {
                       await _saveExpense();
                     },
-                    child: const Text('Save'),
-                  ),
+                      textColor: Colors.black,
+                      tileColor: const Color(0xFF48cae4),
+                    ),),
                 ],
               );
             default:
