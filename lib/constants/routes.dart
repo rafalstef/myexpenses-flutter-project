@@ -13,5 +13,4 @@ const createOrUpdateCategoryRoute = '/new-category/';
 const createOrUpdateExpenseRoute = '/new-expense/';
 const expensesChartRoute = '/expenses-chart/';
 const incomesChartRoute = '/incomes-chart/';
-
-
+const operationsPreferencesRoute = '/operation-preferences/';

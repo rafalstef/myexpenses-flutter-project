@@ -33,13 +33,22 @@ class _SummaryViewState extends State<SummaryView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Summary'),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.filter_alt,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, operationsPreferencesRoute);
+            },
+          )
+        ],
       ),
       drawer: const SideDrawer(),
       body: StreamBuilder(
         stream: _operationService.allOperations(ownerUserId: userId),
         builder: (context, snapshot) {
-          // Iterable<Operation> allOperations = snapshot.data as Iterable<Operation>;
-          // allOperations ??= const Iterable.empty();
           Iterable<Operation> allOperations = (snapshot.data != null)
               ? snapshot.data as Iterable<Operation>
               : const Iterable.empty();
