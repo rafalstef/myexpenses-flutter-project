@@ -277,7 +277,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                           onSubmit: () {
                             setState(() {
                               isVisible = !isVisible;
-                              isVisible2 = true;
+                              isVisible2 = !isVisible2;
                             });
                           })),
 
@@ -287,9 +287,10 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                           onPressed: () {
                             setState(() {
                               isVisible = !isVisible;
+                              isVisible2 = !isVisible2;
                             });
                           },
-                          child: Text('Change amount'))),
+                          child: const Text('Change amount'))),
                   TextButton(
                     onPressed: () {
                       _selectDateDialog(context);
