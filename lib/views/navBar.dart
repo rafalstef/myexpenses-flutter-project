@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
-import 'package:myexpenses/utilities/show_logout_dialog.dart';
+import 'package:myexpenses/utilities/dialogs/show_logout_dialog.dart';
 
 class SideDrawer extends StatelessWidget {
   const SideDrawer({Key? key}) : super(key: key);

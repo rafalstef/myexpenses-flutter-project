@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
-import 'package:myexpenses/utilities/show_delete_dialog.dart';
+import 'package:myexpenses/utilities/dialogs/show_delete_dialog.dart';
 
 typedef CategoryCallback = void Function(OperationCategory category);
 

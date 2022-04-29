@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_exceptions.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
-import 'package:myexpenses/utilities/show_error_dialog.dart';
-import 'package:myexpenses/utilities/show_forgot_password_dialog.dart';
+import 'package:myexpenses/utilities/dialogs/show_error_dialog.dart';
+import 'package:myexpenses/utilities/dialogs/show_forgot_password_dialog.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({Key? key}) : super(key: key);

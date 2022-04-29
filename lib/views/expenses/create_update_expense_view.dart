@@ -9,8 +9,7 @@ import 'package:myexpenses/services/cloud/category/firebase_category.dart';
 import 'package:myexpenses/services/cloud/operation/firebase_operation.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/generics/get_arguments.dart';
-import 'package:myexpenses/utilities/show_delete_dialog.dart';
-
+import 'package:myexpenses/utilities/dialogs/show_delete_dialog.dart';
 import '../numpad.dart';
 
 class CreateUpdateExpenseView extends StatefulWidget {
@@ -228,7 +227,6 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         title: const Text('New Operation'),
         actions: [
@@ -249,53 +247,50 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
             case ConnectionState.done:
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Visibility(
                       visible: isVisibleNumpadButton,
-                      child:Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: SizedBox(
-                      height: 40,
-                      child: Center(
-                          child: TextFormField(
-                        controller: _costController,
-                        textAlign: TextAlign.center,
-                        showCursor: false,
-                        style: const TextStyle(fontSize: 40),
-                        // Disable the default soft keybaord
-                        keyboardType: TextInputType.none,
-                          
+                      child: Padding(
+                        padding: const EdgeInsets.all(30),
+                        child: SizedBox(
+                          height: 40,
+                          child: Center(
+                              child: TextFormField(
+                            controller: _costController,
+                            textAlign: TextAlign.center,
+                            showCursor: false,
+                            style: const TextStyle(fontSize: 40),
+                            // Disable the default soft keybaord
+                            keyboardType: TextInputType.none,
+                          )),
+                        ),
                       )),
-                    ),
-                  )),
 
                   Visibility(
                       visible: isVisibleNumpad,
-                      child: 
-                  Padding(
-                    padding: const EdgeInsets.only(top: 100, left: 20, right: 20, bottom: 20),
-                    child: SizedBox(
-                      height: 40,
-                      child: Center(
-                          child: TextField(
-                        controller: _costController,
-                        textAlign: TextAlign.center,
-                        showCursor: false,
-                        style: const TextStyle(fontSize: 40),
-                        // Disable the default soft keybaord
-                        keyboardType: TextInputType.none,
-                        
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 100, left: 20, right: 20, bottom: 20),
+                        child: SizedBox(
+                          height: 40,
+                          child: Center(
+                              child: TextField(
+                            controller: _costController,
+                            textAlign: TextAlign.center,
+                            showCursor: false,
+                            style: const TextStyle(fontSize: 40),
+                            // Disable the default soft keybaord
+                            keyboardType: TextInputType.none,
+                          )),
+                        ),
                       )),
-                    ),
-                  )),
-                  
+
                   // implement the custom NumPad
                   Visibility(
                       visible: isVisibleNumpad,
                       child: NumPad(
-                        
                           buttonSize: 75,
                           buttonColor: Colors.blue,
                           iconColor: Colors.green,
@@ -330,128 +325,124 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       tileColor: const Color(0xFF023e8a),
                     ),
                   ),
-Visibility(
+                  Visibility(
                       visible: isVisibleNumpadButton,
-                      child: 
-                  Container(
-                    color: const Color(0xFF0077b6),
-                    child: ExpansionTile(
-                      title: Text(
-                        DateFormat('yyyy-MM-dd')
-                                    .format(_selectedDate)
-                                    .toString() ==
-                                DateFormat('yyyy-MM-dd')
-                                    .format(DateTime.now())
-                                    .toString()
-                            ? 'TODAY'
-                            : DateFormat('yyyy-MM-dd')
-                                .format(_selectedDate)
-                                .toString(),
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      trailing: const Icon(
-                        Icons.calendar_month_outlined,
-                        color: Colors.white,
-                      ),
-                      children: <Widget>[
-                        ListTile(
+                      child: Container(
+                        color: const Color(0xFF0077b6),
+                        child: ExpansionTile(
                           title: Text(
                             DateFormat('yyyy-MM-dd')
-                                .format(_selectedDate)
-                                .toString(),
+                                        .format(_selectedDate)
+                                        .toString() ==
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(DateTime.now())
+                                        .toString()
+                                ? 'TODAY'
+                                : DateFormat('yyyy-MM-dd')
+                                    .format(_selectedDate)
+                                    .toString(),
+                            style: const TextStyle(color: Colors.white),
                           ),
                           trailing: const Icon(
-                            Icons.create_outlined,
+                            Icons.calendar_month_outlined,
                             color: Colors.white,
                           ),
-                          onTap: () {
-                            _selectDateDialog(context);
-                          },
-                          textColor: Colors.white,
-                          tileColor: const Color(0xFF0077b6),
+                          children: <Widget>[
+                            ListTile(
+                              title: Text(
+                                DateFormat('yyyy-MM-dd')
+                                    .format(_selectedDate)
+                                    .toString(),
+                              ),
+                              trailing: const Icon(
+                                Icons.create_outlined,
+                                color: Colors.white,
+                              ),
+                              onTap: () {
+                                _selectDateDialog(context);
+                              },
+                              textColor: Colors.white,
+                              tileColor: const Color(0xFF0077b6),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  )),
-Visibility(
+                      )),
+                  Visibility(
                       visible: isVisibleNumpadButton,
-                      child: 
-                  Container(
-                    color: const Color(0xFF0096c7),
-                    child: ExpansionTile(
-                      title: Text(_category == null
-                        ? 'Category'
-                        : _category!.name,
-                        style: const TextStyle(color: Colors.white),),
-                      trailing: const Icon(
-                        Icons.category,
-                        color: Colors.white,
-                      ),
-                      children: <Widget>[
-                        ListTile(
-                          title: const Text(
-                            'Choose category'
+                      child: Container(
+                        color: const Color(0xFF0096c7),
+                        child: ExpansionTile(
+                          title: Text(
+                            _category == null ? 'Category' : _category!.name,
+                            style: const TextStyle(color: Colors.white),
                           ),
                           trailing: const Icon(
-                            Icons.create_outlined,
+                            Icons.category,
                             color: Colors.white,
                           ),
-                          onTap: () {
-                      _selectCategoryDialog(context);
-                    },
-                          textColor: Colors.white,
-                          tileColor: const Color(0xFF0096c7),
+                          children: <Widget>[
+                            ListTile(
+                              title: const Text('Choose category'),
+                              trailing: const Icon(
+                                Icons.create_outlined,
+                                color: Colors.white,
+                              ),
+                              onTap: () {
+                                _selectCategoryDialog(context);
+                              },
+                              textColor: Colors.white,
+                              tileColor: const Color(0xFF0096c7),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  )),
+                      )),
 
-Visibility(
+                  Visibility(
                       visible: isVisibleNumpadButton,
-                      child: 
-                  Container(
-                    color: const Color(0xFF00b4d8),
-                    child: ExpansionTile(
-                      title: Text(_account == null ? 'Account' : _account!.name,
-                        style: const TextStyle(color: Colors.white),),
-                      trailing: const Icon(
-                        Icons.account_balance_outlined,
-                        color: Colors.white,
-                      ),
-                      children: <Widget>[
-                        ListTile(
-                          title: const Text(
-                            'Choose account'
+                      child: Container(
+                        color: const Color(0xFF00b4d8),
+                        child: ExpansionTile(
+                          title: Text(
+                            _account == null ? 'Account' : _account!.name,
+                            style: const TextStyle(color: Colors.white),
                           ),
                           trailing: const Icon(
-                            Icons.create_outlined,
+                            Icons.account_balance_outlined,
                             color: Colors.white,
                           ),
-                          onTap: () {
-                      _selectAccountDialog(context);
-                    },
-                          textColor: Colors.white,
-                          tileColor: const Color(0xFF00b4d8),
+                          children: <Widget>[
+                            ListTile(
+                              title: const Text('Choose account'),
+                              trailing: const Icon(
+                                Icons.create_outlined,
+                                color: Colors.white,
+                              ),
+                              onTap: () {
+                                _selectAccountDialog(context);
+                              },
+                              textColor: Colors.white,
+                              tileColor: const Color(0xFF00b4d8),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  )),
+                      )),
 
-Visibility(
-                      visible: isVisibleNumpadButton,
-                      child: 
-                  ListTile(
-                      title: const Center(child: Icon(
-                        Icons.done_rounded,
-                        color: Colors.black,
-                      ),),
-                      
+                  Visibility(
+                    visible: isVisibleNumpadButton,
+                    child: ListTile(
+                      title: const Center(
+                        child: Icon(
+                          Icons.done_rounded,
+                          color: Colors.black,
+                        ),
+                      ),
                       onTap: () async {
-                      await _saveExpense();
-                    },
+                        await _saveExpense();
+                      },
                       textColor: Colors.black,
                       tileColor: const Color(0xFF48cae4),
-                    ),),
+                    ),
+                  ),
                 ],
               );
             default:

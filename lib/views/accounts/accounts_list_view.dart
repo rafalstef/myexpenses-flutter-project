@@ -1,8 +1,6 @@
-// ignore_for_file: avoid_unnecessary_containers
-
 import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
-import 'package:myexpenses/utilities/show_delete_dialog.dart';
+import 'package:myexpenses/utilities/dialogs/show_delete_dialog.dart';
 import 'package:myexpenses/utilities/money_formats.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -129,7 +127,6 @@ class AccountsListView extends StatelessWidget {
                 );
               },
             ),
-            //------------------
           ),
         ],
       ),
