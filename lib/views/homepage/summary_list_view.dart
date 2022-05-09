@@ -45,7 +45,7 @@ class SummaryListView extends StatelessWidget {
                     padding: EdgeInsets.only(left: 8.0),
                   ),
                 ),
-                Expanded(child: getExpensesListView()),
+                Expanded(child: getExpensesListView(context)),
               ],
             ),
           ),
@@ -69,19 +69,22 @@ class SummaryListView extends StatelessWidget {
     );
   }
 
-  Widget getExpensesListView() {
+  Widget getExpensesListView(BuildContext context) {
     final expensesList = expenses.toList();
-    expensesList.sort((a, b) => b.date.compareTo(a.date));
     return (expensesList.isEmpty)
-        ? const Center(
-            child: Text(
-            'Add your first expense',
-            style: TextStyle(
-              fontStyle: FontStyle.normal,
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ))
+        ? SizedBox(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Center(
+                child: Text(
+              _noOperationMessage,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontStyle: FontStyle.normal,
+                fontSize: 22,
+                fontWeight: FontWeight.w500,
+              ),
+            )),
+          )
         : ListView.builder(
             itemCount: expensesList.length,
             itemBuilder: (context, index) {
@@ -108,4 +111,7 @@ class SummaryListView extends StatelessWidget {
     }
     return sumup;
   }
+
+  final String _noOperationMessage =
+      'There are no expenses here. Try changing the time span or accounts to find them.';
 }

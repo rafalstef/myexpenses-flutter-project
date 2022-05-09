@@ -3,7 +3,6 @@ import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/views/expenses/create_update_expense_view.dart';
 import 'package:myexpenses/views/expenses/expenses_chart_view.dart';
-import 'package:myexpenses/views/homepage/operation_preferences.dart';
 import 'package:myexpenses/views/homepage/summary_view.dart';
 import 'package:myexpenses/views/accounts/accounts_view.dart';
 import 'package:myexpenses/views/accounts/create_update_accounts_view.dart';
@@ -41,7 +40,6 @@ void main() {
             const CreateUpdateExpenseView(),
         expensesChartRoute: (context) => const ExpensesPieChart(),
         incomesChartRoute: (context) => const IncomesPieChart(),
-        operationsPreferencesRoute: (context) => const OperationPreferences(),
       },
     ),
   );

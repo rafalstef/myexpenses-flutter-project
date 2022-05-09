@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myexpenses/enums/sort_method.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_exceptions.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
+import 'package:myexpenses/utilities/preference_groups/list_preferences.dart';
 
 class FirebaseOperation {
   final operations = FirebaseFirestore.instance.collection('operation');
@@ -35,12 +37,33 @@ class FirebaseOperation {
     }
   }
 
-  Stream<Iterable<Operation>> allOperations({required String ownerUserId}) =>
-      operations.snapshots().map((event) => event.docs
-          .map((doc) => Operation.fromSnapshot(doc))
-          .where((operation) => operation.ownerUserId == ownerUserId));
+  Stream<Iterable<Operation>> allOperations({
+    required String ownerUserId,
+    required ListPreferences preferences,
+  }) {
+    DateTime chosenMonth = preferences.preferedMonth;
+    SortMethod sort = preferences.sortMethod;
+    String fieldSort = (sort == SortMethod.newest || sort == SortMethod.oldest)
+        ? dateFieldName
+        : costFieldName;
+    bool descending = (sort == SortMethod.newest || sort == SortMethod.biggest)
+        ? true
+        : false;
+    return operations
+        .orderBy(fieldSort, descending: descending)
+        .snapshots()
+        .map((event) => event.docs
+            .map((doc) => Operation.fromSnapshot(doc))
+            .where((operation) => operation.ownerUserId == ownerUserId)
+            .where((operation) => preferences.filteredAccountIds
+                .contains(operation.account!.documentId))
+            .where((operation) =>
+                operation.date.year == chosenMonth.year &&
+                operation.date.month == chosenMonth.month));
+  }
 
-  Future<Iterable<Operation>> getOperations({required String owenrUserId}) async {
+  Future<Iterable<Operation>> getOperations(
+      {required String owenrUserId}) async {
     try {
       return await operations
           .where(
