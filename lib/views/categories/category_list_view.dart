@@ -41,7 +41,8 @@ class CategoryListView extends StatelessWidget {
                               children: <Widget>[
                                 Container(
                                     padding: const EdgeInsets.all(10.0),
-                                    margin: const EdgeInsets.all(10.0),
+                                    margin: const EdgeInsets.only(
+                                        left: 150.0, right: 100.0),
                                     width: 100.0,
                                     child: Text(
                                       category.name,
