@@ -329,7 +329,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       visible: isVisibleNumpadButton,
                       child: Container(
                         color: const Color(0xFF0077b6),
-                        child: ExpansionTile(
+                        child: ListTile(
                           title: Text(
                             DateFormat('yyyy-MM-dd')
                                         .format(_selectedDate)
@@ -347,31 +347,16 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                             Icons.calendar_month_outlined,
                             color: Colors.white,
                           ),
-                          children: <Widget>[
-                            ListTile(
-                              title: Text(
-                                DateFormat('yyyy-MM-dd')
-                                    .format(_selectedDate)
-                                    .toString(),
-                              ),
-                              trailing: const Icon(
-                                Icons.create_outlined,
-                                color: Colors.white,
-                              ),
-                              onTap: () {
-                                _selectDateDialog(context);
-                              },
-                              textColor: Colors.white,
-                              tileColor: const Color(0xFF0077b6),
-                            ),
-                          ],
+                          onTap: () {
+                            _selectDateDialog(context);
+                          },
                         ),
                       )),
                   Visibility(
                       visible: isVisibleNumpadButton,
                       child: Container(
                         color: const Color(0xFF0096c7),
-                        child: ExpansionTile(
+                        child: ListTile(
                           title: Text(
                             _category == null ? 'Category' : _category!.name,
                             style: const TextStyle(color: Colors.white),
@@ -380,20 +365,9 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                             Icons.category,
                             color: Colors.white,
                           ),
-                          children: <Widget>[
-                            ListTile(
-                              title: const Text('Choose category'),
-                              trailing: const Icon(
-                                Icons.create_outlined,
-                                color: Colors.white,
-                              ),
-                              onTap: () {
-                                _selectCategoryDialog(context);
-                              },
-                              textColor: Colors.white,
-                              tileColor: const Color(0xFF0096c7),
-                            ),
-                          ],
+                          onTap: () {
+                            _selectCategoryDialog(context);
+                          },
                         ),
                       )),
 
@@ -401,7 +375,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       visible: isVisibleNumpadButton,
                       child: Container(
                         color: const Color(0xFF00b4d8),
-                        child: ExpansionTile(
+                        child: ListTile(
                           title: Text(
                             _account == null ? 'Account' : _account!.name,
                             style: const TextStyle(color: Colors.white),
@@ -410,20 +384,9 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                             Icons.account_balance_outlined,
                             color: Colors.white,
                           ),
-                          children: <Widget>[
-                            ListTile(
-                              title: const Text('Choose account'),
-                              trailing: const Icon(
-                                Icons.create_outlined,
-                                color: Colors.white,
-                              ),
-                              onTap: () {
-                                _selectAccountDialog(context);
-                              },
-                              textColor: Colors.white,
-                              tileColor: const Color(0xFF00b4d8),
-                            ),
-                          ],
+                          onTap: () {
+                            _selectAccountDialog(context);
+                          },
                         ),
                       )),
 
