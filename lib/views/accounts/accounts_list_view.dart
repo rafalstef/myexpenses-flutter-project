@@ -95,9 +95,6 @@ class AccountsListView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const Divider(
-                              color: Colors.black38,
-                            )
                           ],
                         ),
                       )),
@@ -132,8 +129,4 @@ class AccountsListView extends StatelessWidget {
       ),
     );
   }
-}
-
-void doNothing(BuildContext context) {
-  const Text('Co tu ma być');
 }
