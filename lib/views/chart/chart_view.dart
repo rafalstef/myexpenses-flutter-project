@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myexpenses/utilities/money_formats.dart';
+import 'package:myexpenses/utilities/formats/money_formats.dart';
 import 'package:myexpenses/views/chart/chart_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 

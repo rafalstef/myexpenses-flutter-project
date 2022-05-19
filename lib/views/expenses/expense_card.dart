@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:myexpenses/utilities/money_formats.dart';
+import 'package:myexpenses/utilities/formats/money_formats.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
 
 typedef ExpenseCallback = void Function(Operation expense);
@@ -17,78 +16,60 @@ class ExpenseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
-      child: GestureDetector(
-        onTap: () {
-          onTap(expense);
-        },
-        child: Container(
-          height: 80,
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(20),
-          ),
+    return GestureDetector(
+      onTap: () => onTap(expense),
+      child: Container(
+        height: 40,
+        margin: const EdgeInsets.fromLTRB(4, 5, 4, 5),
+        decoration: expenseCardBoxDecoration(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        expense.category!.name.toString(),
-                        style: TextStyle(
-                          color: Colors.grey[900],
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        expense.account!.name.toString(),
-                        style: TextStyle(
-                          color: Colors.grey[900],
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      expense.category!.isIncome
-                          ? '+' + moneyFormat(expense.cost)
-                          : '-' + moneyFormat(expense.cost),
-                      style: TextStyle(
-                        color: expense.category!.isIncome
-                            ? Colors.green
-                            : Colors.red,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      DateFormat('yyyy-MM-dd').format(expense.date).toString(),
-                      style: TextStyle(
-                        color: Colors.grey[900],
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              operationCategoryName(),
+              operationDate(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Text operationCategoryName() {
+    return Text(
+      expense.category!.name.toString(),
+      style: TextStyle(
+        color: Colors.grey[900],
+        fontSize: 15,
+      ),
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Text operationDate() {
+    return Text(
+      expense.category!.isIncome
+          ? '+' + moneyFormat(expense.cost)
+          : '-' + moneyFormat(expense.cost),
+      style: TextStyle(
+        color: expense.category!.isIncome ? Colors.green : Colors.red,
+        fontSize: 15,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  BoxDecoration expenseCardBoxDecoration() {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          blurRadius: 5,
+        ),
+      ],
     );
   }
 }

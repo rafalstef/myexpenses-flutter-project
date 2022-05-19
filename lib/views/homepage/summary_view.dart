@@ -41,6 +41,7 @@ class _SummaryViewState extends State<SummaryView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Summary'),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(
@@ -83,14 +84,15 @@ class _SummaryViewState extends State<SummaryView> {
                                     ? snapshot.data as Iterable<Operation>
                                     : const Iterable.empty();
                             return SummaryListView(
-                              expenses: allOperations,
+                              operations: allOperations,
                               accounts: allAccounts,
+                              preferences: _listPreferences!,
                             );
                           } else {
-                            return const CircularProgressIndicator();
+                            return _loading();
                           }
                         default:
-                          return const CircularProgressIndicator();
+                          return _loading();
                       }
                     },
                   );
@@ -98,9 +100,7 @@ class _SummaryViewState extends State<SummaryView> {
               );
             default:
               return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
+                body: Center(child: CircularProgressIndicator()),
               );
           }
         },
@@ -145,5 +145,11 @@ class _SummaryViewState extends State<SummaryView> {
         _listPreferences = newPreferences;
       });
     }
+  }
+
+  Widget _loading() {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
   }
 }
