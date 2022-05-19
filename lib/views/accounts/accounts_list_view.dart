@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/utilities/dialogs/show_delete_dialog.dart';
-import 'package:myexpenses/utilities/money_formats.dart';
+import 'package:myexpenses/utilities/formats/money_formats.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 typedef AccountCallback = void Function(Account account);
@@ -22,35 +22,37 @@ class AccountsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle subtitleStyle = const TextStyle(fontSize: 15.0);
     return Scaffold(
-      //body:
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Total balance: ' + moneyFormat(_loopResult()),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
+        ),
+        elevation: 0.0,
+        backgroundColor: const Color(0xFF273A48),
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         children: <Widget>[
           Container(
             height: 40.0,
             child: Row(
-              children: <Widget>[
-                Container(
-                    padding: const EdgeInsets.all(4.0),
-                    margin: const EdgeInsets.only(left: 57),
-                    width: 100.0,
-                    child: const Text(
-                      "Account",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    )),
-                Container(
-                    padding: const EdgeInsets.all(4.0),
-                    margin: const EdgeInsets.only(left: 100),
-                    width: 100.0,
-                    child: const Text(
-                      "Balance",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    )),
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: const <Widget>[
+                Text(
+                  "Account",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+                Text(
+                  "Balance",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
               ],
             ),
             decoration: const BoxDecoration(
@@ -65,44 +67,31 @@ class AccountsListView extends StatelessWidget {
                 return Slidable(
                   actionPane: const SlidableDrawerActionPane(),
                   actionExtentRatio: 0.45,
-                  child: Container(
-                      color: Colors.white,
-                      child: ListTile(
-                        title: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 5, bottom: 5),
-                                    margin: const EdgeInsets.only(left: 45),
-                                    width: 100.0,
-                                    child: Text(
-                                      account.name,
-                                      style: subtitleStyle,
-                                    )),
-                                Container(
-                                  padding: null,
-                                  margin: const EdgeInsets.only(left: 100),
-                                  width: 100.0,
-                                  child: Text(
-                                    moneyFormat(account.amount),
-                                    maxLines: 1,
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: subtitleStyle,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 56),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          account.name,
+                          style: subtitleStyle,
                         ),
-                      )),
+                        Text(
+                          moneyFormat(account.amount),
+                          maxLines: 1,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: subtitleStyle,
+                        ),
+                      ],
+                    ),
+                  ),
                   actions: <Widget>[
                     IconSlideAction(
                       caption: 'Delete',
                       color: Colors.red,
                       icon: Icons.delete,
+                      closeOnTap: false,
                       onTap: () async {
                         final shouldDelete = await showDeleteDialog(context);
                         if (shouldDelete) {
@@ -110,8 +99,6 @@ class AccountsListView extends StatelessWidget {
                         }
                       },
                     ),
-                  ],
-                  secondaryActions: <Widget>[
                     IconSlideAction(
                       caption: 'Edit',
                       color: Colors.green,
@@ -128,5 +115,16 @@ class AccountsListView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  double _loopResult() {
+    double sumup = 0;
+    for (int i = 0; i < accounts.length; i++) {
+      final account = accounts.elementAt(i);
+      if (account.includeInBalance) {
+        sumup = sumup + account.amount;
+      }
+    }
+    return sumup;
   }
 }
