@@ -420,7 +420,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       tileColor: const Color(0xFF48cae4),
                     ),
                   ),
-                  Visibility(
+                  /*Visibility(
                     visible: isVisibleNumpadButton,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(10, 14, 0, 10),
@@ -441,7 +441,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               );
             default:
