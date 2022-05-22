@@ -13,8 +13,8 @@ class NumPad extends StatelessWidget {
   const NumPad({
     Key? key,
     this.buttonSize = 70,
-    this.buttonColor = Colors.indigo,
-    this.iconColor = Colors.amber,
+    this.buttonColor = Colors.white,
+    this.iconColor = Colors.grey,
     required this.delete,
     required this.onSubmit,
     required this.controller,
@@ -23,7 +23,7 @@ class NumPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30),
+      margin: const EdgeInsets.only(left: 30, right: 50),
       child: Column(
         children: [
           const SizedBox(height: 20),
@@ -172,7 +172,9 @@ class NumberButton extends StatelessWidget {
           child: Text(
             number.toString(),
             style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 78, 75, 75),
+                fontSize: 30),
           ),
         ),
       ),
