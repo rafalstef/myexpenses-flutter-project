@@ -309,9 +309,9 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                   Visibility(
                       visible: isVisibleNumpad,
                       child: NumPad(
-                          buttonSize: 75,
-                          buttonColor: Colors.blue,
-                          iconColor: Colors.green,
+                          buttonSize: 90,
+                          buttonColor: Colors.white,
+                          iconColor: const Color.fromARGB(255, 233, 77, 66),
                           controller: _costController,
                           delete: () {
                             _costController.text = _costController.text
@@ -418,6 +418,28 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       },
                       textColor: Colors.black,
                       tileColor: const Color(0xFF48cae4),
+                    ),
+                  ),
+                  Visibility(
+                    visible: isVisibleNumpadButton,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 14, 0, 10),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.transparent,
+                        ),
+                        child: Text(
+                          'TEST',
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ),
                   ),
                 ],
