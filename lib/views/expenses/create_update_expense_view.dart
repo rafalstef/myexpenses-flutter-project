@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_function_declarations_over_variables
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myexpenses/constants/routes.dart';
@@ -11,6 +12,7 @@ import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/generics/get_arguments.dart';
 import 'package:myexpenses/utilities/dialogs/show_delete_dialog.dart';
 import '../numpad.dart';
+import 'moneyFormatter.dart';
 
 class CreateUpdateExpenseView extends StatefulWidget {
   const CreateUpdateExpenseView({Key? key}) : super(key: key);
@@ -44,7 +46,11 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     _categoryService = FirebaseCategory();
     _accountService = FirebaseAccount();
     _expenseService = FirebaseOperation();
-    _costController = TextEditingController();
+    _costController = MoneyMaskedTextController(
+        initialValue: 0.0,
+        decimalSeparator: '.',
+        precision: 2,
+        thousandSeparator: '');
     _selectedDate = DateTime.now();
     super.initState();
     _initFirebaseData();
@@ -250,29 +256,27 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  const Padding(
+                      padding: EdgeInsets.only(
+                        left: 40,
+                        top: 40,
+                        right: 40,
+                        bottom: 0,
+                      ),
+                      child: Text(
+                        'Amount (PLN)',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'Aleo',
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.green),
+                      )),
                   Visibility(
                       visible: isVisibleNumpadButton,
                       child: Padding(
                         padding: const EdgeInsets.all(30),
-                        child: SizedBox(
-                          height: 40,
-                          child: Center(
-                              child: TextFormField(
-                            controller: _costController,
-                            textAlign: TextAlign.center,
-                            showCursor: false,
-                            style: const TextStyle(fontSize: 40),
-                            // Disable the default soft keybaord
-                            keyboardType: TextInputType.none,
-                          )),
-                        ),
-                      )),
-
-                  Visibility(
-                      visible: isVisibleNumpad,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 100, left: 20, right: 20, bottom: 20),
                         child: SizedBox(
                           height: 40,
                           child: Center(
@@ -281,13 +285,27 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                             textAlign: TextAlign.center,
                             showCursor: false,
                             style: const TextStyle(fontSize: 40),
-                            // Disable the default soft keybaord
                             keyboardType: TextInputType.none,
                           )),
                         ),
                       )),
-
-                  // implement the custom NumPad
+                  Visibility(
+                      visible: isVisibleNumpad,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20, left: 20, right: 20, bottom: 20),
+                        child: SizedBox(
+                          height: 40,
+                          child: Center(
+                              child: TextField(
+                            controller: _costController,
+                            textAlign: TextAlign.center,
+                            showCursor: false,
+                            style: const TextStyle(fontSize: 40),
+                            keyboardType: TextInputType.none,
+                          )),
+                        ),
+                      )),
                   Visibility(
                       visible: isVisibleNumpad,
                       child: NumPad(
@@ -299,14 +317,12 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                             _costController.text = _costController.text
                                 .substring(0, _costController.text.length - 1);
                           },
-                          // do something with the input numbers
                           onSubmit: () {
                             setState(() {
                               isVisibleNumpad = !isVisibleNumpad;
                               isVisibleNumpadButton = !isVisibleNumpadButton;
                             });
                           })),
-
                   Visibility(
                     visible: isVisibleNumpadButton,
                     child: ListTile(
@@ -370,7 +386,6 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                           },
                         ),
                       )),
-
                   Visibility(
                       visible: isVisibleNumpadButton,
                       child: Container(
@@ -389,14 +404,13 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                           },
                         ),
                       )),
-
                   Visibility(
                     visible: isVisibleNumpadButton,
                     child: ListTile(
                       title: const Center(
                         child: Icon(
                           Icons.done_rounded,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                       onTap: () async {

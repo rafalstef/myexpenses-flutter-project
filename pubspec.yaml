@@ -51,6 +51,7 @@ dependencies:
   group_button: ^5.0.0
   month_picker_dialog: ^0.4.0
   sliding_up_panel: ^2.0.0+1
+  flutter_masked_text: ^0.8.0
 
 dev_dependencies:
   flutter_test:
