@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
                 if (user?.isEmailVerified ?? false) {
                   //user's email is verified
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                    myexpensesRoute,
+                    summaryViewRoute,
                     (route) => false,
                   );
                 } else {
@@ -121,7 +121,7 @@ class _LoginViewState extends State<LoginView> {
               try {
                 await AuthService.firebase().signInWithGoogle();
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  myexpensesRoute,
+                  summaryViewRoute,
                   (route) => false,
                 );
               } on GenericAuthException {

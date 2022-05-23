@@ -3,21 +3,23 @@ import 'package:myexpenses/utilities/formats/money_formats.dart';
 import 'package:myexpenses/views/chart/chart_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class OperationChart extends StatefulWidget {
+class OperationCircularChart extends StatefulWidget {
   final List<ChartData> chartData;
   final double operationsSum;
+  final Function(String?) onTapCategorySegment;
 
-  const OperationChart({
+  const OperationCircularChart({
     Key? key,
     required this.chartData,
     required this.operationsSum,
+    required this.onTapCategorySegment,
   }) : super(key: key);
 
   @override
-  State<OperationChart> createState() => _OperationChartState();
+  State<OperationCircularChart> createState() => _OperationCircularChartState();
 }
 
-class _OperationChartState extends State<OperationChart> {
+class _OperationCircularChartState extends State<OperationCircularChart> {
   int currentSegmentIndex = -1;
   String categoryName = 'All categories';
   late double categoryCost = widget.operationsSum;
@@ -27,7 +29,7 @@ class _OperationChartState extends State<OperationChart> {
     return Column(children: [
       SafeArea(
         child: SizedBox(
-          height: 350,
+          height: MediaQuery.of(context).size.height * 0.5,
           width: MediaQuery.of(context).size.width,
           child: SfCircularChart(
             annotations: [_chartAnnotation()],
@@ -66,6 +68,7 @@ class _OperationChartState extends State<OperationChart> {
 
   DoughnutSeries<ChartData, String> _operationDoughnutSeries() {
     return DoughnutSeries<ChartData, String>(
+      radius: '60%',
       innerRadius: '80%',
       dataSource: widget.chartData,
       xValueMapper: (ChartData data, _) => data.category,
@@ -74,27 +77,33 @@ class _OperationChartState extends State<OperationChart> {
       dataLabelSettings: _dataLabelSettings(),
       onPointTap: (ChartPointDetails details) => _segmentTap(details),
       selectionBehavior: SelectionBehavior(enable: true),
+      animationDuration: 0.0,
     );
   }
 
   DataLabelSettings _dataLabelSettings() {
     return const DataLabelSettings(
       isVisible: true,
+      labelAlignment: ChartDataLabelAlignment.top,
       labelIntersectAction: LabelIntersectAction.shift,
       labelPosition: ChartDataLabelPosition.outside,
-      overflowMode: OverflowMode.trim,
+      connectorLineSettings:
+          ConnectorLineSettings(type: ConnectorType.curve, length: '25%'),
     );
   }
 
   void _segmentTap(ChartPointDetails details) {
     currentSegmentIndex =
         (currentSegmentIndex == details.pointIndex!) ? -1 : details.pointIndex!;
-    categoryName = (currentSegmentIndex == -1)
-        ? 'All categories'
-        : details.dataPoints![details.pointIndex!].x.toString();
-    categoryCost = (currentSegmentIndex == -1)
-        ? widget.operationsSum
-        : details.dataPoints![details.pointIndex!].y;
+    if (currentSegmentIndex == -1) {
+      categoryName = 'All categories';
+      categoryCost = widget.operationsSum;
+      widget.onTapCategorySegment(null);
+    } else {
+      categoryName = details.dataPoints![details.pointIndex!].x.toString();
+      categoryCost = details.dataPoints![details.pointIndex!].y;
+      widget.onTapCategorySegment(categoryName);
+    }
     setState(() {});
   }
 

@@ -14,31 +14,31 @@ class SummaryListView extends StatelessWidget {
   final Iterable<Operation> operations;
   final Iterable<Account> accounts;
   final ListPreferences preferences;
+  final String? categorySegment;
 
   const SummaryListView({
     Key? key,
     required this.accounts,
     required this.operations,
     required this.preferences,
+    required this.categorySegment,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final List<double> summary = getFinancialSummary();
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            HomePageTopCards(
-              balance: summary[0],
-              income: summary[1],
-              expense: summary[2],
-            ),
-            summaryPreferences(context),
-            Expanded(child: getExpensesListView(context)),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          HomePageTopCards(
+            balance: summary[0],
+            income: summary[1],
+            expense: summary[2],
+          ),
+          summaryPreferences(context),
+          Expanded(child: getExpensesListView(context)),
+        ],
       ),
     );
   }
@@ -91,7 +91,7 @@ class SummaryListView extends StatelessWidget {
   }
 
   Widget getExpensesListView(BuildContext context) {
-    final operationList = operations.toList();
+    final operationList = operationsWithChosenCategory();
     return (operationList.isEmpty)
         ? noOperationsWidget(context)
         : (preferences.sortMethod == SortMethod.newest ||
@@ -220,4 +220,12 @@ class SummaryListView extends StatelessWidget {
 
   final String _noOperationMessage =
       'There are no expenses here. Try changing the time span or accounts to find them.';
+
+  List<Operation> operationsWithChosenCategory() {
+    return (categorySegment != null)
+        ? operations
+            .where((element) => element.category!.name == categorySegment)
+            .toList()
+        : operations.toList();
+  }
 }
