@@ -4,6 +4,7 @@ import 'package:myexpenses/enums/sort_method.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/services/cloud/operation/firebase_operation.dart';
+import 'package:myexpenses/utilities/formats/date_formats.dart';
 import 'package:myexpenses/utilities/loading_widgets/loading_widget.dart';
 import 'package:myexpenses/utilities/preference_groups/list_preferences.dart';
 import 'package:myexpenses/views/chart/operation_chart_view.dart';
@@ -107,7 +108,8 @@ class _SummaryViewState extends State<SummaryView> {
     }
     _listPreferences = ListPreferences(
       sortMethod: SortMethod.newest,
-      preferedMonth: DateTime.now(),
+      startDate: currentMonthFirstDay,
+      endDate: currentMonthLastDay,
       filteredAccountIds: accountsId,
     );
   }

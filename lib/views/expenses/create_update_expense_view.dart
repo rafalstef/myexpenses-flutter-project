@@ -1,6 +1,4 @@
-// ignore_for_file: prefer_function_declarations_over_variables
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
@@ -9,6 +7,7 @@ import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/category/firebase_category.dart';
 import 'package:myexpenses/services/cloud/operation/firebase_operation.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
+import 'package:myexpenses/utilities/formats/date_formats.dart';
 import 'package:myexpenses/utilities/generics/get_arguments.dart';
 import 'package:myexpenses/utilities/dialogs/show_delete_dialog.dart';
 import '../numpad.dart';
@@ -347,16 +346,10 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                         color: const Color(0xFF0077b6),
                         child: ListTile(
                           title: Text(
-                            DateFormat('yyyy-MM-dd')
-                                        .format(_selectedDate)
-                                        .toString() ==
-                                    DateFormat('yyyy-MM-dd')
-                                        .format(DateTime.now())
-                                        .toString()
+                            yearMonthDayDash(_selectedDate) ==
+                                    yearMonthDayDash(DateTime.now())
                                 ? 'TODAY'
-                                : DateFormat('yyyy-MM-dd')
-                                    .format(_selectedDate)
-                                    .toString(),
+                                : yearMonthDayDash(_selectedDate),
                             style: const TextStyle(color: Colors.white),
                           ),
                           trailing: const Icon(
@@ -420,28 +413,6 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       tileColor: const Color(0xFF48cae4),
                     ),
                   ),
-                  /*Visibility(
-                    visible: isVisibleNumpadButton,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 14, 0, 10),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.transparent,
-                        ),
-                        child: Text(
-                          'TEST',
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                  ),*/
                 ],
               );
             default:

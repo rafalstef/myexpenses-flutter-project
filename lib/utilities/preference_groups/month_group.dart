@@ -1,16 +1,19 @@
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:myexpenses/utilities/formats/date_formats.dart';
 
-typedef MonthGroupCallback = void Function(DateTime month);
+typedef MonthGroupCallback = void Function(
+    DateTime startDate, DateTime endDate);
 
 class MonthGroup extends StatefulWidget {
-  final DateTime selectedDate;
+  final DateTime startDate;
+  final DateTime endDate;
   final MonthGroupCallback onOptionTap;
 
   const MonthGroup({
     Key? key,
-    required this.selectedDate,
+    required this.startDate,
+    required this.endDate,
     required this.onOptionTap,
   }) : super(key: key);
 
@@ -19,9 +22,13 @@ class MonthGroup extends StatefulWidget {
 }
 
 class _MonthGroupState extends State<MonthGroup> {
+  late DateTime startDate;
+  late DateTime endDate;
+
   @override
   Widget build(BuildContext context) {
-    String dateFormat = DateFormat('yMMMM').format(widget.selectedDate);
+    startDate = widget.startDate;
+    endDate = widget.endDate;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -30,40 +37,44 @@ class _MonthGroupState extends State<MonthGroup> {
           Row(
             children: [
               const Icon(Icons.date_range),
-              const SizedBox(
-                width: 8,
-              ),
+              const SizedBox(width: 8),
               Text(
-                'Choose Month',
+                'Adjust the date range',
                 style: Theme.of(context).textTheme.headline6,
               ),
             ],
           ),
-          const SizedBox(
-            height: 12,
-          ),
-          TextButton(
-            onPressed: () {
-              _selectMonthDialog(context);
-            },
-            child: Text(dateFormat),
-          )
+          const SizedBox(height: 12),
+          _selectStartDate(startDate),
+          _selectEndDate(endDate),
         ],
       ),
     );
   }
 
-  void _selectMonthDialog(BuildContext context) async {
-    showMonthPicker(
-      context: context,
-      firstDate: DateTime(DateTime.now().year - 1),
-      lastDate: DateTime(DateTime.now().year, DateTime.now().month),
-      initialDate: widget.selectedDate,
-    ).then((date) {
-      if (date != null) {
-        widget.onOptionTap(date);
-        setState(() {});
-      }
-    });
+  DateTimePicker _selectStartDate(DateTime initDate) {
+    return DateTimePicker(
+      type: DateTimePickerType.date,
+      initialValue: initDate.toString(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      icon: const Icon(Icons.edit_calendar_outlined),
+      dateLabelText: 'Start',
+      onChanged: (val) =>
+          setState(() => widget.onOptionTap(toDate(val), endDate)),
+    );
+  }
+
+  DateTimePicker _selectEndDate(DateTime initDate) {
+    return DateTimePicker(
+      type: DateTimePickerType.date,
+      initialValue: initDate.toString(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      icon: const Icon(Icons.edit_calendar_outlined),
+      dateLabelText: 'End',
+      onChanged: (val) =>
+          setState(() => widget.onOptionTap(startDate, toDate(val))),
+    );
   }
 }

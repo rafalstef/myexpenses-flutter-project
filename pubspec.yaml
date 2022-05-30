@@ -53,6 +53,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   flutter_masked_text: ^0.8.0
   smooth_page_indicator: ^1.0.0+2
+  date_time_picker: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myexpenses/enums/sort_method.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
+import 'package:myexpenses/utilities/formats/date_formats.dart';
 import 'package:myexpenses/utilities/preference_groups/account_filter_group.dart';
 import 'package:myexpenses/utilities/preference_groups/list_preferences.dart';
 import 'package:myexpenses/utilities/preference_groups/month_group.dart';
@@ -26,7 +27,10 @@ class _ListPreferencesViewState extends State<ListPreferencesView> {
   String get userId => AuthService.firebase().currentUser!.id;
 
   SortMethod _selectedSortMethod = SortMethod.newest;
-  DateTime _selectedMonth = DateTime.now();
+
+  DateTime _selectedStartDate = currentMonthFirstDay;
+  DateTime _selectedEndDate = currentMonthLastDay;
+
   List<String> _selectedAccountIds = [];
 
   // get previous settings
@@ -35,8 +39,11 @@ class _ListPreferencesViewState extends State<ListPreferencesView> {
   List<dynamic> get _previousAccountIds =>
       _previousPreferences?.filteredAccountIds ?? [];
 
-  DateTime get _previousMonth =>
-      _previousPreferences?.preferedMonth ?? DateTime.now();
+  DateTime get _previousStartDate =>
+      _previousPreferences?.startDate ?? currentMonthFirstDay;
+
+  DateTime get _previousEndDate =>
+      _previousPreferences?.endDate ?? currentMonthLastDay;
 
   SortMethod get _previousSortMethod =>
       _previousPreferences?.sortMethod ?? SortMethod.newest;
@@ -47,19 +54,17 @@ class _ListPreferencesViewState extends State<ListPreferencesView> {
         _selectedAccountIds,
       );
 
-  bool get _hasChangedMonth {
-    if (_previousMonth.month != _selectedMonth.month ||
-        _previousMonth.year != _selectedMonth.year) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  bool get _hasChangedStartDate => _previousStartDate != _selectedStartDate;
+
+  bool get _hasChangedEndDate => _previousEndDate != _selectedEndDate;
 
   bool get _hasChangedSortMethod => _previousSortMethod != _selectedSortMethod;
 
   bool get _hasChangedPreferences =>
-      _hasChangedAccounts || _hasChangedMonth || _hasChangedSortMethod;
+      _hasChangedAccounts ||
+      _hasChangedStartDate ||
+      _hasChangedEndDate ||
+      _hasChangedSortMethod;
 
   get allAccounts => widget.allAccounts;
 
@@ -68,7 +73,8 @@ class _ListPreferencesViewState extends State<ListPreferencesView> {
     final previousPreferences = widget.preferences;
     if (previousPreferences != null) {
       _selectedSortMethod = previousPreferences.sortMethod;
-      _selectedMonth = previousPreferences.preferedMonth;
+      _selectedStartDate = previousPreferences.startDate;
+      _selectedEndDate = previousPreferences.endDate;
       _selectedAccountIds = List.of(previousPreferences.filteredAccountIds);
     }
     super.initState();
@@ -78,7 +84,8 @@ class _ListPreferencesViewState extends State<ListPreferencesView> {
     Navigator.of(context).pop(
       ListPreferences(
         sortMethod: _selectedSortMethod,
-        preferedMonth: _selectedMonth,
+        startDate: _selectedStartDate,
+        endDate: _selectedEndDate,
         filteredAccountIds: _selectedAccountIds,
       ),
     );
@@ -119,9 +126,11 @@ class _ListPreferencesViewState extends State<ListPreferencesView> {
             ),
             const Divider(),
             MonthGroup(
-              selectedDate: _selectedMonth,
-              onOptionTap: (option) => setState(() {
-                _selectedMonth = option;
+              startDate: _selectedStartDate,
+              endDate: _selectedEndDate,
+              onOptionTap: (start, end) => setState(() {
+                _selectedStartDate = start;
+                _selectedEndDate = end;
               }),
             ),
           ],

@@ -41,7 +41,8 @@ class FirebaseOperation {
     required String ownerUserId,
     required ListPreferences preferences,
   }) {
-    DateTime chosenMonth = preferences.preferedMonth;
+    DateTime startDate = preferences.startDate;
+    DateTime endDate = preferences.endDate;
     SortMethod sort = preferences.sortMethod;
     String fieldSort = (sort == SortMethod.newest || sort == SortMethod.oldest)
         ? dateFieldName
@@ -52,14 +53,18 @@ class FirebaseOperation {
     return operations
         .orderBy(fieldSort, descending: descending)
         .snapshots()
-        .map((event) => event.docs
-            .map((doc) => Operation.fromSnapshot(doc))
-            .where((operation) => operation.ownerUserId == ownerUserId)
-            .where((operation) => preferences.filteredAccountIds
-                .contains(operation.account!.documentId))
-            .where((operation) =>
-                operation.date.year == chosenMonth.year &&
-                operation.date.month == chosenMonth.month));
+        .map(
+          (event) => event.docs
+              .map((doc) => Operation.fromSnapshot(doc))
+              .where((operation) => operation.ownerUserId == ownerUserId)
+              .where((operation) => preferences.filteredAccountIds
+                  .contains(operation.account!.documentId))
+              .where(
+                (operation) =>
+                    (operation.date.compareTo(startDate) > 0) &&
+                    (operation.date.compareTo(endDate) < 0),
+              ),
+        );
   }
 
   Future<Iterable<Operation>> getOperations(
