@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
+import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
@@ -309,7 +310,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       visible: isVisibleNumpad,
                       child: NumPad(
                           buttonSize: 90,
-                          buttonColor: Colors.white,
+                          buttonColor: AppColors.light100,
                           iconColor: const Color.fromARGB(255, 233, 77, 66),
                           controller: _costController,
                           delete: () {
@@ -328,7 +329,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       title: const Text('Change amount'),
                       trailing: const Icon(
                         Icons.attach_money_outlined,
-                        color: Colors.white,
+                        color: AppColors.light100,
                       ),
                       onTap: () {
                         setState(() {
@@ -336,7 +337,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                           isVisibleNumpadButton = !isVisibleNumpadButton;
                         });
                       },
-                      textColor: Colors.white,
+                      textColor: AppColors.light100,
                       tileColor: const Color(0xFF023e8a),
                     ),
                   ),
@@ -350,11 +351,11 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                                     yearMonthDayDash(DateTime.now())
                                 ? 'TODAY'
                                 : yearMonthDayDash(_selectedDate),
-                            style: const TextStyle(color: Colors.white),
+                            style: const TextStyle(color: AppColors.light100),
                           ),
                           trailing: const Icon(
                             Icons.calendar_month_outlined,
-                            color: Colors.white,
+                            color: AppColors.light100,
                           ),
                           onTap: () {
                             _selectDateDialog(context);
@@ -368,11 +369,11 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                         child: ListTile(
                           title: Text(
                             _category == null ? 'Category' : _category!.name,
-                            style: const TextStyle(color: Colors.white),
+                            style: const TextStyle(color: AppColors.light100),
                           ),
                           trailing: const Icon(
                             Icons.category,
-                            color: Colors.white,
+                            color: AppColors.light100,
                           ),
                           onTap: () {
                             _selectCategoryDialog(context);
@@ -386,11 +387,11 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                         child: ListTile(
                           title: Text(
                             _account == null ? 'Account' : _account!.name,
-                            style: const TextStyle(color: Colors.white),
+                            style: const TextStyle(color: AppColors.light100),
                           ),
                           trailing: const Icon(
                             Icons.account_balance_outlined,
-                            color: Colors.white,
+                            color: AppColors.light100,
                           ),
                           onTap: () {
                             _selectAccountDialog(context);
@@ -403,13 +404,13 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                       title: const Center(
                         child: Icon(
                           Icons.done_rounded,
-                          color: Colors.white,
+                          color: AppColors.light100,
                         ),
                       ),
                       onTap: () async {
                         await _saveExpense();
                       },
-                      textColor: Colors.black,
+                      textColor: AppColors.dark100,
                       tileColor: const Color(0xFF48cae4),
                     ),
                   ),
