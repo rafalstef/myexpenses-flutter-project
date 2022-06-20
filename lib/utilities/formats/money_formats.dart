@@ -1,12 +1,6 @@
-import 'package:money_formatter/money_formatter.dart';
+import 'package:intl/intl.dart';
 
 String moneyFormat(double amount) {
-  return MoneyFormatter(
-    amount: amount,
-    settings: MoneyFormatterSettings(
-      thousandSeparator: ' ',
-      decimalSeparator: '.',
-      symbol: 'PLN',
-    ),
-  ).output.symbolOnRight;
+  NumberFormat f = NumberFormat("\$#,##0.00", "en_US");
+  return f.format(amount);
 }

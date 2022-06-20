@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
+import 'package:myexpenses/config/styles/colors/app_colors.dart';
+import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
-import 'package:myexpenses/views/accounts/accounts_list_view.dart';
+import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
+import 'package:myexpenses/utilities/formats/money_formats.dart';
+import 'package:myexpenses/utilities/UI_components/tiles/account_tile.dart';
+import 'package:myexpenses/utilities/loading_widgets/loading_widget.dart';
 import 'package:myexpenses/views/navBar.dart';
 
 class AccountsView extends StatefulWidget {
@@ -26,10 +31,6 @@ class _AccountsViewState extends State<AccountsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Accounts'),
-      ),
-      drawer: const SideDrawer(),
       body: StreamBuilder(
         stream: _accountsService.allAccounts(ownerUserId: userId),
         builder: (context, snapshot) {
@@ -38,34 +39,126 @@ class _AccountsViewState extends State<AccountsView> {
             case ConnectionState.active:
               if (snapshot.hasData) {
                 final allAccounts = snapshot.data as Iterable<Account>;
-                return AccountsListView(
-                  accounts: allAccounts,
-                  onDeleteAccount: (account) async {
-                    await _accountsService.deleteAccount(
-                        documentId: account.documentId);
-                  },
-                  onTap: (account) {
-                    Navigator.of(context).pushNamed(
-                      createOrUpdateAccountRoute,
-                      arguments: account,
-                    );
-                  },
+                return NestedScrollView(
+                  floatHeaderSlivers: true,
+                  body: _accountScreen(allAccounts),
+                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                      [_accountAppBar()],
                 );
               } else {
-                return const CircularProgressIndicator();
+                return loadingWidget();
               }
             default:
-              return const CircularProgressIndicator();
+              return loadingWidget();
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(createOrUpdateAccountRoute);
-        },
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
+      drawer: const SideDrawer(),
+      backgroundColor: AppColors.light100,
+      floatingActionButton: _addAccountButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  SliverAppBar _accountAppBar() {
+    return SliverAppBar(
+      title: Text(
+        'Account',
+        style: AppTextStyles.title3(AppColors.dark60),
+      ),
+      floating: true,
+      centerTitle: true,
+      backgroundColor: AppColors.transparent,
+      iconTheme: const IconThemeData(color: AppColors.dark100),
+    );
+  }
+
+  Widget _accountScreen(Iterable<Account> accounts) {
+    double sum = 0;
+    accounts.toList().forEach((element) {
+      sum += element.amount;
+    });
+    return SingleChildScrollView(
+      physics: const ScrollPhysics(),
+      child: Column(
+        children: <Widget>[
+          _accountBalance(sum),
+          _accountsList(accounts),
+        ],
       ),
     );
   }
+
+  Container _accountBalance(double sum) {
+    return Container(
+      height: 200.0,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Account Balance",
+            style: AppTextStyles.regularMedium(AppColors.dark20),
+          ),
+          const SizedBox(height: 18.0),
+          Text(
+            moneyFormat(sum),
+            style: AppTextStyles.title1(AppColors.dark80),
+          ),
+        ],
+      ),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/account_balance_background.png"),
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  }
+
+  Widget _accountsList(Iterable<Account> accounts) {
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      padding: const EdgeInsets.only(bottom: 130),
+      itemCount: accounts.length,
+      itemBuilder: (context, index) {
+        final account = accounts.elementAt(index);
+        return Column(
+          children: [
+            AccountTile(
+              account: account,
+              onTap: (account) {
+                Navigator.of(context).pushNamed(
+                  createOrUpdateAccountRoute,
+                  arguments: account,
+                );
+              },
+            ),
+            const Divider(),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _addAccountButton() {
+    return LargePrimaryButton(
+      text: '+ Add new account',
+      onPressed: () =>
+          Navigator.of(context).pushNamed(createOrUpdateAccountRoute),
+    );
+  }
 }
+
+// onTap: () async {
+//   final shouldDelete = await showDeleteDialog(context);
+//   if (shouldDelete) {
+//     onDeleteAccount(account);
+//   }
+// },
+
+//   onDeleteAccount: (account) async {
+//     await _accountsService.deleteAccount(
+//         documentId: account.documentId);
+//   },
