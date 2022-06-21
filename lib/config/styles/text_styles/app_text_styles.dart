@@ -103,6 +103,16 @@ class AppTextStyles {
     );
   }
 
+  static TextStyle smallSemiBold(Color color) {
+    return TextStyle(
+      color: color,
+      fontSize: 14.0,
+      height: 1.2,
+      fontWeight: FontWeight.w600,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
   static TextStyle smallBold(Color color) {
     return TextStyle(
       color: color,

@@ -1,111 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:myexpenses/constants/routes.dart';
+import 'package:myexpenses/config/styles/colors/app_colors.dart';
+import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 import 'package:myexpenses/enums/sort_method.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
+import 'package:myexpenses/utilities/UI_components/buttons/pills.dart';
 import 'package:myexpenses/utilities/formats/date_formats.dart';
 import 'package:myexpenses/utilities/formats/money_formats.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/preference_groups/list_preferences.dart';
-import 'package:myexpenses/views/expenses/expense_card.dart';
+import 'package:myexpenses/utilities/UI_components/tiles/operation_tile.dart';
 import 'package:myexpenses/views/homepage/homepage_top_cards.dart';
 
-class SummaryListView extends StatelessWidget {
+class HomePageWidgets extends StatelessWidget {
   final Iterable<Operation> operations;
   final Iterable<Account> accounts;
   final ListPreferences preferences;
-  final String? categorySegment;
 
-  const SummaryListView({
+  const HomePageWidgets({
     Key? key,
     required this.accounts,
     required this.operations,
     required this.preferences,
-    required this.categorySegment,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final List<double> summary = getFinancialSummary();
-    return Padding(
+    final List<double> summary = _getFinancialSummary();
+    return SingleChildScrollView(
+      physics: const ScrollPhysics(),
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        children: [
+        children: <Widget>[
           HomePageTopCards(
             balance: summary[0],
             income: summary[1],
             expense: summary[2],
           ),
-          summaryPreferences(context),
-          Expanded(child: getExpensesListView(context)),
+          _seeAllWidget(context),
+          _getExpensesListView(context),
         ],
       ),
     );
   }
 
-  String get selectedAccountsNames {
-    List<String> names = List.empty(growable: true);
-    List<Account> selectedAccounts = accounts.toList();
-    for (var item in selectedAccounts) {
-      if (preferences.filteredAccountIds.contains(item.documentId)) {
-        names.add(item.name);
-      }
-    }
-
-    if (names.isEmpty) {
-      return '';
-    }
-
-    if (names.length == accounts.length) {
-      return 'All accounts / ';
-    }
-
-    String result = '';
-    for (String name in names) {
-      result += name + ', ';
-    }
-    return result.substring(0, result.length - 2) + ' / ';
-  }
-
-  String get selectedDateRange {
-    return dayMonthYearDot(preferences.startDate) +
-        ' - ' +
-        dayMonthYearDot(preferences.endDate);
-  }
-
-  Widget summaryPreferences(BuildContext context) {
+  Widget _seeAllWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 14, 0, 10),
-      child: Container(
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.transparent,
-        ),
-        child: Text(
-          selectedAccountsNames + selectedDateRange,
-          style: TextStyle(
-            color: Colors.grey[800],
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
+      padding: const EdgeInsets.fromLTRB(10, 14, 10, 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Recent Transaction',
+            style: AppTextStyles.title3(AppColors.dark60),
           ),
-          overflow: TextOverflow.ellipsis,
-        ),
+          Pill(
+            text: 'See All',
+            onPressed: () {},
+          )
+        ],
       ),
     );
   }
 
-  Widget getExpensesListView(BuildContext context) {
-    final operationList = operationsWithChosenCategory();
+  Widget _getExpensesListView(BuildContext context) {
+    final List<Operation> operationList = operations.toList();
     return (operationList.isEmpty)
-        ? noOperationsWidget(context)
+        ? _noOperationsWidget(context)
         : (preferences.sortMethod == SortMethod.newest ||
                 preferences.sortMethod == SortMethod.oldest)
-            ? groupedOperationsList(operationList)
-            : sortByCostOperations(operationList);
+            ? _groupedOperationsList(operationList)
+            : _sortByCostOperations(operationList);
   }
 
-  SizedBox noOperationsWidget(BuildContext context) {
+  SizedBox _noOperationsWidget(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.7,
       child: Center(
@@ -122,15 +91,18 @@ class SummaryListView extends StatelessWidget {
     );
   }
 
-  GroupedListView<dynamic, String> groupedOperationsList(
+  GroupedListView<dynamic, String> _groupedOperationsList(
       List<Operation> operationList) {
     return GroupedListView<dynamic, String>(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.only(bottom: 100),
       elements: operationList,
       groupBy: (element) => yearMonthDayDash(element.date),
       groupSeparatorBuilder: (String groupByValue) {
-        double sum = calculateGroupedOperationsSum(operationList, groupByValue);
-        return groupedOperationsLabel(groupByValue, sum);
+        double sum =
+            _calculateGroupedOperationsSum(operationList, groupByValue);
+        return _groupedOperationsLabel(groupByValue, sum);
       },
       itemComparator: (item1, item2) {
         return (item1.date).compareTo(item2.date);
@@ -139,24 +111,25 @@ class SummaryListView extends StatelessWidget {
           ? GroupedListOrder.DESC
           : GroupedListOrder.ASC,
       itemBuilder: (context, dynamic element) {
-        return getExpenseCard(element, context);
+        return _getExpenseCard(element, context);
       },
     );
   }
 
-  Widget sortByCostOperations(List<Operation> operationList) {
-    return ListView.separated(
+  Widget _sortByCostOperations(List<Operation> operationList) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.only(bottom: 100),
-      separatorBuilder: (context, index) => const SizedBox(height: 1),
       itemCount: operationList.length,
       itemBuilder: (context, index) {
         final expense = operationList.elementAt(index);
-        return getExpenseCard(expense, context);
+        return _getExpenseCard(expense, context);
       },
     );
   }
 
-  double calculateGroupedOperationsSum(
+  double _calculateGroupedOperationsSum(
       List<Operation> operationList, String groupByValue) {
     double sum = 0;
     for (var element in operationList) {
@@ -169,7 +142,7 @@ class SummaryListView extends StatelessWidget {
     return sum;
   }
 
-  Widget groupedOperationsLabel(String groupByValue, double sum) {
+  Widget _groupedOperationsLabel(String groupByValue, double sum) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 15, 10, 5),
       child: Row(
@@ -198,7 +171,7 @@ class SummaryListView extends StatelessWidget {
     );
   }
 
-  List<double> getFinancialSummary() {
+  List<double> _getFinancialSummary() {
     // summary = [balance, incomes, expenses]
     List<double> summary = List.filled(3, 0, growable: false);
     for (final operation in operations) {
@@ -210,9 +183,9 @@ class SummaryListView extends StatelessWidget {
     return summary;
   }
 
-  ExpenseCard getExpenseCard(element, BuildContext context) {
-    return ExpenseCard(
-      expense: element,
+  Widget _getExpenseCard(Operation element, BuildContext context) {
+    return OperationTile(
+      operation: element,
       onTap: (expense) {
         Navigator.of(context).pushNamed(
           createOrUpdateExpenseRoute,
@@ -224,12 +197,4 @@ class SummaryListView extends StatelessWidget {
 
   final String _noOperationMessage =
       'There are no expenses here. Try changing the time span or accounts to find them.';
-
-  List<Operation> operationsWithChosenCategory() {
-    return (categorySegment != null)
-        ? operations
-            .where((element) => element.category!.name == categorySegment)
-            .toList()
-        : operations.toList();
-  }
 }

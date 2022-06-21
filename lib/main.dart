@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/views/expenses/create_update_expense_view.dart';
-import 'package:myexpenses/views/homepage/summary_view.dart';
+import 'package:myexpenses/views/homepage/homepage_view.dart';
 import 'package:myexpenses/views/accounts/accounts_view.dart';
 import 'package:myexpenses/views/accounts/create_update_accounts_view.dart';
 import 'package:myexpenses/views/categories/category_view.dart';
@@ -30,7 +30,7 @@ void main() {
         createOrUpdateAccountRoute: (context) =>
             const CreateUpdateAccountView(),
         accountsViewRoute: (context) => const AccountsView(),
-        summaryViewRoute: (context) => const SummaryView(),
+        summaryViewRoute: (context) => const HomePageView(),
         categoryViewRoute: (context) => const CategoryView(),
         createOrUpdateCategoryRoute: (context) =>
             const CreateUpdateCategoryView(),
@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
             final user = AuthService.firebase().currentUser;
             if (user != null) {
               if (user.isEmailVerified) {
-                return const SummaryView();
+                return const HomePageView();
               } else {
                 return const VerifyEmailView();
               }
