@@ -40,7 +40,7 @@ class _AccountsViewState extends State<AccountsView> {
               if (snapshot.hasData) {
                 final allAccounts = snapshot.data as Iterable<Account>;
                 return NestedScrollView(
-                  floatHeaderSlivers: true,
+                  floatHeaderSlivers: false,
                   body: _accountScreen(allAccounts),
                   headerSliverBuilder: (context, innerBoxIsScrolled) =>
                       [_accountAppBar()],

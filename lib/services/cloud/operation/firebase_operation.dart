@@ -67,6 +67,21 @@ class FirebaseOperation {
         );
   }
 
+  Stream<Iterable<Operation>> recentOperation({
+    required String ownerUserId,
+    required int number,
+  }) {
+    return operations
+        .orderBy(dateFieldName, descending: true)
+        .limit(number)
+        .snapshots()
+        .map((event) {
+      return event.docs
+          .map((doc) => Operation.fromSnapshot(doc))
+          .where((operation) => operation.ownerUserId == ownerUserId);
+    });
+  }
+
   Future<Iterable<Operation>> getOperations(
       {required String owenrUserId}) async {
     try {

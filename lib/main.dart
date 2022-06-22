@@ -7,6 +7,7 @@ import 'package:myexpenses/views/accounts/accounts_view.dart';
 import 'package:myexpenses/views/accounts/create_update_accounts_view.dart';
 import 'package:myexpenses/views/categories/category_view.dart';
 import 'package:myexpenses/views/categories/create_update_category_view.dart';
+import 'package:myexpenses/views/main_app_page.dart/main_app_page.dart';
 import 'package:myexpenses/views/user_authentication/forgot_password_view.dart';
 import 'package:myexpenses/views/user_authentication/login_view.dart';
 import 'package:myexpenses/views/user_authentication/register_view.dart';
@@ -54,7 +55,7 @@ class HomePage extends StatelessWidget {
             final user = AuthService.firebase().currentUser;
             if (user != null) {
               if (user.isEmailVerified) {
-                return const HomePageView();
+                return const MainAppPage();
               } else {
                 return const VerifyEmailView();
               }

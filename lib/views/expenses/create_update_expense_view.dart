@@ -54,7 +54,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     _selectedDate = DateTime.now();
     super.initState();
     _initFirebaseData();
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _setButtonState(context);
       setState(() {});
     });

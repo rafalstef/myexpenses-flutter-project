@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:myexpenses/constants/routes.dart';
-import 'package:myexpenses/config/styles/colors/app_colors.dart';
-import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
-import 'package:myexpenses/enums/sort_method.dart';
-import 'package:myexpenses/services/cloud/account/account.dart';
-import 'package:myexpenses/utilities/UI_components/buttons/pills.dart';
+import 'package:myexpenses/utilities/UI_components/bars/see_all_bar.dart';
 import 'package:myexpenses/utilities/formats/date_formats.dart';
 import 'package:myexpenses/utilities/formats/money_formats.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
-import 'package:myexpenses/utilities/preference_groups/list_preferences.dart';
 import 'package:myexpenses/utilities/UI_components/tiles/operation_tile.dart';
 import 'package:myexpenses/views/homepage/homepage_top_cards.dart';
 
 class HomePageWidgets extends StatelessWidget {
   final Iterable<Operation> operations;
-  final Iterable<Account> accounts;
-  final ListPreferences preferences;
 
   const HomePageWidgets({
     Key? key,
-    required this.accounts,
     required this.operations,
-    required this.preferences,
   }) : super(key: key);
 
   @override
@@ -38,41 +29,16 @@ class HomePageWidgets extends StatelessWidget {
             income: summary[1],
             expense: summary[2],
           ),
-          _seeAllWidget(context),
-          _getExpensesListView(context),
+          const SeeAllBar(),
+          _recentTransaction(context),
         ],
       ),
     );
   }
 
-  Widget _seeAllWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 14, 10, 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Recent Transaction',
-            style: AppTextStyles.title3(AppColors.dark60),
-          ),
-          Pill(
-            text: 'See All',
-            onPressed: () {},
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _getExpensesListView(BuildContext context) {
-    final List<Operation> operationList = operations.toList();
-    return (operationList.isEmpty)
-        ? _noOperationsWidget(context)
-        : (preferences.sortMethod == SortMethod.newest ||
-                preferences.sortMethod == SortMethod.oldest)
-            ? _groupedOperationsList(operationList)
-            : _sortByCostOperations(operationList);
-  }
+  Widget _recentTransaction(BuildContext context) => (operations.isEmpty)
+      ? _noOperationsWidget(context)
+      : _groupedOperationsList(operations.toList());
 
   SizedBox _noOperationsWidget(BuildContext context) {
     return SizedBox(
@@ -96,7 +62,7 @@ class HomePageWidgets extends StatelessWidget {
     return GroupedListView<dynamic, String>(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 100),
+      padding: const EdgeInsets.only(bottom: 40),
       elements: operationList,
       groupBy: (element) => yearMonthDayDash(element.date),
       groupSeparatorBuilder: (String groupByValue) {
@@ -107,24 +73,9 @@ class HomePageWidgets extends StatelessWidget {
       itemComparator: (item1, item2) {
         return (item1.date).compareTo(item2.date);
       },
-      order: (preferences.sortMethod == SortMethod.newest)
-          ? GroupedListOrder.DESC
-          : GroupedListOrder.ASC,
+      order: GroupedListOrder.DESC,
       itemBuilder: (context, dynamic element) {
-        return _getExpenseCard(element, context);
-      },
-    );
-  }
-
-  Widget _sortByCostOperations(List<Operation> operationList) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 100),
-      itemCount: operationList.length,
-      itemBuilder: (context, index) {
-        final expense = operationList.elementAt(index);
-        return _getExpenseCard(expense, context);
+        return _getOperationTile(element, context);
       },
     );
   }
@@ -183,7 +134,7 @@ class HomePageWidgets extends StatelessWidget {
     return summary;
   }
 
-  Widget _getExpenseCard(Operation element, BuildContext context) {
+  Widget _getOperationTile(Operation element, BuildContext context) {
     return OperationTile(
       operation: element,
       onTap: (expense) {

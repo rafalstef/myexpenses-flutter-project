@@ -3,11 +3,11 @@ import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 
-class Pill extends StatelessWidget {
+class PrimaryPill extends StatelessWidget {
   final String text;
   final ButtonCallback onPressed;
 
-  const Pill({
+  const PrimaryPill({
     Key? key,
     required this.text,
     required this.onPressed,
