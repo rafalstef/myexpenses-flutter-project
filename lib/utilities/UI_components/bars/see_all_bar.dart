@@ -8,20 +8,24 @@ class SeeAllBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 14, 10, 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Recent Transaction',
-            style: AppTextStyles.title3(AppColors.dark60),
-          ),
-          PrimaryPill(
-            text: 'See All',
-            onPressed: () {},
-          )
-        ],
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: 56,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Recent Transaction',
+              style: AppTextStyles.title3(AppColors.dark60),
+            ),
+            PrimaryPill(
+              text: 'See All',
+              onPressed: () {},
+            )
+          ],
+        ),
       ),
     );
   }
