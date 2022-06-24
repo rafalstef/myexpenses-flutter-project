@@ -32,3 +32,40 @@ class PrimaryPill extends StatelessWidget {
     );
   }
 }
+
+class SecondaryPill extends StatelessWidget {
+  final String text;
+  final ButtonCallback onPressed;
+
+  const SecondaryPill({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      style: OutlinedButton.styleFrom(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.only(left: 8.0, right: 16.0),
+        primary: AppColors.light100,
+        side: const BorderSide(color: AppColors.light60, width: 2.0),
+        elevation: 0,
+        minimumSize: const Size(78.0, 32.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(40.0),
+        ),
+      ),
+      onPressed: () => onPressed(),
+      icon: const Icon(
+        Icons.keyboard_arrow_down_rounded,
+        color: AppColors.violet100,
+      ),
+      label: Text(
+        text,
+        style: AppTextStyles.smallSemiBold(AppColors.dark60),
+      ),
+    );
+  }
+}

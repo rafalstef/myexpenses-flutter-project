@@ -16,11 +16,14 @@ class GroupedOperationsLabelBar extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 48.0,
-      child: Align(
-        alignment: const Alignment(-0.9, 0),
-        child: Text(
-          weekdayMonthDay(toDate(label)),
-          style: AppTextStyles.title3(AppColors.dark80),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            weekdayMonthDay(toDate(label)),
+            style: AppTextStyles.title3(AppColors.dark80),
+          ),
         ),
       ),
     );

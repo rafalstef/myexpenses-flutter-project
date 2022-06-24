@@ -15,7 +15,7 @@ class SortedOperations extends OperationsList {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 100),
+      padding: const EdgeInsets.only(bottom: 40.0),
       itemCount: operations.length,
       itemBuilder: (context, index) {
         final expense = operations.elementAt(index);

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myexpenses/enums/sort_method.dart';
 import 'package:myexpenses/utilities/UI_components/bars/see_all_bar.dart';
 import 'package:myexpenses/utilities/UI_components/no_operations_widget.dart/no_operation_widget.dart';
-import 'package:myexpenses/utilities/UI_components/operations_lists/grouped_operations.dart';
+import 'package:myexpenses/utilities/UI_components/operations_lists/sorted_operations.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/views/homepage/homepage_top_cards.dart';
 
@@ -19,7 +18,7 @@ class HomePageWidgets extends StatelessWidget {
     final List<double> summary = _getFinancialSummary();
     return SingleChildScrollView(
       physics: const ScrollPhysics(),
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
         children: <Widget>[
           HomePageTopCards(
@@ -36,8 +35,7 @@ class HomePageWidgets extends StatelessWidget {
 
   Widget _recentTransaction(BuildContext context) => (operations.isEmpty)
       ? const NoOperations()
-      : GroupedOperations(
-          operations: operations.toList(), sortMethod: SortMethod.newest);
+      : SortedOperations(operations: operations.toList());
 
   List<double> _getFinancialSummary() {
     // summary = [balance, incomes, expenses]

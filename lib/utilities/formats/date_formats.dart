@@ -26,3 +26,8 @@ DateTime get currentMonthFirstDay => DateTime(now.year, now.month, 1);
 DateTime get currentMonthLastDay => DateTime(now.year, now.month + 1, 0);
 
 DateTime toDate(String string) => DateTime.parse(string);
+
+DateTime lastDayOfMonth(DateTime date) =>
+    DateTime(date.year, date.month + 1, 0);
+
+String monthName(DateTime date) => DateFormat("MMMM").format(date);
