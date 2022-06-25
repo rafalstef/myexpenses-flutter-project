@@ -43,6 +43,7 @@ class OperationTile extends StatelessWidget {
     return Text(
       operation.category!.name.toString(),
       style: AppTextStyles.regularMedium(AppColors.dark60),
+      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -50,6 +51,7 @@ class OperationTile extends StatelessWidget {
     return Text(
       'Some groceries',
       style: AppTextStyles.small(AppColors.dark20),
+      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -64,6 +66,7 @@ class OperationTile extends StatelessWidget {
           style: operation.category!.isIncome
               ? AppTextStyles.regularSemiBold(AppColors.green100)
               : AppTextStyles.regularSemiBold(AppColors.red100),
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );

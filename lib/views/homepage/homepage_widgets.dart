@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myexpenses/utilities/UI_components/bars/see_all_bar.dart';
+import 'package:myexpenses/utilities/UI_components/bars/title_with_button_bar.dart';
 import 'package:myexpenses/utilities/UI_components/no_operations_widget.dart/no_operation_widget.dart';
 import 'package:myexpenses/utilities/UI_components/operations_lists/sorted_operations.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
@@ -18,7 +18,7 @@ class HomePageWidgets extends StatelessWidget {
     final List<double> summary = _getFinancialSummary();
     return SingleChildScrollView(
       physics: const ScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: <Widget>[
           HomePageTopCards(
@@ -26,7 +26,11 @@ class HomePageWidgets extends StatelessWidget {
             income: summary[1],
             expense: summary[2],
           ),
-          const SeeAllBar(),
+          TitleWithButtonBar(
+            title: 'Recent Transaction',
+            buttonTitle: 'See All',
+            onPressed: () {},
+          ),
           _recentTransaction(context),
         ],
       ),

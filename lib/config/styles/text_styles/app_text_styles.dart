@@ -9,7 +9,6 @@ class AppTextStyles {
       fontSize: 64,
       height: 1.25,
       fontWeight: FontWeight.bold,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -19,7 +18,6 @@ class AppTextStyles {
       fontSize: 32,
       height: 1.0,
       fontWeight: FontWeight.bold,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -29,7 +27,6 @@ class AppTextStyles {
       fontSize: 24.0,
       height: 1.0,
       fontWeight: FontWeight.bold,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -39,7 +36,6 @@ class AppTextStyles {
       fontSize: 18.0,
       height: 1.2,
       fontWeight: FontWeight.bold,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -49,7 +45,6 @@ class AppTextStyles {
       fontSize: 16.0,
       height: 1.2,
       fontWeight: FontWeight.normal,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -59,7 +54,6 @@ class AppTextStyles {
       fontSize: 16.0,
       height: 1.2,
       fontWeight: FontWeight.w500,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -69,7 +63,6 @@ class AppTextStyles {
       fontSize: 16.0,
       height: 1.2,
       fontWeight: FontWeight.w600,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -79,7 +72,6 @@ class AppTextStyles {
       fontSize: 16.0,
       height: 1.2,
       fontWeight: FontWeight.bold,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -89,7 +81,6 @@ class AppTextStyles {
       fontSize: 14.0,
       height: 1.2,
       fontWeight: FontWeight.normal,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -99,7 +90,6 @@ class AppTextStyles {
       fontSize: 14.0,
       height: 1.2,
       fontWeight: FontWeight.w500,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -109,7 +99,6 @@ class AppTextStyles {
       fontSize: 14.0,
       height: 1.2,
       fontWeight: FontWeight.w600,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -119,7 +108,6 @@ class AppTextStyles {
       fontSize: 14.0,
       height: 1.2,
       fontWeight: FontWeight.bold,
-      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -129,7 +117,6 @@ class AppTextStyles {
       fontSize: 12.0,
       height: 1.0,
       fontWeight: FontWeight.normal,
-      overflow: TextOverflow.ellipsis,
     );
   }
 }

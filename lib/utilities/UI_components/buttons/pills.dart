@@ -24,7 +24,7 @@ class PrimaryPill extends StatelessWidget {
           borderRadius: BorderRadius.circular(40.0),
         ),
       ),
-      onPressed: () => onPressed,
+      onPressed: () => onPressed(),
       child: Text(
         text,
         style: AppTextStyles.smallSemiBold(AppColors.violet100),

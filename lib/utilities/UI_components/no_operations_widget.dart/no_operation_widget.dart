@@ -7,18 +7,18 @@ class NoOperations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: MediaQuery.of(context).size.width * 0.66,
-      child: Center(
-        child: Text(
-          _noOperationMessage,
-          textAlign: TextAlign.center,
-          style: AppTextStyles.regularMedium(AppColors.dark20),
-        ),
+      height: MediaQuery.of(context).size.height * 0.4,
+      alignment: Alignment.center,
+      child: Text(
+        _noOperationMessage,
+        textAlign: TextAlign.center,
+        style: AppTextStyles.regularMedium(AppColors.dark20),
+        overflow: TextOverflow.clip,
       ),
     );
   }
 
-  final String _noOperationMessage =
-      'There are no expenses here. Try changing the time span or accounts to find them.';
+  final String _noOperationMessage = 'There are no transactions here.';
 }

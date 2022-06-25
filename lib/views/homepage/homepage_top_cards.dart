@@ -17,31 +17,28 @@ class HomePageTopCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Column(
-        children: [
-          HomePagePrimaryCard(text: 'Balance', amount: balance),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              HomePageMiniCard(
-                amount: income,
-                text: 'Income',
-                icon: Icons.arrow_upward,
-                color: AppColors.green100,
-              ),
-              HomePageMiniCard(
-                amount: expense,
-                text: 'Expense',
-                icon: Icons.arrow_downward,
-                color: AppColors.red100,
-              ),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        HomePagePrimaryCard(text: 'Balance', amount: balance),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            HomePageMiniCard(
+              amount: income,
+              text: 'Income',
+              icon: Icons.arrow_upward,
+              color: AppColors.green100,
+            ),
+            HomePageMiniCard(
+              amount: expense,
+              text: 'Expense',
+              icon: Icons.arrow_downward,
+              color: AppColors.red100,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
