@@ -4,7 +4,7 @@ import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
-import 'package:myexpenses/utilities/generics/get_arguments.dart';
+import 'package:myexpenses/extensions/build_context_extensions.dart';
 
 class CreateUpdateAccountView extends StatefulWidget {
   const CreateUpdateAccountView({Key? key}) : super(key: key);

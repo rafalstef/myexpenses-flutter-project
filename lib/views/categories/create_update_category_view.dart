@@ -3,7 +3,7 @@ import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/category/firebase_category.dart';
-import 'package:myexpenses/utilities/generics/get_arguments.dart';
+import 'package:myexpenses/extensions/build_context_extensions.dart';
 
 class CreateUpdateCategoryView extends StatefulWidget {
   const CreateUpdateCategoryView({Key? key}) : super(key: key);
