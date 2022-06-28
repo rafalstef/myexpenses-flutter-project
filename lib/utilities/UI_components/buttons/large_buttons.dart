@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myexpenses/config/styles/colors/app_colors.dart';
+import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 
-typedef ButtonCallback = void Function();
+typedef ButtonCallback = VoidCallback;
 
 class LargePrimaryButton extends StatelessWidget {
   const LargePrimaryButton({
@@ -20,14 +22,11 @@ class LargePrimaryButton extends StatelessWidget {
         onPressed: () => onPressed(),
         child: Text(
           text,
-          style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFFffffff)),
+          style: AppTextStyles.title3(AppColors.light80),
         ),
         style: ElevatedButton.styleFrom(
-          elevation: 4,
-          primary: const Color(0xFF7f3dff),
+          elevation: 0,
+          primary: AppColors.violet100,
           fixedSize: Size(MediaQuery.of(context).size.width * 0.9, 54),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),
@@ -56,14 +55,11 @@ class LargeSecondaryButton extends StatelessWidget {
         onPressed: () => onPressed(),
         child: Text(
           text,
-          style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF7f3dff)),
+          style: AppTextStyles.title3(AppColors.violet100),
         ),
         style: ElevatedButton.styleFrom(
-          elevation: 4,
-          primary: const Color(0xFF7F3DFF),
+          elevation: 0,
+          primary: AppColors.violet20,
           fixedSize: Size(MediaQuery.of(context).size.width * 0.9, 54),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),

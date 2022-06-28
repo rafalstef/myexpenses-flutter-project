@@ -1,1 +1,1 @@
-enum SortMethod { oldest, newest, smallest, biggest }
+enum SortMethod { newest, oldest, biggest, smallest }
