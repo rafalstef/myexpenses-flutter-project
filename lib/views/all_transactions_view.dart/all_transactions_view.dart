@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/enums/sort_method.dart';
+import 'package:myexpenses/enums/user_transaction_enum.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
@@ -10,7 +11,7 @@ import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/UI_components/buttons/pills.dart';
 import 'package:myexpenses/utilities/formats/date_formats.dart';
 import 'package:myexpenses/utilities/loading_widgets/loading_widget.dart';
-import 'package:myexpenses/utilities/preference_groups/list_preferences.dart';
+import 'package:myexpenses/views/list_preferences/list_preferences.dart';
 import 'package:myexpenses/views/all_transactions_view.dart/all_transactions_widgets.dart';
 import 'package:myexpenses/views/list_preferences/list_preferences_view.dart';
 
@@ -47,7 +48,7 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
         body: _transactionsData(),
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) =>
-            [_transactionsAppBar()],
+            [_buildAppBar()],
       ),
       backgroundColor: AppColors.light100,
     );
@@ -63,7 +64,7 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
               _initListPreferences();
             }
             return StreamBuilder(
-              stream: _operationService.allOperations(
+              stream: _operationService.preferredOperations(
                 ownerUserId: userId,
                 preferences: _listPreferences!,
               ),
@@ -101,11 +102,9 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
   }
 
   void _initListPreferences() {
-    List<String> accountsId = List.empty(growable: true);
-    for (var account in allAccounts.toList()) {
-      accountsId.add(account.documentId);
-    }
+    List<String> accountsId = allAccounts.map((e) => e.documentId).toList();
     _listPreferences = ListPreferences(
+      userTransactions: [UserTransaction.expense, UserTransaction.income],
       sortMethod: SortMethod.newest,
       startDate: currentMonthFirstDay,
       endDate: currentMonthLastDay,
@@ -113,7 +112,7 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
     );
   }
 
-  Widget _transactionsAppBar() {
+  Widget _buildAppBar() {
     return SliverAppBar(
       centerTitle: true,
       backgroundColor: AppColors.transparent,
@@ -143,6 +142,7 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
     ).then((date) {
       if (date != null) {
         final newPreferences = ListPreferences(
+          userTransactions: _listPreferences!.userTransactions,
           sortMethod: _listPreferences!.sortMethod,
           startDate: date,
           endDate: lastDayOfMonth(date),
@@ -156,18 +156,19 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
   }
 
   Future<void> _pushListPreferencesScreen(BuildContext context) async {
-    final route = MaterialPageRoute<ListPreferences>(
-      builder: (_) => ListPreferencesView(
-        preferences: _listPreferences,
-        allAccounts: allAccounts,
-      ),
-      fullscreenDialog: true,
+    final newPreferences = await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return ListPreferencesView(
+          preferences: _listPreferences,
+          allAccounts: allAccounts,
+        );
+      },
     );
-    final newPreferences = await Navigator.of(context).push(route);
     if (newPreferences != null) {
-      setState(() {
-        _listPreferences = newPreferences;
-      });
+      setState(() => _listPreferences = newPreferences);
     }
   }
 }

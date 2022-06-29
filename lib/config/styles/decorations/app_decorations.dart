@@ -16,4 +16,24 @@ class AppDecorations {
       ),
     );
   }
+
+  static BoxDecoration bottomSheetDecoration() {
+    return const BoxDecoration(
+      color: AppColors.light100,
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(24.0),
+        topRight: Radius.circular(24.0),
+      ),
+    );
+  }
+
+  static BoxDecoration newTransactionDecoration() {
+    return const BoxDecoration(
+      color: AppColors.light100,
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(32.0),
+        topRight: Radius.circular(32.0),
+      ),
+    );
+  }
 }

@@ -1,0 +1,1 @@
+enum UserTransaction { income, expense }

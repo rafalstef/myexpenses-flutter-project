@@ -6,7 +6,7 @@ import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/UI_components/no_operations_widget.dart/no_operation_widget.dart';
 import 'package:myexpenses/utilities/UI_components/operations_lists/grouped_operations.dart';
 import 'package:myexpenses/utilities/UI_components/operations_lists/sorted_operations.dart';
-import 'package:myexpenses/utilities/preference_groups/list_preferences.dart';
+import 'package:myexpenses/views/list_preferences/list_preferences.dart';
 
 class AllTransactionsWidgets extends StatelessWidget {
   final Iterable<Operation> operations;
@@ -28,13 +28,13 @@ class AllTransactionsWidgets extends StatelessWidget {
       child: Column(
         children: <Widget>[
           const FinancialReportBar(),
-          _getExpensesListView(context),
+          _getExpensesListView(context: context),
         ],
       ),
     );
   }
 
-  Widget _getExpensesListView(BuildContext context) {
+  Widget _getExpensesListView({required BuildContext context}) {
     final List<Operation> operationList = operations.toList();
     return (operationList.isEmpty)
         ? const NoOperations()
