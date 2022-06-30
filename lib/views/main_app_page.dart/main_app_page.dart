@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/utilities/UI_components/bottom_navigation_bar.dart/bottom_navigation_bar.dart';
@@ -37,7 +39,7 @@ class _MainAppPageState extends State<MainAppPage> {
         index: pageIndex,
         onChangedTab: onChangedTab,
       ),
-      floatingActionButton: _addOperationButton(),
+      floatingActionButton: _buildExpandedFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
@@ -48,16 +50,44 @@ class _MainAppPageState extends State<MainAppPage> {
     });
   }
 
-  FloatingActionButton _addOperationButton() {
-    return FloatingActionButton(
-      onPressed: () {
-        Navigator.of(context).pushNamed(createOrUpdateExpenseRoute);
-      },
+  Widget _buildExpandedFab() {
+    return SpeedDial(
+      elevation: 0,
+      spacing: 10.0,
+      spaceBetweenChildren: 10.0,
+      overlayOpacity: 0.2,
+      overlayColor: AppColors.violet60,
       backgroundColor: AppColors.violet100,
-      child: const IconTheme(
-        data: IconThemeData(size: 34.0, color: AppColors.light100),
-        child: Icon(Icons.add),
-      ),
+      activeBackgroundColor: AppColors.violet100,
+      animationCurve: Curves.linear,
+      useRotationAnimation: true,
+      childrenButtonSize: const Size(64.0, 64.0),
+      icon: Icons.add,
+      activeIcon: Icons.close,
+      children: [
+        SpeedDialChild(
+          label: 'Expense',
+          labelStyle: AppTextStyles.smallMedium(AppColors.dark100),
+          backgroundColor: AppColors.red100,
+          foregroundColor: AppColors.light100,
+          child: const Icon(Icons.arrow_downward_rounded),
+          elevation: 0,
+          onTap: () {
+            Navigator.of(context).pushNamed(createOrUpdateExpenseRoute);
+          },
+        ),
+        SpeedDialChild(
+          label: 'Income',
+          labelStyle: AppTextStyles.smallMedium(AppColors.dark100),
+          backgroundColor: AppColors.green100,
+          foregroundColor: AppColors.light100,
+          child: const Icon(Icons.arrow_upward_rounded),
+          elevation: 0,
+          onTap: () {
+            Navigator.of(context).pushNamed(createOrUpdateExpenseRoute);
+          },
+        ),
+      ],
     );
   }
 }
