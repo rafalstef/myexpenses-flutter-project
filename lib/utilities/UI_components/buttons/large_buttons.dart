@@ -16,21 +16,18 @@ class LargePrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: ElevatedButton(
-        onPressed: () => onPressed(),
-        child: Text(
-          text,
-          style: AppTextStyles.title3(AppColors.light80),
-        ),
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          primary: AppColors.violet100,
-          fixedSize: Size(MediaQuery.of(context).size.width * 0.9, 54),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
+    return ElevatedButton(
+      onPressed: () => onPressed(),
+      child: Text(
+        text,
+        style: AppTextStyles.title3(AppColors.light80),
+      ),
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        primary: AppColors.violet100,
+        fixedSize: Size(MediaQuery.of(context).size.width, 54),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
         ),
       ),
     );
@@ -49,21 +46,18 @@ class LargeSecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: ElevatedButton(
-        onPressed: () => onPressed(),
-        child: Text(
-          text,
-          style: AppTextStyles.title3(AppColors.violet100),
-        ),
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          primary: AppColors.violet20,
-          fixedSize: Size(MediaQuery.of(context).size.width * 0.9, 54),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
+    return ElevatedButton(
+      onPressed: () => onPressed(),
+      child: Text(
+        text,
+        style: AppTextStyles.title3(AppColors.violet100),
+      ),
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        primary: AppColors.violet20,
+        fixedSize: Size(MediaQuery.of(context).size.width, 54),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
         ),
       ),
     );

@@ -143,10 +143,13 @@ class _AccountsViewState extends State<AccountsView> {
   }
 
   Widget _addAccountButton() {
-    return LargePrimaryButton(
-      text: '+ Add new account',
-      onPressed: () =>
-          Navigator.of(context).pushNamed(createOrUpdateAccountRoute),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: LargePrimaryButton(
+        text: '+ Add new account',
+        onPressed: () =>
+            Navigator.of(context).pushNamed(createOrUpdateAccountRoute),
+      ),
     );
   }
 }
