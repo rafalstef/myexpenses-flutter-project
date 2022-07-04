@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
 
-class AppTextField extends StatefulWidget {
-  const AppTextField({
+class AppTextFormField extends StatefulWidget {
+  const AppTextFormField({
     required this.textEditingController,
     this.onChanged,
     this.textInputType,
@@ -24,19 +24,17 @@ class AppTextField extends StatefulWidget {
   final String? errorText;
   final bool autoFocus;
   final IconData? prefixIconData;
-  final bool Function(String)? validator;
+  final String? Function(String?)? validator;
   final bool obscureText;
 
   @override
-  _AppTextFieldState createState() => _AppTextFieldState();
+  _AppTextFormFieldState createState() => _AppTextFormFieldState();
 }
 
-class _AppTextFieldState extends State<AppTextField> {
+class _AppTextFormFieldState extends State<AppTextFormField> {
   final BorderRadius _inputBorderRadius = BorderRadius.circular(16.0);
 
   late FocusNode focusNode;
-  late bool hasConfirmation;
-  late bool hasError;
   late bool hasFocus;
   late bool isTextHidden;
 
@@ -45,33 +43,17 @@ class _AppTextFieldState extends State<AppTextField> {
     super.initState();
     isTextHidden = widget.obscureText;
     hasFocus = false;
-    hasConfirmation = isValid;
-    hasError = !isValid;
     focusNode = FocusNode();
     focusNode.addListener(() {
       setState(() {
         hasFocus = focusNode.hasPrimaryFocus;
-        bool valid = isValid;
-        hasConfirmation = valid;
-        hasError = !valid;
       });
     });
   }
 
-  bool get isValid {
-    if (hasValidator) {
-      return widget.validator!(widget.textEditingController.text);
-    }
-    return false;
-  }
-
-  bool get hasValidator {
-    return widget.validator != null;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       focusNode: focusNode,
       autofocus: widget.autoFocus,
       controller: widget.textEditingController,
@@ -79,16 +61,13 @@ class _AppTextFieldState extends State<AppTextField> {
       obscureText: isTextHidden,
       cursorColor: AppColors.dark100,
       textInputAction: widget.textInputAction,
-      onChanged: _onChangedTextField,
+      validator: widget.validator,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           vertical: 22.0,
           horizontal: 16.0,
         ),
         labelText: widget.labelText,
-        errorText: widget.errorText != null && hasError && hasValidator
-            ? widget.errorText
-            : null,
         focusedBorder: _outlineFocusedInputBorder(color: AppColors.violet80),
         enabledBorder: _outlineFocusedInputBorder(color: AppColors.light20),
         border: _outlineFocusedInputBorder(color: AppColors.dark100),
@@ -105,16 +84,6 @@ class _AppTextFieldState extends State<AppTextField> {
         isDense: true,
       ),
     );
-  }
-
-  void _onChangedTextField(val) {
-    setState(() {
-      hasError = false;
-      hasConfirmation = isValid;
-    });
-    if (widget.onChanged != null) {
-      widget.onChanged!(val);
-    }
   }
 
   OutlineInputBorder _outlineFocusedInputBorder({required Color color}) {
