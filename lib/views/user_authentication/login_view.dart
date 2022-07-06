@@ -4,11 +4,11 @@ import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_exceptions.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
-import 'package:myexpenses/utilities/UI_components/buttons/google_button.dart';
 import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 import 'package:myexpenses/utilities/UI_components/input_fields/app_text_field.dart';
 import 'package:myexpenses/utilities/dialogs/show_error_dialog.dart';
 import 'package:myexpenses/utilities/validator/app_forms_validator.dart';
+import 'package:myexpenses/views/user_authentication/sign_in_with_google.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -58,7 +58,7 @@ class _LoginViewState extends State<LoginView> {
                 _buildForgotPasswordButton(context),
                 _buildSignUp(context),
                 const SizedBox(height: 30.0),
-                _buildSignWithGoogle(context),
+                const SignWithGoogleButton(text: 'Sign in with Google'),
               ],
             ),
           ),
@@ -74,26 +74,6 @@ class _LoginViewState extends State<LoginView> {
       backgroundColor: AppColors.transparent,
       iconTheme: const IconThemeData(color: AppColors.dark100),
       title: Text('Login', style: AppTextStyles.title3(AppColors.dark60)),
-    );
-  }
-
-  GoogleButton _buildSignWithGoogle(BuildContext context) {
-    return GoogleButton(
-      text: 'Sign in with Google',
-      onPressed: () async {
-        try {
-          await AuthService.firebase().signInWithGoogle();
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            summaryViewRoute,
-            (route) => false,
-          );
-        } on GenericAuthException {
-          await showErrorDialog(
-            context,
-            'Google Sign-in failed',
-          );
-        }
-      },
     );
   }
 
