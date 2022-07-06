@@ -113,9 +113,8 @@ class _LoginViewState extends State<LoginView> {
         style: AppTextStyles.title3(AppColors.violet100),
       ),
       onPressed: () {
-        Navigator.of(context).pushNamedAndRemoveUntil(
+        Navigator.of(context).pushNamed(
           forgotPasswordRoute,
-          (route) => false,
         );
       },
     );

@@ -25,7 +25,7 @@ class AppTextStyles {
     return TextStyle(
       color: color,
       fontSize: 24.0,
-      height: 1.0,
+      height: 1.2,
       fontWeight: FontWeight.bold,
     );
   }
