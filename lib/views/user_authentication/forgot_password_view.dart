@@ -6,7 +6,7 @@ import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 import 'package:myexpenses/utilities/UI_components/input_fields/app_text_field.dart';
 import 'package:myexpenses/utilities/dialogs/show_error_dialog.dart';
-import 'package:myexpenses/utilities/dialogs/show_forgot_password_dialog.dart';
+import 'package:myexpenses/views/user_authentication/emial_sent_confirmation.dart';
 import 'package:myexpenses/utilities/validator/app_forms_validator.dart';
 
 class ForgotPasswordView extends StatefulWidget {
@@ -67,7 +67,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           final email = _controller.text;
           try {
             await AuthService.firebase().sendPasswordReset(toEmail: email);
-            await showForgotPasswordDialog(context);
+            _navigateToEmailConfirmation(email: email);
           } on InvalidEmailAuthException {
             await showErrorDialog(context, 'Invalid email');
           } on UserNotFoundAuthException {
@@ -110,5 +110,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         style: AppTextStyles.title3(AppColors.dark60),
       ),
     );
+  }
+
+  void _navigateToEmailConfirmation({required String email}) {
+    final route = MaterialPageRoute<void>(
+      builder: (_) => EmailSentConfirmation(email: email),
+    );
+    Navigator.of(context).push(route);
   }
 }
