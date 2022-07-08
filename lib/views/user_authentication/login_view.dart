@@ -9,6 +9,7 @@ import 'package:myexpenses/utilities/UI_components/input_fields/app_text_field.d
 import 'package:myexpenses/utilities/dialogs/show_error_dialog.dart';
 import 'package:myexpenses/utilities/validator/app_forms_validator.dart';
 import 'package:myexpenses/views/user_authentication/sign_in_with_google.dart';
+import 'package:myexpenses/views/user_authentication/verify_email_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -142,10 +143,7 @@ class _LoginViewState extends State<LoginView> {
               );
             } else {
               // user's email is NOT verified
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                verifyEmailRoute,
-                (route) => false,
-              );
+              _navigateToVerifyEmail(email: email);
             }
           } on UserNotFoundAuthException {
             await showErrorDialog(
@@ -190,5 +188,12 @@ class _LoginViewState extends State<LoginView> {
       errorText: 'Please enter your email address.',
       validator: (value) => AppFormsValidator.validateLoginEmail(email: value),
     );
+  }
+
+  void _navigateToVerifyEmail({required String email}) {
+    final route = MaterialPageRoute<void>(
+      builder: (_) => VerifyEmailView(email: email),
+    );
+    Navigator.of(context).push(route);
   }
 }

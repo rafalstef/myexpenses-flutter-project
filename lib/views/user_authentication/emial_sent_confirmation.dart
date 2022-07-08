@@ -42,7 +42,7 @@ class EmailSentConfirmation extends StatelessWidget {
           ),
           TextSpan(
             text: email,
-            style: AppTextStyles.regularSemiBold(AppColors.dark100),
+            style: AppTextStyles.regularSemiBold(AppColors.violet80),
           ),
           const TextSpan(
             text: ' and follow the instructions to reset your password.',

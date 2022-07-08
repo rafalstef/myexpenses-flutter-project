@@ -26,7 +26,6 @@ void main() {
       routes: {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
-        verifyEmailRoute: (context) => const VerifyEmailView(),
         forgotPasswordRoute: (context) => const ForgotPasswordView(),
         createOrUpdateAccountRoute: (context) =>
             const CreateUpdateAccountView(),
@@ -57,7 +56,7 @@ class HomePage extends StatelessWidget {
               if (user.isEmailVerified) {
                 return const MainAppPage();
               } else {
-                return const VerifyEmailView();
+                return VerifyEmailView(email: user.email);
               }
             } else {
               return const LoginView();

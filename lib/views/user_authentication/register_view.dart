@@ -9,6 +9,7 @@ import 'package:myexpenses/utilities/UI_components/input_fields/app_text_field.d
 import 'package:myexpenses/utilities/dialogs/show_error_dialog.dart';
 import 'package:myexpenses/utilities/validator/app_forms_validator.dart';
 import 'package:myexpenses/views/user_authentication/sign_in_with_google.dart';
+import 'package:myexpenses/views/user_authentication/verify_email_view.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -121,7 +122,7 @@ class _RegisterViewState extends State<RegisterView> {
               password: password,
             );
             AuthService.firebase().sendEmailVerification();
-            Navigator.of(context).pushNamed(verifyEmailRoute);
+            _navigateToVerifyEmail(email: email);
           } on WeakPasswordAuthException {
             await showErrorDialog(
               context,
@@ -181,5 +182,12 @@ class _RegisterViewState extends State<RegisterView> {
       iconTheme: const IconThemeData(color: AppColors.dark100),
       title: Text('Sign Up', style: AppTextStyles.title3(AppColors.dark60)),
     );
+  }
+
+  void _navigateToVerifyEmail({required String email}) {
+    final route = MaterialPageRoute<void>(
+      builder: (_) => VerifyEmailView(email: email),
+    );
+    Navigator.of(context).push(route);
   }
 }
