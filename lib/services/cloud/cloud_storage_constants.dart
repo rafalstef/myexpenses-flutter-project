@@ -13,3 +13,7 @@ const accountFieldName = 'account';
 const costFieldName = 'cost';
 const dateFieldName = 'date';
 const isIncomeNameField = 'is_income';
+
+// user
+const uidFiledName = 'uid';
+const userNameFieldName = 'name';

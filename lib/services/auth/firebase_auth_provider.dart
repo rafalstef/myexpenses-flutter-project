@@ -6,6 +6,7 @@ import 'package:myexpenses/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException, GoogleAuthProvider;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myexpenses/services/cloud/app_user/firebase_app_user.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
@@ -142,6 +143,19 @@ class FirebaseAuthProvider implements AuthProvider {
           throw UserNotFoundAuthException();
         default:
           throw GenericAuthException();
+      }
+    } catch (_) {
+      throw GenericAuthException();
+    }
+  }
+
+  @override
+  Future<void> createUserCollection({required String name}) async {
+    try {
+      final user = currentUser;
+      FirebaseAppUser firebaseAppUser = FirebaseAppUser();
+      if (user != null) {
+        await firebaseAppUser.createAppUser(uid: user.id, name: name);
       }
     } catch (_) {
       throw GenericAuthException();

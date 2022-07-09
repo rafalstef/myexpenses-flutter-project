@@ -17,4 +17,5 @@ abstract class AuthProvider {
   Future<void> sendEmailVerification();
   Future<AuthUser> signInWithGoogle();
   Future<void> sendPasswordReset({required String toEmail});
+  Future<void> createUserCollection({required String name});
 }

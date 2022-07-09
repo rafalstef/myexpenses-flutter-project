@@ -21,3 +21,5 @@ class CouldNotCreateUpdateOperationException extends CloudStorageException {}
 class CouldNotDeleteOperationException extends CloudStorageException {}
 
 class CouldNotGetAccountAmountException extends CloudStorageException {}
+
+class CouldNotGetUserNameExcepion extends CloudStorageException {}
