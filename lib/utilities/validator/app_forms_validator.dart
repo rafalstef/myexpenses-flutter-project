@@ -39,4 +39,11 @@ class AppFormsValidator {
     }
     return null;
   }
+
+  static String? validateName({required String? name}) {
+    if (name != null && name.isEmpty) {
+      return "Please enter a valid user name";
+    }
+    return null;
+  }
 }

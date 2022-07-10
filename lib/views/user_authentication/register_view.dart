@@ -22,11 +22,13 @@ class _RegisterViewState extends State<RegisterView> {
   final formKey = GlobalKey<FormState>();
   late final TextEditingController _email;
   late final TextEditingController _password;
+  late final TextEditingController _name;
 
   @override
   void initState() {
     _email = TextEditingController();
     _password = TextEditingController();
+    _name = TextEditingController();
     super.initState();
   }
 
@@ -34,6 +36,7 @@ class _RegisterViewState extends State<RegisterView> {
   void dispose() {
     _email.dispose();
     _password.dispose();
+    _name.dispose();
     super.dispose();
   }
 
@@ -49,7 +52,9 @@ class _RegisterViewState extends State<RegisterView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                const SizedBox(height: 30.0),
+                _buildNameTextField(),
+                const SizedBox(height: 20.0),
                 _buildEmailTextField(),
                 const SizedBox(height: 20.0),
                 _buildPasswordTextField(),
@@ -116,12 +121,15 @@ class _RegisterViewState extends State<RegisterView> {
         if (isFormValid) {
           final email = _email.text;
           final password = _password.text;
+          final name = _name.text;
           try {
-            await AuthService.firebase().createUser(
+            final AuthService authService = AuthService.firebase();
+            await authService.createUser(
               email: email,
               password: password,
             );
-            AuthService.firebase().sendEmailVerification();
+            await authService.createUserCollection(name: name);
+            authService.sendEmailVerification();
             _navigateToVerifyEmail(email: email);
           } on WeakPasswordAuthException {
             await showErrorDialog(
@@ -156,7 +164,6 @@ class _RegisterViewState extends State<RegisterView> {
       textInputAction: TextInputAction.done,
       obscureText: true,
       labelText: 'Enter your password',
-      errorText: 'Please enter your password.',
       validator: (value) =>
           AppFormsValidator.validateRegisterPassword(password: value),
     );
@@ -168,9 +175,18 @@ class _RegisterViewState extends State<RegisterView> {
       textInputType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       labelText: 'Enter your email',
-      errorText: 'Please enter your email address.',
       validator: (value) =>
           AppFormsValidator.validateRegisterEmail(email: value),
+    );
+  }
+
+  AppTextFormField _buildNameTextField() {
+    return AppTextFormField(
+      textEditingController: _name,
+      textInputType: TextInputType.name,
+      textInputAction: TextInputAction.next,
+      labelText: 'Enter your name',
+      validator: (value) => AppFormsValidator.validateName(name: value),
     );
   }
 
