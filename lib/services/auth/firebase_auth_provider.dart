@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/auth/auth_user.dart';
 import 'package:myexpenses/services/auth/auth_provider.dart';
 import 'package:myexpenses/services/auth/auth_exceptions.dart';
@@ -123,6 +124,8 @@ class FirebaseAuthProvider implements AuthProvider {
         ));
         final user = currentUser;
         if (user != null) {
+          await AuthService.firebase()
+              .createUserCollection(name: googleUser.displayName!);
           return user;
         }
       }
