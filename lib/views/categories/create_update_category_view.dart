@@ -18,10 +18,11 @@ class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
   late final FirebaseCategory _categoryService;
   late final TextEditingController _nameController;
   bool _isIncomeValue = false;
+  String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _categoryService = FirebaseCategory();
+    _categoryService = FirebaseCategory(userUid: userId);
     _nameController = TextEditingController();
     super.initState();
   }
@@ -40,10 +41,8 @@ class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
     }
 
     if (_category == null) {
-      final currentUser = AuthService.firebase().currentUser;
-      final userId = currentUser!.id;
       final newCategory =
-          await _categoryService.createNewCategory(ownerUserId: userId);
+          await _categoryService.createNewCategory();
       _category = newCategory;
     }
 

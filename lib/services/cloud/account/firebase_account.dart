@@ -4,7 +4,14 @@ import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_exceptions.dart';
 
 class FirebaseAccount {
-  final accounts = FirebaseFirestore.instance.collection('account');
+  final String userUid;
+  final CollectionReference<Map<String, dynamic>> accounts;
+
+  FirebaseAccount({required this.userUid})
+      : accounts = FirebaseFirestore.instance
+            .collection('user')
+            .doc(userUid)
+            .collection('account');
 
   Future<void> deleteAccount({required String documentId}) async {
     try {
@@ -46,20 +53,14 @@ class FirebaseAccount {
     }
   }
 
-  Stream<Iterable<Account>> allAccounts({required String ownerUserId}) =>
-      accounts.snapshots().map((event) => event.docs
-          .map((doc) => Account.fromSnapshot(doc))
-          .where((account) => account.ownerUserId == ownerUserId));
+  Stream<Iterable<Account>> allAccounts() =>
+      accounts
+          .snapshots()
+          .map((event) => event.docs.map((doc) => Account.fromSnapshot(doc)));
 
-  Future<Iterable<Account>> getAccounts({required String ownerUserId}) async {
+  Future<Iterable<Account>> getAccounts() async {
     try {
-      return await accounts
-          .where(
-            ownerUserIdFieldName,
-            isEqualTo: ownerUserId,
-          )
-          .get()
-          .then(
+      return await accounts.get().then(
             (value) => value.docs.map(
               (doc) => Account.fromSnapshot(doc),
             ),
@@ -79,9 +80,8 @@ class FirebaseAccount {
     }
   }
 
-  Future<Account> createNewAccount({required String ownerUserId}) async {
+  Future<Account> createNewAccount() async {
     final document = await accounts.add({
-      ownerUserIdFieldName: ownerUserId,
       nameFieldName: '',
       amountFieldName: 0,
       includeInBalanceFieldName: false,
@@ -89,7 +89,6 @@ class FirebaseAccount {
     final fetchedAccount = await document.get();
     return Account(
       documentId: fetchedAccount.id,
-      ownerUserId: ownerUserId,
       name: '',
       amount: 0,
       includeInBalance: false,

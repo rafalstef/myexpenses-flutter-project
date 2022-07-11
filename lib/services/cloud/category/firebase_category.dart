@@ -4,7 +4,14 @@ import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_exceptions.dart';
 
 class FirebaseCategory {
-  final categories = FirebaseFirestore.instance.collection('category');
+  final String userUid;
+  final CollectionReference<Map<String, dynamic>> categories;
+
+  FirebaseCategory({required this.userUid})
+      : categories = FirebaseFirestore.instance
+            .collection('user')
+            .doc(userUid)
+            .collection('category');
 
   Future<void> deleteCategory({required String documentId}) async {
     try {
@@ -29,21 +36,13 @@ class FirebaseCategory {
     }
   }
 
-  Stream<Iterable<OperationCategory>> allCategories({required String ownerUserId}) =>
-      categories.snapshots().map((event) => event.docs
-          .map((doc) => OperationCategory.fromSnapshot(doc))
-          .where((category) => category.ownerUserId == ownerUserId));
+  Stream<Iterable<OperationCategory>> allCategories() =>
+      categories.snapshots().map((event) =>
+          event.docs.map((doc) => OperationCategory.fromSnapshot(doc)));
 
-  Future<Iterable<OperationCategory>> getCategories(
-      {required String ownerUserId}) async {
+  Future<Iterable<OperationCategory>> getCategories() async {
     try {
-      return await categories
-          .where(
-            ownerUserIdFieldName,
-            isEqualTo: ownerUserId,
-          )
-          .get()
-          .then(
+      return await categories.get().then(
             (value) => value.docs.map(
               (doc) => OperationCategory.fromSnapshot(doc),
             ),
@@ -53,16 +52,14 @@ class FirebaseCategory {
     }
   }
 
-  Future<OperationCategory> createNewCategory({required String ownerUserId}) async {
+  Future<OperationCategory> createNewCategory() async {
     final document = await categories.add({
-      ownerUserIdFieldName: ownerUserId,
       nameFieldName: '',
       isIncomeNameField: false,
     });
     final fetchedAccount = await document.get();
     return OperationCategory(
       documentId: fetchedAccount.id,
-      ownerUserId: ownerUserId,
       name: '',
       isIncome: false,
     );

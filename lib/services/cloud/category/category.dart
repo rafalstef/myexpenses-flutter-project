@@ -5,13 +5,11 @@ import 'package:flutter/foundation.dart';
 @immutable
 class OperationCategory {
   final String documentId;
-  final String ownerUserId;
   final String name;
   final bool isIncome;
 
   const OperationCategory({
     required this.documentId,
-    required this.ownerUserId,
     required this.name,
     required this.isIncome,
   });
@@ -24,16 +22,14 @@ class OperationCategory {
     };
   }
 
-  OperationCategory.fromMap(Map<String, dynamic> categoryMap, String owner)
+  OperationCategory.fromMap(Map<String, dynamic> categoryMap)
       : documentId = categoryMap[documentIdFieldName],
-        ownerUserId = owner,
         name = categoryMap[nameFieldName],
         isIncome = categoryMap[isIncomeNameField];
 
 
   OperationCategory.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
-        ownerUserId = snapshot.data()[ownerUserIdFieldName],
         name = snapshot.data()[nameFieldName],
         isIncome = snapshot.data()[isIncomeNameField];
 }

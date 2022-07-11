@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 @immutable
 class Operation {
   final String documentId;
-  final String ownerUserId;
   final OperationCategory? category;
   final Account? account;
   final double cost;
@@ -15,7 +14,6 @@ class Operation {
 
   const Operation({
     required this.documentId,
-    required this.ownerUserId,
     required this.category,
     required this.account,
     required this.cost,
@@ -24,15 +22,10 @@ class Operation {
 
   Operation.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
-        ownerUserId = snapshot.data()[ownerUserIdFieldName],
+        date = snapshot.data()[dateFieldName].toDate(),
+        cost = double.parse(snapshot.data()[costFieldName].toString()),
+        account = Account.fromMap(snapshot.data()[accountFieldName]),
         category = OperationCategory.fromMap(
           snapshot.data()[categoryFieldName],
-          snapshot.data()[ownerUserIdFieldName],
-        ),
-        account = Account.fromMap(
-          snapshot.data()[accountFieldName],
-          snapshot.data()[ownerUserIdFieldName],
-        ),
-        cost = double.parse(snapshot.data()[costFieldName].toString()),
-        date = snapshot.data()[dateFieldName].toDate();
+        );
 }

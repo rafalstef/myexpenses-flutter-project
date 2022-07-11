@@ -43,9 +43,9 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
 
   @override
   void initState() {
-    _categoryService = FirebaseCategory();
-    _accountService = FirebaseAccount();
-    _expenseService = FirebaseOperation();
+    _categoryService = FirebaseCategory(userUid: userId);
+    _accountService = FirebaseAccount(userUid: userId);
+    _expenseService = FirebaseOperation(userUid: userId);
     _costController = MoneyMaskedTextController(
         initialValue: 0.0,
         decimalSeparator: '.',
@@ -61,8 +61,8 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
   }
 
   Future<void> _initFirebaseData() async {
-    _allCategories = await _categoryService.getCategories(ownerUserId: userId);
-    _allAccounts = await _accountService.getAccounts(ownerUserId: userId);
+    _allCategories = await _categoryService.getCategories();
+    _allAccounts = await _accountService.getAccounts();
   }
 
   @override
@@ -203,7 +203,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     final shouldDelete = await showDeleteDialog(context);
     if (shouldDelete) {
       // get current value of money in account
-      final double accountAmount = await FirebaseAccount()
+      final double accountAmount = await FirebaseAccount(userUid: userId)
           .getAccountAmount(documentId: _expense!.account!.documentId);
       final double newAmmount = (_category!.isIncome)
           ? accountAmount - _expense!.cost

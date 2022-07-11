@@ -24,7 +24,7 @@ class _AccountsViewState extends State<AccountsView> {
 
   @override
   void initState() {
-    _accountsService = FirebaseAccount();
+    _accountsService = FirebaseAccount(userUid: userId);
     super.initState();
   }
 
@@ -32,7 +32,7 @@ class _AccountsViewState extends State<AccountsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-        stream: _accountsService.allAccounts(ownerUserId: userId),
+        stream: _accountsService.allAccounts(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:

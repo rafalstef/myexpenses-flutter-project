@@ -9,7 +9,14 @@ import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/views/list_preferences/list_preferences.dart';
 
 class FirebaseOperation {
-  final operations = FirebaseFirestore.instance.collection('operation');
+  final String userUid;
+  final CollectionReference<Map<String, dynamic>> operations;
+
+  FirebaseOperation({required this.userUid})
+      : operations = FirebaseFirestore.instance
+            .collection('user')
+            .doc(userUid)
+            .collection('operation');
 
   Future<void> deleteOperation({required String documentId}) async {
     try {
@@ -39,14 +46,12 @@ class FirebaseOperation {
   }
 
   Stream<Iterable<Operation>> preferredOperations({
-    required String ownerUserId,
     required ListPreferences preferences,
   }) {
     List<UserTransaction> transactions = preferences.userTransactions;
 
     if (transactions.length == 1) {
       return _getOneTypeOfOperations(
-        ownerUserId: ownerUserId,
         preferences: preferences,
         type: transactions[0],
       );
@@ -54,7 +59,6 @@ class FirebaseOperation {
 
     if (transactions.length == 2) {
       return allOperations(
-        ownerUserId: ownerUserId,
         preferences: preferences,
       );
     }
@@ -64,7 +68,6 @@ class FirebaseOperation {
   }
 
   Stream<Iterable<Operation>> allOperations({
-    required String ownerUserId,
     required ListPreferences preferences,
   }) {
     DateTime startDate = preferences.startDate;
@@ -82,7 +85,6 @@ class FirebaseOperation {
         .map(
           (event) => event.docs
               .map((doc) => Operation.fromSnapshot(doc))
-              .where((operation) => operation.ownerUserId == ownerUserId)
               .where((operation) => preferences.filteredAccountIds
                   .contains(operation.account!.documentId))
               .where(
@@ -94,7 +96,6 @@ class FirebaseOperation {
   }
 
   Stream<Iterable<Operation>> _getOneTypeOfOperations({
-    required String ownerUserId,
     required ListPreferences preferences,
     required UserTransaction type,
   }) {
@@ -114,7 +115,6 @@ class FirebaseOperation {
         .map(
           (event) => event.docs
               .map((doc) => Operation.fromSnapshot(doc))
-              .where((operation) => operation.ownerUserId == ownerUserId)
               .where((operation) => operation.category!.isIncome == isIncome)
               .where((operation) => preferences.filteredAccountIds
                   .contains(operation.account!.documentId))
@@ -134,73 +134,45 @@ class FirebaseOperation {
         .orderBy(dateFieldName, descending: true)
         .limit(number)
         .snapshots()
-        .map((event) {
-      return event.docs
-          .map((doc) => Operation.fromSnapshot(doc))
-          .where((operation) => operation.ownerUserId == ownerUserId);
-    });
+        .map((event) => event.docs.map((doc) => Operation.fromSnapshot(doc)));
   }
 
-  Future<Iterable<Operation>> getOperations(
-      {required String owenrUserId}) async {
+  Future<Iterable<Operation>> getOperations() async {
     try {
-      return await operations
-          .where(
-            ownerUserIdFieldName,
-            isEqualTo: owenrUserId,
-          )
-          .get()
-          .then(
-            (value) => value.docs.map(
-              (doc) => Operation.fromSnapshot(doc),
-            ),
+      return await operations.get().then(
+            (value) => value.docs.map((doc) => Operation.fromSnapshot(doc)),
           );
     } catch (e) {
       throw CouldNotGetAllOperationsException();
     }
   }
 
-  Future<Iterable<Operation>> getExpenseOperations(
-      {required String ownerUserId}) async {
+  Future<Iterable<Operation>> getExpenseOperations() async {
     try {
       return await operations
-          .where(
-            ownerUserIdFieldName,
-            isEqualTo: ownerUserId,
-          )
           .where(
             categoryFieldName + '.' + isIncomeNameField,
             isEqualTo: false,
           )
           .get()
           .then(
-            (value) => value.docs.map(
-              (doc) => Operation.fromSnapshot(doc),
-            ),
+            (value) => value.docs.map((doc) => Operation.fromSnapshot(doc)),
           );
     } catch (e) {
       throw CouldNotGetAllOperationsException();
     }
   }
 
-  Future<Iterable<Operation>> getIncomeOperations(
-      {required String ownerUserId}) async {
+  Future<Iterable<Operation>> getIncomeOperations() async {
     try {
       return await operations
-          .where(
-            ownerUserIdFieldName,
-            isEqualTo: ownerUserId,
-          )
           .where(
             categoryFieldName + '.' + isIncomeNameField,
             isEqualTo: true,
           )
           .get()
           .then(
-            (value) => value.docs.map(
-              (doc) => Operation.fromSnapshot(doc),
-            ),
-          );
+              (value) => value.docs.map((doc) => Operation.fromSnapshot(doc)));
     } catch (e) {
       throw CouldNotGetAllOperationsException();
     }
@@ -208,7 +180,6 @@ class FirebaseOperation {
 
   Future<Operation> createNewOperation({required String ownerUserId}) async {
     final document = await operations.add({
-      ownerUserIdFieldName: ownerUserId,
       categoryFieldName: null,
       accountFieldName: null,
       costFieldName: 0,
@@ -217,7 +188,6 @@ class FirebaseOperation {
     final fetchedOperation = await document.get();
     return Operation(
       documentId: fetchedOperation.id,
-      ownerUserId: ownerUserId,
       category: null,
       account: null,
       cost: 0,

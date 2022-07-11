@@ -35,8 +35,8 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
 
   @override
   void initState() {
-    _operationService = FirebaseOperation();
-    _accountService = FirebaseAccount();
+    _operationService = FirebaseOperation(userUid: userId);
+    _accountService = FirebaseAccount(userUid: userId);
     super.initState();
   }
 
@@ -65,7 +65,6 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
             }
             return StreamBuilder(
               stream: _operationService.preferredOperations(
-                ownerUserId: userId,
                 preferences: _listPreferences!,
               ),
               builder: (context, snapshot) {
@@ -98,7 +97,7 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
   }
 
   Future? _fetchAccounts() async {
-    allAccounts = await _accountService.getAccounts(ownerUserId: userId);
+    allAccounts = await _accountService.getAccounts();
   }
 
   void _initListPreferences() {

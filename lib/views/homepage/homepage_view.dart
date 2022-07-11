@@ -25,7 +25,7 @@ class _HomePageViewState extends State<HomePageView>
 
   @override
   void initState() {
-    _operationService = FirebaseOperation();
+    _operationService = FirebaseOperation(userUid: userId);
     super.initState();
   }
 

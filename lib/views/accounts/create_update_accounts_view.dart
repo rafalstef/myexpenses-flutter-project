@@ -19,10 +19,11 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
   late final TextEditingController _nameController;
   late final TextEditingController _ammountController;
   bool _includeValue = false;
+  String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _accountsService = FirebaseAccount();
+    _accountsService = FirebaseAccount(userUid: userId);
     _nameController = TextEditingController();
     _ammountController = TextEditingController();
     super.initState();
@@ -44,10 +45,8 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
     }
 
     if (_account == null) {
-      final currentUser = AuthService.firebase().currentUser;
-      final userId = currentUser!.id;
       final newAccount =
-          await _accountsService.createNewAccount(ownerUserId: userId);
+          await _accountsService.createNewAccount();
       _account = newAccount;
     }
 

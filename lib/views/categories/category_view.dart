@@ -19,7 +19,7 @@ class _CategoryViewState extends State<CategoryView> {
 
   @override
   void initState() {
-    _categoryService = FirebaseCategory();
+    _categoryService = FirebaseCategory(userUid: userId);
     super.initState();
   }
 
@@ -29,7 +29,7 @@ class _CategoryViewState extends State<CategoryView> {
       appBar: AppBar(title: const Text('Categories')),
       drawer: const SideDrawer(),
       body: StreamBuilder(
-        stream: _categoryService.allCategories(ownerUserId: userId),
+        stream: _categoryService.allCategories(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
