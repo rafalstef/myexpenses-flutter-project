@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/constants/routes.dart';
+import 'package:myexpenses/extensions/string_extensions.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/category/firebase_category.dart';
@@ -41,16 +43,23 @@ class _CreateUpdateCategoryViewState extends State<CreateUpdateCategoryView> {
     }
 
     if (_category == null) {
-      final newCategory =
-          await _categoryService.createNewCategory();
-      _category = newCategory;
+      await _categoryService.createNewCategory(
+        name: _nameController.text.capitalize(),
+        isIncome: _isIncomeValue,
+        // TODO: Add choosing icon and color
+        color: AppColors.yellow100,
+        icon: Icons.abc,
+      );
+    } else {
+      await _categoryService.updateCategory(
+        documentId: _category!.documentId,
+        name: newName,
+        isIncome: _isIncomeValue,
+        // TODO: Add choosing icon and color
+        color: AppColors.yellow100,
+        icon: Icons.abc,
+      );
     }
-
-    await _categoryService.updateCategory(
-      documentId: _category!.documentId,
-      name: newName,
-      isIncome: _isIncomeValue,
-    );
 
     Navigator.pushNamedAndRemoveUntil(
       context,

@@ -2,6 +2,8 @@
 const documentIdFieldName = 'document_id';
 const ownerUserIdFieldName = 'user_id';
 const nameFieldName = 'name';
+const iconFieldName = 'iocn';
+const colorFieldName = 'color';
 
 // account
 const amountFieldName = 'amount';

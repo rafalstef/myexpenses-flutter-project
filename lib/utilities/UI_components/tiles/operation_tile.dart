@@ -23,9 +23,9 @@ class OperationTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: ListTile(
         onTap: () => onTap(operation),
-        leading: const TileIcon(
-          icon: Icons.shopping_basket_rounded,
-          iconColor: AppColors.yellow100,
+        leading: TileIcon(
+          icon: operation.category!.icon,
+          iconColor: operation.category!.color,
           containerColor: AppColors.yellow20,
         ),
         title: operationCategoryName(),

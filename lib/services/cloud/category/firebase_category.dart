@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_exceptions.dart';
@@ -13,6 +14,39 @@ class FirebaseCategory {
             .doc(userUid)
             .collection('category');
 
+  Future<void> createNewCategory({
+    required String name,
+    required bool isIncome,
+    required Color color,
+    required IconData icon,
+  }) async {
+    await categories.add({
+      nameFieldName: name,
+      isIncomeNameField: isIncome,
+      colorFieldName: color.value,
+      iconFieldName: icon.codePoint,
+    });
+  }
+
+  Future<void> updateCategory({
+    required String documentId,
+    required String name,
+    required bool isIncome,
+    required Color color,
+    required IconData icon,
+  }) async {
+    try {
+      await categories.doc(documentId).update({
+        nameFieldName: name,
+        isIncomeNameField: isIncome,
+        colorFieldName: color.value,
+        iconFieldName: icon.codePoint,
+      });
+    } catch (e) {
+      throw CouldNotCreateUpdateCategoryException();
+    }
+  }
+
   Future<void> deleteCategory({required String documentId}) async {
     try {
       await categories.doc(documentId).delete();
@@ -20,22 +54,7 @@ class FirebaseCategory {
       throw CouldNotDeleteCategoryException();
     }
   }
-
-  Future<void> updateCategory({
-    required String documentId,
-    required String name,
-    required bool isIncome,
-  }) async {
-    try {
-      await categories.doc(documentId).update({
-        nameFieldName: name,
-        isIncomeNameField: isIncome,
-      });
-    } catch (e) {
-      throw CouldNotCreateUpdateCategoryException();
-    }
-  }
-
+  
   Stream<Iterable<OperationCategory>> allCategories() =>
       categories.snapshots().map((event) =>
           event.docs.map((doc) => OperationCategory.fromSnapshot(doc)));
@@ -50,18 +69,5 @@ class FirebaseCategory {
     } catch (e) {
       throw CouldNotGetAllCategoriesException();
     }
-  }
-
-  Future<OperationCategory> createNewCategory() async {
-    final document = await categories.add({
-      nameFieldName: '',
-      isIncomeNameField: false,
-    });
-    final fetchedAccount = await document.get();
-    return OperationCategory(
-      documentId: fetchedAccount.id,
-      name: '',
-      isIncome: false,
-    );
   }
 }
