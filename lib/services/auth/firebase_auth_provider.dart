@@ -8,6 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException, GoogleAuthProvider;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:myexpenses/services/cloud/app_user/firebase_app_user.dart';
+import 'package:myexpenses/services/cloud/category/category.dart';
+import 'package:myexpenses/services/cloud/category/default_categories.dart';
+import 'package:myexpenses/services/cloud/category/firebase_category.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
@@ -158,7 +161,21 @@ class FirebaseAuthProvider implements AuthProvider {
       final user = currentUser;
       FirebaseAppUser firebaseAppUser = FirebaseAppUser();
       if (user != null) {
-        await firebaseAppUser.createAppUser(uid: user.id, name: name);
+        // create main user collection
+        final String userId = user.id;
+        await firebaseAppUser.createAppUser(uid: userId, name: name);
+        // create basic categories
+        final categoryService = FirebaseCategory(userUid: userId);
+        final List<OperationCategory> defaults =
+            DefaultCategories.defaultCategoryList();
+        for (OperationCategory category in defaults) {
+          await categoryService.createNewCategory(
+            name: category.name,
+            isIncome: category.isIncome,
+            color: category.color,
+            icon: category.icon,
+          );
+        }
       }
     } catch (_) {
       throw GenericAuthException();

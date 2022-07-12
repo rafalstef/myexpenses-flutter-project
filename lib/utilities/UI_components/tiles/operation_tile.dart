@@ -26,7 +26,7 @@ class OperationTile extends StatelessWidget {
         leading: TileIcon(
           icon: operation.category!.icon,
           iconColor: operation.category!.color,
-          containerColor: AppColors.yellow20,
+          containerColor: operation.category!.color.withOpacity(0.1),
         ),
         title: operationCategoryName(),
         subtitle: operationTitle(),
