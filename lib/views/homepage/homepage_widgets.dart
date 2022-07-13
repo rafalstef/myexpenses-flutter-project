@@ -45,7 +45,7 @@ class HomePageWidgets extends StatelessWidget {
     // summary = [balance, incomes, expenses]
     List<double> summary = List.filled(3, 0, growable: false);
     for (final operation in operations) {
-      operation.category!.isIncome
+      operation.category.isIncome
           ? summary[1] += operation.cost
           : summary[2] += operation.cost;
     }

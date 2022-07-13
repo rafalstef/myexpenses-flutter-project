@@ -24,9 +24,9 @@ class OperationTile extends StatelessWidget {
       child: ListTile(
         onTap: () => onTap(operation),
         leading: TileIcon(
-          icon: operation.category!.icon,
-          iconColor: operation.category!.color,
-          containerColor: operation.category!.color.withOpacity(0.1),
+          icon: operation.category.icon,
+          iconColor: operation.category.color,
+          containerColor: operation.category.color.withOpacity(0.1),
         ),
         title: operationCategoryName(),
         subtitle: operationTitle(),
@@ -41,7 +41,7 @@ class OperationTile extends StatelessWidget {
 
   Text operationCategoryName() {
     return Text(
-      operation.category!.name.toString(),
+      operation.category.name.toString(),
       style: AppTextStyles.regularMedium(AppColors.dark60),
       overflow: TextOverflow.ellipsis,
     );
@@ -60,10 +60,10 @@ class OperationTile extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          operation.category!.isIncome
+          operation.category.isIncome
               ? '+' + moneyFormat(operation.cost)
               : '-' + moneyFormat(operation.cost),
-          style: operation.category!.isIncome
+          style: operation.category.isIncome
               ? AppTextStyles.regularSemiBold(AppColors.green100)
               : AppTextStyles.regularSemiBold(AppColors.red100),
           overflow: TextOverflow.ellipsis,

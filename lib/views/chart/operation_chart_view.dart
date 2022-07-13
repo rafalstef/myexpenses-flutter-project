@@ -74,7 +74,7 @@ class _OperationChartViewState extends State<OperationChartView>
     final operations = widget.operations;
     // group by operation category name
     final groupedList =
-        groupBy(operations, (Operation operation) => operation.category!.name);
+        groupBy(operations, (Operation operation) => operation.category.name);
 
     double sum;
 
