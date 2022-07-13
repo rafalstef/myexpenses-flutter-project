@@ -50,10 +50,7 @@ class _HomePageViewState extends State<HomePageView>
 
   StreamBuilder _homePageData() {
     return StreamBuilder(
-      stream: _operationService.recentOperation(
-        ownerUserId: userId,
-        number: 5,
-      ),
+      stream: _operationService.recentOperation(number: 5),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.active:

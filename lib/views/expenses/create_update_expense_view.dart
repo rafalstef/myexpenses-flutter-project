@@ -78,20 +78,26 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     }
 
     if (_expense == null) {
-      final currentUser = AuthService.firebase().currentUser;
-      final userId = currentUser!.id;
-      final newExpense =
-          await _expenseService.createNewOperation(ownerUserId: userId);
-      _expense = newExpense;
+      // create new Operation
+      await _expenseService.createNewOperation(
+        cost: cost,
+        date: _selectedDate,
+        // TODO: Add form for description
+        description: '',
+        account: _account!,
+        category: _category!,
+      );
+    } else {
+      // update existing Operation
+      await _expenseService.updateOperation(
+        documentId: _expense!.documentId,
+        cost: cost,
+        date: _selectedDate,
+        description: '',
+        account: _account!,
+        category: _category!,
+      );
     }
-
-    await _expenseService.updateOperation(
-      documentId: _expense!.documentId,
-      category: _category!,
-      account: _account!,
-      cost: cost,
-      date: _selectedDate,
-    );
 
     final double newAmmount = (_category!.isIncome)
         ? _account!.amount + cost
@@ -204,7 +210,7 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
     if (shouldDelete) {
       // get current value of money in account
       final double accountAmount = await FirebaseAccount(userUid: userId)
-          .getAccountAmount(documentId: _expense!.account!.documentId);
+          .getAccountAmount(documentId: _expense!.account.documentId);
       final double newAmmount = (_category!.isIncome)
           ? accountAmount - _expense!.cost
           : accountAmount + _expense!.cost;

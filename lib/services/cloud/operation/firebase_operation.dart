@@ -18,30 +18,48 @@ class FirebaseOperation {
             .doc(userUid)
             .collection('operation');
 
+  Future<void> createNewOperation({
+    required double cost,
+    required DateTime date,
+    required String description,
+    required Account account,
+    required OperationCategory category,
+  }) async {
+    await operations.add({
+      costFieldName: cost,
+      dateFieldName: date,
+      descriptionFieldName: description,
+      accountFieldName: account.toMap(),
+      categoryFieldName: category.toMap(),
+    });
+  }
+
+  Future<void> updateOperation({
+    required String documentId,
+    required double cost,
+    required DateTime date,
+    required String description,
+    required Account account,
+    required OperationCategory category,
+  }) async {
+    try {
+      await operations.doc(documentId).update({
+        costFieldName: cost,
+        dateFieldName: date,
+        descriptionFieldName: description,
+        accountFieldName: account.toMap(),
+        categoryFieldName: category.toMap(),
+      });
+    } catch (e) {
+      throw CouldNotCreateUpdateOperationException();
+    }
+  }
+
   Future<void> deleteOperation({required String documentId}) async {
     try {
       await operations.doc(documentId).delete();
     } catch (e) {
       throw CouldNotDeleteOperationException();
-    }
-  }
-
-  Future<void> updateOperation({
-    required String documentId,
-    required OperationCategory category,
-    required Account account,
-    required double cost,
-    required DateTime date,
-  }) async {
-    try {
-      await operations.doc(documentId).update({
-        categoryFieldName: category.toMap(),
-        accountFieldName: account.toMap(),
-        costFieldName: cost,
-        dateFieldName: date,
-      });
-    } catch (e) {
-      throw CouldNotCreateUpdateOperationException();
     }
   }
 
@@ -86,7 +104,7 @@ class FirebaseOperation {
           (event) => event.docs
               .map((doc) => Operation.fromSnapshot(doc))
               .where((operation) => preferences.filteredAccountIds
-                  .contains(operation.account!.documentId))
+                  .contains(operation.account.documentId))
               .where(
                 (operation) =>
                     (operation.date.compareTo(startDate) > 0) &&
@@ -115,9 +133,9 @@ class FirebaseOperation {
         .map(
           (event) => event.docs
               .map((doc) => Operation.fromSnapshot(doc))
-              .where((operation) => operation.category!.isIncome == isIncome)
+              .where((operation) => operation.category.isIncome == isIncome)
               .where((operation) => preferences.filteredAccountIds
-                  .contains(operation.account!.documentId))
+                  .contains(operation.account.documentId))
               .where(
                 (operation) =>
                     (operation.date.compareTo(startDate) > 0) &&
@@ -127,7 +145,6 @@ class FirebaseOperation {
   }
 
   Stream<Iterable<Operation>> recentOperation({
-    required String ownerUserId,
     required int number,
   }) {
     return operations
@@ -176,22 +193,5 @@ class FirebaseOperation {
     } catch (e) {
       throw CouldNotGetAllOperationsException();
     }
-  }
-
-  Future<Operation> createNewOperation({required String ownerUserId}) async {
-    final document = await operations.add({
-      categoryFieldName: null,
-      accountFieldName: null,
-      costFieldName: 0,
-      dateFieldName: null,
-    });
-    final fetchedOperation = await document.get();
-    return Operation(
-      documentId: fetchedOperation.id,
-      category: null,
-      account: null,
-      cost: 0,
-      date: DateTime.now(),
-    );
   }
 }
