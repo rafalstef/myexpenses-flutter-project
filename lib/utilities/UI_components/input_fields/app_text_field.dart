@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
+import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 
 class AppTextFormField extends StatefulWidget {
   const AppTextFormField({
@@ -10,9 +11,12 @@ class AppTextFormField extends StatefulWidget {
     this.textInputAction,
     this.obscureText = false,
     this.labelText,
+    this.hintText,
     this.errorText,
     this.validator,
     this.prefixIconData,
+    this.focusBorderColor,
+    this.contentPadding,
     Key? key,
   }) : super(key: key);
 
@@ -21,11 +25,14 @@ class AppTextFormField extends StatefulWidget {
   final TextInputType? textInputType;
   final TextInputAction? textInputAction;
   final String? labelText;
+  final String? hintText;
   final String? errorText;
   final bool autoFocus;
   final IconData? prefixIconData;
   final String? Function(String?)? validator;
   final bool obscureText;
+  final Color? focusBorderColor;
+  final EdgeInsets? contentPadding;
 
   @override
   _AppTextFormFieldState createState() => _AppTextFormFieldState();
@@ -63,12 +70,16 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       textInputAction: widget.textInputAction,
       validator: widget.validator,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 22.0,
-          horizontal: 16.0,
-        ),
+        contentPadding: widget.contentPadding ??
+            const EdgeInsets.symmetric(vertical: 22.0, horizontal: 16.0),
         labelText: widget.labelText,
-        focusedBorder: _outlineFocusedInputBorder(color: AppColors.violet80),
+        hintText: widget.hintText,
+        hintStyle: AppTextStyles.regular(AppColors.dark20),
+        focusedBorder: _outlineFocusedInputBorder(
+          color: (widget.focusBorderColor == null)
+              ? AppColors.violet80
+              : widget.focusBorderColor!,
+        ),
         enabledBorder: _outlineFocusedInputBorder(color: AppColors.light20),
         border: _outlineFocusedInputBorder(color: AppColors.dark100),
         errorBorder: _outlineRegularInputBorder(color: AppColors.red100),
@@ -88,14 +99,14 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
 
   OutlineInputBorder _outlineFocusedInputBorder({required Color color}) {
     return OutlineInputBorder(
-      borderSide: BorderSide(color: color, width: 2.0),
+      borderSide: BorderSide(color: color, width: 1.5),
       borderRadius: _inputBorderRadius,
     );
   }
 
   OutlineInputBorder _outlineRegularInputBorder({required Color color}) {
     return OutlineInputBorder(
-      borderSide: BorderSide(color: color, width: 1.25),
+      borderSide: BorderSide(color: color, width: 1.5),
       borderRadius: _inputBorderRadius,
     );
   }

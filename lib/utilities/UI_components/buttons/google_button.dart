@@ -33,7 +33,7 @@ class GoogleButton extends StatelessWidget {
         elevation: 0,
         primary: AppColors.light100,
         fixedSize: Size(MediaQuery.of(context).size.width, 54),
-        side: const BorderSide(color: AppColors.light20, width: 2.0),
+        side: const BorderSide(color: AppColors.light20, width: 1.5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),
