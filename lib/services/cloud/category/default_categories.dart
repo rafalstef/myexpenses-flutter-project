@@ -22,12 +22,11 @@ class DefaultCategories {
         icon: Icons.home_rounded,
       ),
       OperationCategory(
-        documentId: '',
-        name: 'Restaurant',
-        isIncome: false,
-        color: AppColors.red100,
-        icon: Icons.health_and_safety_rounded,
-      ),
+          documentId: '',
+          name: 'Restaurant',
+          isIncome: false,
+          color: AppColors.red100,
+          icon: Icons.restaurant_rounded),
       OperationCategory(
         documentId: '',
         name: 'Supermarket',
@@ -46,7 +45,7 @@ class DefaultCategories {
         documentId: '',
         name: 'Travel',
         isIncome: false,
-        color: AppColors.light100,
+        color: AppColors.blue100,
         icon: Icons.travel_explore_rounded,
       ),
       OperationCategory(
