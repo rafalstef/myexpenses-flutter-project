@@ -53,10 +53,14 @@ class _ListTileSelectState extends State<ListTileSelect> {
               color: AppColors.light100,
             ),
           ),
-          const SizedBox(width: 20),
-          Text(
-            widget.title,
-            style: AppTextStyles.regularMedium(AppColors.dark100),
+          const SizedBox(width: 16.0),
+          Flexible(
+            fit: FlexFit.loose,
+            child: Text(
+              widget.title,
+              style: AppTextStyles.regularMedium(AppColors.dark100),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
