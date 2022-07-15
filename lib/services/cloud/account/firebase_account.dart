@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_exceptions.dart';
@@ -13,12 +14,20 @@ class FirebaseAccount {
             .doc(userUid)
             .collection('account');
 
-  Future<void> deleteAccount({required String documentId}) async {
-    try {
-      await accounts.doc(documentId).delete();
-    } catch (e) {
-      throw CouldNotDeleteAccountException();
-    }
+  Future<void> createNewAccount({
+    required String name,
+    required double amount,
+    required bool includeInBalance,
+    required Color color,
+    required IconData icon,
+  }) async {
+    await accounts.add({
+      nameFieldName: name,
+      amountFieldName: amount,
+      includeInBalanceFieldName: includeInBalance,
+      colorFieldName: color.value,
+      iconFieldName: icon.codePoint,
+    });
   }
 
   Future<void> updateAccount({
@@ -26,6 +35,8 @@ class FirebaseAccount {
     required String name,
     required double ammount,
     required bool includeToBalance,
+    required Color color,
+    required IconData icon,
   }) async {
     try {
       await accounts.doc(documentId).update(
@@ -33,6 +44,8 @@ class FirebaseAccount {
           nameFieldName: name,
           amountFieldName: ammount,
           includeInBalanceFieldName: includeToBalance,
+          colorFieldName: color.value,
+          iconFieldName: icon.codePoint,
         },
       );
     } catch (e) {
@@ -53,10 +66,17 @@ class FirebaseAccount {
     }
   }
 
-  Stream<Iterable<Account>> allAccounts() =>
-      accounts
-          .snapshots()
-          .map((event) => event.docs.map((doc) => Account.fromSnapshot(doc)));
+  Future<void> deleteAccount({required String documentId}) async {
+    try {
+      await accounts.doc(documentId).delete();
+    } catch (e) {
+      throw CouldNotDeleteAccountException();
+    }
+  }
+
+  Stream<Iterable<Account>> allAccounts() => accounts
+      .snapshots()
+      .map((event) => event.docs.map((doc) => Account.fromSnapshot(doc)));
 
   Future<Iterable<Account>> getAccounts() async {
     try {
@@ -78,20 +98,5 @@ class FirebaseAccount {
     } catch (e) {
       throw CouldNotGetAccountAmountException();
     }
-  }
-
-  Future<Account> createNewAccount() async {
-    final document = await accounts.add({
-      nameFieldName: '',
-      amountFieldName: 0,
-      includeInBalanceFieldName: false,
-    });
-    final fetchedAccount = await document.get();
-    return Account(
-      documentId: fetchedAccount.id,
-      name: '',
-      amount: 0,
-      includeInBalance: false,
-    );
   }
 }

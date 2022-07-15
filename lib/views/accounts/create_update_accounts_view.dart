@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/constants/routes.dart';
+import 'package:myexpenses/extensions/string_extensions.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/services/cloud/account/account.dart';
 import 'package:myexpenses/services/cloud/account/firebase_account.dart';
@@ -40,22 +42,29 @@ class _CreateAccountViewState extends State<CreateUpdateAccountView> {
     final newName = _nameController.text;
     final newAmmount = double.parse(_ammountController.text);
 
-    if (newName.isEmpty) {
+    if (newName.isEmpty || newAmmount == 0) {
       return;
     }
 
+    // TODO: Add choosing icon and color
     if (_account == null) {
-      final newAccount =
-          await _accountsService.createNewAccount();
-      _account = newAccount;
+      await _accountsService.createNewAccount(
+        name: _nameController.text.capitalize(),
+        amount: newAmmount,
+        includeInBalance: _includeValue,
+        color: AppColors.yellow100,
+        icon: Icons.abc,
+      );
+    } else {
+      await _accountsService.updateAccount(
+        documentId: _account!.documentId,
+        name: newName,
+        ammount: newAmmount,
+        includeToBalance: _includeValue,
+        color: AppColors.yellow100,
+        icon: Icons.abc,
+      );
     }
-
-    await _accountsService.updateAccount(
-      documentId: _account!.documentId,
-      name: newName,
-      ammount: newAmmount,
-      includeToBalance: _includeValue,
-    );
 
     Navigator.pushNamedAndRemoveUntil(
       context,

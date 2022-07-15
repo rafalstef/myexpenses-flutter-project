@@ -19,32 +19,16 @@ class AccountTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () => onTap(account),
-      leading: const TileIcon(
-        icon: Icons.account_balance_wallet,
-        iconColor: Color(0xFF5233FF),
-        containerColor: Color(0xFFF1F1FA),
+      leading: TileIcon(
+        icon: account.icon,
+        iconColor: account.color,
+        containerColor: account.color.withOpacity(0.1),
       ),
       title: accountName(),
       trailing: accountAmount(),
       contentPadding: const EdgeInsets.symmetric(horizontal: 20),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5)),
-      ),
-    );
-  }
-
-  Widget accountIcon() {
-    return Container(
-      height: 48,
-      width: 48,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0),
-        color: const Color(0xFFF1F1FA),
-      ),
-      child: const Icon(
-        Icons.account_balance_wallet,
-        color: Color(0xFF5233FF),
-        size: 28.0,
       ),
     );
   }
