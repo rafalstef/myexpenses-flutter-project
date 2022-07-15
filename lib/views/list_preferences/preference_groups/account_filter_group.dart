@@ -26,6 +26,8 @@ class AccountFilterGroup extends StatelessWidget {
             (account) => FilterListOption(
               id: account.documentId,
               name: account.name,
+              icon: account.icon,
+              color: account.color,
             ),
           )
           .toList(),

@@ -5,12 +5,16 @@ import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 
 class ListTileSelect extends StatefulWidget {
   final String title;
+  final IconData icon;
+  final Color color;
   final bool isSelected;
   final ButtonCallback onTap;
 
   const ListTileSelect({
     Key? key,
     required this.title,
+    required this.icon,
+    required this.color,
     required this.isSelected,
     required this.onTap,
   }) : super(key: key);
@@ -38,9 +42,23 @@ class _ListTileSelectState extends State<ListTileSelect> {
           widget.onTap();
         });
       },
-      title: Text(
-        widget.title,
-        style: AppTextStyles.smallMedium(AppColors.dark100),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            backgroundColor: widget.color,
+            radius: 18,
+            child: Icon(
+              widget.icon,
+              color: AppColors.light100,
+            ),
+          ),
+          const SizedBox(width: 20),
+          Text(
+            widget.title,
+            style: AppTextStyles.regularMedium(AppColors.dark100),
+          ),
+        ],
       ),
       checkboxShape: const CircleBorder(),
       checkColor: AppColors.light100,

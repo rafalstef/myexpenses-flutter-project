@@ -87,17 +87,27 @@ class OptionList extends StatelessWidget {
     required ScrollController controller,
     required List<String> selectedOptions,
   }) {
+    const Divider _divider = Divider(color: AppColors.light20, thickness: 1.0);
     return Expanded(
       child: ListView.builder(
         controller: controller,
         itemCount: options.length,
         itemBuilder: (context, index) {
-          return ListTileSelect(
-            title: options[index].name,
-            isSelected: (selectedOptions.contains(options[index].id)),
-            onTap: () {
-              selectedOptions.toggleItem(options[index].id);
-            },
+          final option = options[index];
+          return Column(
+            children: [
+              if (index == 0) _divider,
+              ListTileSelect(
+                title: option.name,
+                icon: option.icon,
+                color: option.color,
+                isSelected: (selectedOptions.contains(option.id)),
+                onTap: () {
+                  selectedOptions.toggleItem(option.id);
+                },
+              ),
+              _divider,
+            ],
           );
         },
       ),
