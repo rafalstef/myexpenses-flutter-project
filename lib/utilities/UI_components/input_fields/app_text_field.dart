@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
+import 'package:myexpenses/config/styles/decorations/app_decorations.dart';
 import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 
 class AppTextFormField extends StatefulWidget {
@@ -14,7 +15,7 @@ class AppTextFormField extends StatefulWidget {
     this.hintText,
     this.errorText,
     this.validator,
-    this.prefixIconData,
+    this.prefixIcon,
     this.focusBorderColor,
     this.contentPadding,
     Key? key,
@@ -28,7 +29,7 @@ class AppTextFormField extends StatefulWidget {
   final String? hintText;
   final String? errorText;
   final bool autoFocus;
-  final IconData? prefixIconData;
+  final Widget? prefixIcon;
   final String? Function(String?)? validator;
   final bool obscureText;
   final Color? focusBorderColor;
@@ -39,8 +40,6 @@ class AppTextFormField extends StatefulWidget {
 }
 
 class _AppTextFormFieldState extends State<AppTextFormField> {
-  final BorderRadius _inputBorderRadius = BorderRadius.circular(16.0);
-
   late FocusNode focusNode;
   late bool hasFocus;
   late bool isTextHidden;
@@ -69,47 +68,34 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       cursorColor: AppColors.dark100,
       textInputAction: widget.textInputAction,
       validator: widget.validator,
-      decoration: InputDecoration(
-        contentPadding: widget.contentPadding ??
-            const EdgeInsets.symmetric(vertical: 22.0, horizontal: 16.0),
-        labelText: widget.labelText,
-        hintText: widget.hintText,
-        hintStyle: AppTextStyles.regular(AppColors.dark20),
-        focusedBorder: _outlineFocusedInputBorder(
-          color: (widget.focusBorderColor == null)
-              ? AppColors.violet80
-              : widget.focusBorderColor!,
-        ),
-        enabledBorder: _outlineFocusedInputBorder(color: AppColors.light20),
-        border: _outlineFocusedInputBorder(color: AppColors.dark100),
-        errorBorder: _outlineRegularInputBorder(color: AppColors.red100),
-        focusedErrorBorder: _outlineFocusedInputBorder(color: AppColors.red100),
-        prefixIcon: widget.prefixIconData != null
-            ? Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 8),
-                child: Icon(widget.prefixIconData, size: 20))
-            : null,
-        prefixIconConstraints:
-            const BoxConstraints(minHeight: 24, minWidth: 24),
-        suffixIcon: (widget.obscureText) ? _buildVisibilityIcon() : null,
-        isDense: true,
-      ),
+      decoration: _inputDecoration(),
     );
   }
 
-  OutlineInputBorder _outlineFocusedInputBorder({required Color color}) {
-    return OutlineInputBorder(
-      borderSide: BorderSide(color: color, width: 1.5),
-      borderRadius: _inputBorderRadius,
+  InputDecoration _inputDecoration() {
+    return InputDecoration(
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 22.0, horizontal: 16.0),
+      labelText: widget.labelText,
+      hintText: widget.hintText,
+      hintStyle: AppTextStyles.regular(AppColors.dark20),
+      focusedBorder: _border(widget.focusBorderColor == null
+          ? AppColors.violet80
+          : widget.focusBorderColor!),
+      enabledBorder: _border(AppColors.light20),
+      border: _border(AppColors.dark100),
+      errorBorder: _border(AppColors.red100),
+      focusedErrorBorder: _border(AppColors.red100),
+      prefixIcon: widget.prefixIcon,
+      prefixIconConstraints:
+          const BoxConstraints(minHeight: 24, minWidth: 24),
+      suffixIcon: (widget.obscureText) ? _buildVisibilityIcon() : null,
+      isDense: true,
     );
   }
 
-  OutlineInputBorder _outlineRegularInputBorder({required Color color}) {
-    return OutlineInputBorder(
-      borderSide: BorderSide(color: color, width: 1.5),
-      borderRadius: _inputBorderRadius,
-    );
-  }
+  OutlineInputBorder _border(Color color) =>
+      AppDecorations.input.outlineBorder(color: color);
 
   IconButton _buildVisibilityIcon() {
     return IconButton(

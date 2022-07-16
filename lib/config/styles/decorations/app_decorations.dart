@@ -7,6 +7,9 @@ part 'app_decorations_buttons.dart';
 class AppDecorations {
   const AppDecorations._();
 
+  static const _Button button = _Button();
+  static const _Input input = _Input();
+
   static BoxDecoration homePageGradient() {
     return const BoxDecoration(
       gradient: LinearGradient(
