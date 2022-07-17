@@ -21,7 +21,7 @@ class GroupedOperationsLabelBar extends StatelessWidget {
         child: Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            weekdayMonthDay(toDate(label)),
+            AppDateFormat.weekdayMonthDay(AppDateFormat.toDate(label)),
             style: AppTextStyles.title3(AppColors.dark80),
           ),
         ),

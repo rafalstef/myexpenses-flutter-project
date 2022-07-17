@@ -11,8 +11,9 @@ class SortMethodGroup extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final ValueChanged<FilterOption> onOptionTap;
   final SortMethod selectedItem;
+  final ValueChanged<dynamic> onOptionTap;
+  
   @override
   Widget build(BuildContext context) {
     return OneChoiceFilterGroup(

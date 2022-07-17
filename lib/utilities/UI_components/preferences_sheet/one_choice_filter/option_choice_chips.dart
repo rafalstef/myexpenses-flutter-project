@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
-import 'package:myexpenses/utilities/UI_components/preferences_sheet/one_choice_filter/filter_option.dart';
 
 class OptionChoiceChips extends StatelessWidget {
   const OptionChoiceChips({
@@ -11,9 +10,9 @@ class OptionChoiceChips extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final List<FilterOption> options;
+  final List<dynamic> options;
   final dynamic selectedOptionId;
-  final ValueChanged<FilterOption> onOptionTap;
+  final ValueChanged<dynamic> onOptionTap;
 
   @override
   Widget build(BuildContext context) {

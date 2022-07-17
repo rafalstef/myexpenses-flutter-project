@@ -1,33 +1,45 @@
 import 'package:intl/intl.dart';
 
-DateTime get now => DateTime.now();
+class AppDateFormat {
+  const AppDateFormat._();
 
-String yearMonthDayDash(DateTime date) =>
-    DateFormat('yyyy-MM-dd').format(date).toString();
+  static DateTime get _now => DateTime.now();
 
-String dayMonthYearDot(DateTime date) =>
-    DateFormat('dd.MM.yyyy').format(date).toString();
+  static DateTime get today => DateTime(_now.year, _now.month, _now.day);
 
-String dayMonthYearDash(DateTime date) =>
-    DateFormat('dd-MM-yyyy').format(date).toString();
+  static DateTime get yesterday => today.subtract(const Duration(days: 1));
 
-String yearMonthWeekdayDay(DateTime date) =>
-    DateFormat('yMMMMEEEEd').format(date).toString();
+  static DateTime get currentMonthFirstDay =>
+      DateTime(_now.year, _now.month, 1);
 
-String weekdayMonthDay(DateTime date) =>
-    DateFormat('MMMMEEEEd').format(date).toString();
+  static DateTime get currentMonthLastDay =>
+      DateTime(_now.year, _now.month + 1, 0);
 
-String numMonthDay(DateTime date) => DateFormat('MMMd').format(date).toString();
+  static String yearMonthDayDash(DateTime date) =>
+      DateFormat('yyyy-MM-dd').format(date).toString();
 
-String numYear(DateTime date) => DateFormat('yyyy').format(date).toString();
+  static String dayMonthYearDot(DateTime date) =>
+      DateFormat('dd.MM.yyyy').format(date).toString();
 
-DateTime get currentMonthFirstDay => DateTime(now.year, now.month, 1);
+  static String dayMonthYearDash(DateTime date) =>
+      DateFormat('dd-MM-yyyy').format(date).toString();
 
-DateTime get currentMonthLastDay => DateTime(now.year, now.month + 1, 0);
+  static String yearMonthWeekdayDay(DateTime date) =>
+      DateFormat('yMMMMEEEEd').format(date).toString();
 
-DateTime toDate(String string) => DateTime.parse(string);
+  static String weekdayMonthDay(DateTime date) =>
+      DateFormat('MMMMEEEEd').format(date).toString();
 
-DateTime lastDayOfMonth(DateTime date) =>
-    DateTime(date.year, date.month + 1, 0);
+  static String numMonthDay(DateTime date) =>
+      DateFormat('MMMd').format(date).toString();
 
-String monthName(DateTime date) => DateFormat("MMMM").format(date);
+  static String numYear(DateTime date) =>
+      DateFormat('yyyy').format(date).toString();
+
+  static DateTime toDate(String string) => DateTime.parse(string);
+
+  static DateTime lastDayOfMonth(DateTime date) =>
+      DateTime(date.year, date.month + 1, 0);
+
+  static String monthName(DateTime date) => DateFormat("MMMM").format(date);
+}

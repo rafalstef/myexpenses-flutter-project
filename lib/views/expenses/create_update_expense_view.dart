@@ -353,10 +353,11 @@ class _CreateUpdateExpenseViewState extends State<CreateUpdateExpenseView> {
                         color: const Color(0xFF0077b6),
                         child: ListTile(
                           title: Text(
-                            yearMonthDayDash(_selectedDate) ==
-                                    yearMonthDayDash(DateTime.now())
+                            AppDateFormat.yearMonthDayDash(_selectedDate) ==
+                                    AppDateFormat.yearMonthDayDash(
+                                        DateTime.now())
                                 ? 'TODAY'
-                                : yearMonthDayDash(_selectedDate),
+                                : AppDateFormat.yearMonthDayDash(_selectedDate),
                             style: const TextStyle(color: AppColors.light100),
                           ),
                           trailing: const Icon(

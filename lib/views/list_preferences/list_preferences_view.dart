@@ -36,8 +36,8 @@ class _ListPreferencesViewState extends State<ListPreferencesView> {
 
   SortMethod _selectedSortMethod = SortMethod.newest;
 
-  DateTime _selectedStartDate = currentMonthFirstDay;
-  DateTime _selectedEndDate = currentMonthLastDay;
+  DateTime _selectedStartDate = AppDateFormat.currentMonthFirstDay;
+  DateTime _selectedEndDate = AppDateFormat.currentMonthLastDay;
 
   List<String> _selectedAccountIds = [];
 
@@ -53,10 +53,10 @@ class _ListPreferencesViewState extends State<ListPreferencesView> {
       _previousPreferences?.filteredAccountIds ?? [];
 
   DateTime get _previousStartDate =>
-      _previousPreferences?.startDate ?? currentMonthFirstDay;
+      _previousPreferences?.startDate ?? AppDateFormat.currentMonthFirstDay;
 
   DateTime get _previousEndDate =>
-      _previousPreferences?.endDate ?? currentMonthLastDay;
+      _previousPreferences?.endDate ?? AppDateFormat.currentMonthLastDay;
 
   SortMethod get _previousSortMethod =>
       _previousPreferences?.sortMethod ?? SortMethod.newest;

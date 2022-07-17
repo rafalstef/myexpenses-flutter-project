@@ -9,7 +9,7 @@ class OneChoiceFilterGroup extends StatelessWidget {
   final IconData icon;
   final List<FilterOption> options;
   final dynamic selectedOptionId;
-  final ValueChanged<FilterOption> onOptionTap;
+  final ValueChanged<dynamic> onOptionTap;
 
   const OneChoiceFilterGroup({
     required this.title,

@@ -23,7 +23,7 @@ class GroupedOperations extends OperationsList {
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.only(bottom: 40),
       elements: operations,
-      groupBy: (element) => yearMonthDayDash(element.date),
+      groupBy: (element) => AppDateFormat.yearMonthDayDash(element.date),
       groupSeparatorBuilder: (String groupByValue) {
         return GroupedOperationsLabelBar(label: groupByValue);
       },

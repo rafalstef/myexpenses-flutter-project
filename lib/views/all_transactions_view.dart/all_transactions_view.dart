@@ -47,8 +47,7 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
       body: NestedScrollView(
         body: _transactionsData(),
         floatHeaderSlivers: true,
-        headerSliverBuilder: (context, innerBoxIsScrolled) =>
-            [_buildAppBar()],
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [_buildAppBar()],
       ),
       backgroundColor: AppColors.light100,
     );
@@ -105,8 +104,8 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
     _listPreferences = ListPreferences(
       userTransactions: [UserTransaction.expense, UserTransaction.income],
       sortMethod: SortMethod.newest,
-      startDate: currentMonthFirstDay,
-      endDate: currentMonthLastDay,
+      startDate: AppDateFormat.currentMonthFirstDay,
+      endDate: AppDateFormat.currentMonthLastDay,
       filteredAccountIds: accountsId,
     );
   }
@@ -125,7 +124,8 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
       title: Row(
         children: [
           SecondaryPill(
-              text: monthName(_listPreferences?.startDate ?? DateTime.now()),
+              text: AppDateFormat.monthName(
+                  _listPreferences?.startDate ?? DateTime.now()),
               onPressed: () => _selectMonthDialog(context)),
         ],
       ),
@@ -144,7 +144,7 @@ class _AllTransactionsViewState extends State<AllTransactionsView> {
           userTransactions: _listPreferences!.userTransactions,
           sortMethod: _listPreferences!.sortMethod,
           startDate: date,
-          endDate: lastDayOfMonth(date),
+          endDate: AppDateFormat.lastDayOfMonth(date),
           filteredAccountIds: _listPreferences!.filteredAccountIds,
         );
         setState(() {
