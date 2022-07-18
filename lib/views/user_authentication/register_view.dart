@@ -4,6 +4,7 @@ import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_exceptions.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
+import 'package:myexpenses/utilities/UI_components/app_bars/custom_app_bars.dart';
 import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 import 'package:myexpenses/utilities/UI_components/input_fields/app_text_field.dart';
 import 'package:myexpenses/utilities/dialogs/show_error_dialog.dart';
@@ -43,7 +44,10 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: CustomAppBar.transparent(
+        title: 'Sign Up',
+        textColor: AppColors.dark60,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -187,16 +191,6 @@ class _RegisterViewState extends State<RegisterView> {
       textInputAction: TextInputAction.next,
       labelText: 'Enter your name',
       validator: (value) => AppFormsValidator.validateName(name: value),
-    );
-  }
-
-  AppBar _buildAppBar() {
-    return AppBar(
-      elevation: 0,
-      centerTitle: true,
-      backgroundColor: AppColors.transparent,
-      iconTheme: const IconThemeData(color: AppColors.dark100),
-      title: Text('Sign Up', style: AppTextStyles.title3(AppColors.dark60)),
     );
   }
 

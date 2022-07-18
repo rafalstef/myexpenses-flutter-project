@@ -3,6 +3,7 @@ import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 import 'package:myexpenses/constants/routes.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
+import 'package:myexpenses/utilities/UI_components/app_bars/custom_app_bars.dart';
 import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 
 class VerifyEmailView extends StatefulWidget {
@@ -22,7 +23,10 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: _buildAppBar(),
+      appBar: CustomAppBar.transparent(
+        title: 'Verification',
+        textColor: AppColors.dark60,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -107,19 +111,6 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             fontWeight: FontWeight.w600,
             fontSize: 36.0),
         textAlign: TextAlign.left,
-      ),
-    );
-  }
-
-  AppBar _buildAppBar() {
-    return AppBar(
-      elevation: 0,
-      centerTitle: true,
-      backgroundColor: AppColors.transparent,
-      iconTheme: const IconThemeData(color: AppColors.dark100),
-      title: Text(
-        'Verification',
-        style: AppTextStyles.title3(AppColors.dark60),
       ),
     );
   }
