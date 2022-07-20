@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/config/styles/decorations/app_decorations.dart';
-import 'package:myexpenses/utilities/UI_components/operation_date_choice/date_option.dart';
+import 'package:myexpenses/utilities/UI_components/new_operation/operation_date_choice/date_option.dart';
 import 'package:myexpenses/utilities/UI_components/preferences_sheet/one_choice_filter/option_choice_chips.dart';
 import 'package:myexpenses/utilities/formats/date_formats.dart';
 
@@ -62,8 +62,8 @@ class _DateChoiceState extends State<DateChoice> {
         final DateTime? picked = await showDatePicker(
           context: context,
           initialDate: operationDate,
-          firstDate: DateTime(2015, 8),
-          lastDate: DateTime(2101),
+          firstDate: DateTime(DateTime.now().year - 1),
+          lastDate: AppDateFormat.today,
         );
         if (picked != null) {
           setState(() {

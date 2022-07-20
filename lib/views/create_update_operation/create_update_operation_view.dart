@@ -8,7 +8,7 @@ import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 import 'package:myexpenses/utilities/UI_components/new_operation/description_text_field.dart';
-import 'package:myexpenses/utilities/UI_components/operation_date_choice/date_choice.dart';
+import 'package:myexpenses/utilities/UI_components/new_operation/operation_date_choice/date_choice.dart';
 import 'package:myexpenses/utilities/UI_components/preferences_sheet/one_choice_list/item_choice_group.dart';
 import 'package:myexpenses/utilities/formats/date_formats.dart';
 import 'package:myexpenses/utilities/UI_components/new_operation/cost_text_field.dart';
