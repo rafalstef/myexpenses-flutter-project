@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
-import 'package:myexpenses/constants/routes.dart';
+import 'package:myexpenses/enums/user_transaction_enum.dart';
 import 'package:myexpenses/utilities/UI_components/bottom_navigation_bar.dart/bottom_navigation_bar.dart';
 import 'package:myexpenses/views/all_transactions_view.dart/all_transactions_view.dart';
 import 'package:myexpenses/views/budgets.dart/budgets_page.dart';
+import 'package:myexpenses/views/create_update_operation/create_update_operation.dart';
 import 'package:myexpenses/views/homepage/homepage_view.dart';
 import 'package:myexpenses/views/more_page.dart/more_page.dart';
 
@@ -73,7 +74,16 @@ class _MainAppPageState extends State<MainAppPage> {
           child: const Icon(Icons.arrow_downward_rounded),
           elevation: 0,
           onTap: () {
-            Navigator.of(context).pushNamed(createOrUpdateExpenseRoute);
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return const CreateUpdateOperation(
+                    operation: null,
+                    userTransaction: UserTransaction.expense,
+                  );
+                },
+              ),
+            );
           },
         ),
         SpeedDialChild(
@@ -84,7 +94,16 @@ class _MainAppPageState extends State<MainAppPage> {
           child: const Icon(Icons.arrow_upward_rounded),
           elevation: 0,
           onTap: () {
-            Navigator.of(context).pushNamed(createOrUpdateExpenseRoute);
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return const CreateUpdateOperation(
+                    operation: null,
+                    userTransaction: UserTransaction.income,
+                  );
+                },
+              ),
+            );
           },
         ),
       ],

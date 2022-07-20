@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:myexpenses/enums/user_transaction_enum.dart';
 import 'package:myexpenses/services/cloud/category/category.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_constants.dart';
 import 'package:myexpenses/services/cloud/cloud_storage_exceptions.dart';
@@ -54,7 +55,7 @@ class FirebaseCategory {
       throw CouldNotDeleteCategoryException();
     }
   }
-  
+
   Stream<Iterable<OperationCategory>> allCategories() =>
       categories.snapshots().map((event) =>
           event.docs.map((doc) => OperationCategory.fromSnapshot(doc)));
@@ -62,6 +63,27 @@ class FirebaseCategory {
   Future<Iterable<OperationCategory>> getCategories() async {
     try {
       return await categories.get().then(
+            (value) => value.docs.map(
+              (doc) => OperationCategory.fromSnapshot(doc),
+            ),
+          );
+    } catch (e) {
+      throw CouldNotGetAllCategoriesException();
+    }
+  }
+
+  Future<Iterable<OperationCategory>> oneTypeCategories({
+    required UserTransaction type,
+  }) async {
+    bool isIncome = (type == UserTransaction.income) ? true : false;
+    try {
+      return await categories
+          .where(
+            isIncomeNameField,
+            isEqualTo: isIncome,
+          )
+          .get()
+          .then(
             (value) => value.docs.map(
               (doc) => OperationCategory.fromSnapshot(doc),
             ),

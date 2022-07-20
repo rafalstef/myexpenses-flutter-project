@@ -9,6 +9,7 @@ import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 import 'package:myexpenses/utilities/UI_components/input_fields/app_text_field.dart';
 import 'package:myexpenses/utilities/dialogs/show_error_dialog.dart';
 import 'package:myexpenses/utilities/validator/app_forms_validator.dart';
+import 'package:myexpenses/views/main_app_page.dart/main_app_page.dart';
 import 'package:myexpenses/views/user_authentication/sign_in_with_google.dart';
 import 'package:myexpenses/views/user_authentication/verify_email_view.dart';
 
@@ -131,8 +132,10 @@ class _LoginViewState extends State<LoginView> {
             final user = AuthService.firebase().currentUser;
             if (user?.isEmailVerified ?? false) {
               //user's email is verified
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                summaryViewRoute,
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const MainAppPage(),
+                ),
                 (route) => false,
               );
             } else {
