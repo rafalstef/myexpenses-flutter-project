@@ -63,6 +63,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       focusNode: focusNode,
       autofocus: widget.autoFocus,
       controller: widget.textEditingController,
+      onChanged: widget.onChanged ,
       keyboardType: widget.textInputType,
       obscureText: isTextHidden,
       cursorColor: AppColors.dark100,
@@ -87,8 +88,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       errorBorder: _border(AppColors.red100),
       focusedErrorBorder: _border(AppColors.red100),
       prefixIcon: widget.prefixIcon,
-      prefixIconConstraints:
-          const BoxConstraints(minHeight: 24, minWidth: 24),
+      prefixIconConstraints: const BoxConstraints(minHeight: 24, minWidth: 24),
       suffixIcon: (widget.obscureText) ? _buildVisibilityIcon() : null,
       isDense: true,
     );
