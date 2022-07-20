@@ -107,8 +107,8 @@ class FirebaseOperation {
                   .contains(operation.account.documentId))
               .where(
                 (operation) =>
-                    (operation.date.compareTo(startDate) > 0) &&
-                    (operation.date.compareTo(endDate) < 0),
+                    (operation.date.compareTo(startDate) >= 0) &&
+                    (operation.date.compareTo(endDate) <= 0),
               ),
         );
   }
