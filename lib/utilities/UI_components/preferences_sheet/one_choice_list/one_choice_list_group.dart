@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/config/styles/decorations/app_decorations.dart';
-import 'package:myexpenses/utilities/UI_components/icons_containers/option_chip.dart';
+import 'package:myexpenses/utilities/UI_components/preferences_sheet/one_choice_list/option_chip.dart';
 import 'package:myexpenses/utilities/UI_components/preferences_sheet/list_filter.dart/filter_list_option.dart';
 import 'package:myexpenses/utilities/UI_components/preferences_sheet/one_choice_list/one_choice_options_list.dart';
 

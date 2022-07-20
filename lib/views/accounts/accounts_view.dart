@@ -8,7 +8,7 @@ import 'package:myexpenses/services/cloud/account/firebase_account.dart';
 import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 import 'package:myexpenses/utilities/formats/money_formats.dart';
 import 'package:myexpenses/utilities/UI_components/tiles/account_tile.dart';
-import 'package:myexpenses/utilities/loading_widgets/loading_widget.dart';
+import 'package:myexpenses/utilities/UI_components/loading_widgets/loading_widget.dart';
 import 'package:myexpenses/views/navBar.dart';
 
 class AccountsView extends StatefulWidget {

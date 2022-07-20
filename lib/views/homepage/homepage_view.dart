@@ -3,7 +3,7 @@ import 'package:myexpenses/config/styles/decorations/app_decorations.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/services/cloud/operation/firebase_operation.dart';
-import 'package:myexpenses/utilities/loading_widgets/loading_widget.dart';
+import 'package:myexpenses/utilities/UI_components/loading_widgets/loading_widget.dart';
 import 'package:myexpenses/services/auth/auth_service.dart';
 import 'package:myexpenses/views/homepage/homepage_widgets.dart';
 import 'package:myexpenses/views/navBar.dart';

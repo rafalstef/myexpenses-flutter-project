@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myexpenses/config/styles/colors/app_colors.dart';
 import 'package:myexpenses/config/styles/text_styles/app_text_styles.dart';
-import 'package:myexpenses/utilities/UI_components/icons_containers/icon_container.dart';
+import 'package:myexpenses/utilities/UI_components/tiles/tile_icon.dart';
 import 'package:myexpenses/utilities/formats/money_formats.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
 
@@ -29,7 +29,7 @@ class OperationTile extends StatelessWidget {
           containerColor: operation.category.color.withOpacity(0.1),
         ),
         title: operationCategoryName(),
-        subtitle: operationTitle(),
+        subtitle: (operation.description != '') ? operationTitle() : null,
         trailing: operationCost(),
         tileColor: AppColors.light90,
         shape: const RoundedRectangleBorder(
@@ -49,7 +49,7 @@ class OperationTile extends StatelessWidget {
 
   Text operationTitle() {
     return Text(
-      'Some groceries',
+      operation.description,
       style: AppTextStyles.small(AppColors.dark20),
       overflow: TextOverflow.ellipsis,
     );

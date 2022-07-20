@@ -10,7 +10,7 @@ import 'package:myexpenses/services/cloud/operation/firebase_operation.dart';
 import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/UI_components/buttons/pills.dart';
 import 'package:myexpenses/utilities/formats/date_formats.dart';
-import 'package:myexpenses/utilities/loading_widgets/loading_widget.dart';
+import 'package:myexpenses/utilities/UI_components/loading_widgets/loading_widget.dart';
 import 'package:myexpenses/views/list_preferences/list_preferences.dart';
 import 'package:myexpenses/views/all_transactions_view.dart/all_transactions_widgets.dart';
 import 'package:myexpenses/views/list_preferences/list_preferences_view.dart';
