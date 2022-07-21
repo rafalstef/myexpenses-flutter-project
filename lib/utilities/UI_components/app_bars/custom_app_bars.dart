@@ -20,4 +20,26 @@ class CustomAppBar {
       ),
     );
   }
+
+  static AppBar operationDetail({
+    required Color color,
+    required onTapDelete,
+  }) {
+    return AppBar(
+      elevation: 0,
+      centerTitle: true,
+      backgroundColor: color,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () async => await onTapDelete(),
+        )
+      ],
+      iconTheme: const IconThemeData(color: AppColors.light100),
+      title: Text(
+        'Transaction Detail',
+        style: AppTextStyles.title3(AppColors.light100),
+      ),
+    );
+  }
 }

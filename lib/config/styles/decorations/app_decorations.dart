@@ -39,4 +39,14 @@ class AppDecorations {
       ),
     );
   }
+
+  static BoxDecoration operationDetails({required Color color}) {
+    return BoxDecoration(
+      color: color,
+      borderRadius: const BorderRadius.only(
+        bottomLeft: Radius.circular(16.0),
+        bottomRight: Radius.circular(16.0),
+      ),
+    );
+  }
 }

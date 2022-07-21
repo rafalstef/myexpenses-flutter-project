@@ -12,6 +12,7 @@ import 'package:myexpenses/services/cloud/operation/operation.dart';
 import 'package:myexpenses/utilities/UI_components/app_bars/custom_app_bars.dart';
 import 'package:myexpenses/utilities/UI_components/loading_widgets/loading_widget.dart';
 import 'package:myexpenses/views/create_update_operation/create_update_operation_view.dart';
+import 'package:myexpenses/views/main_app_page.dart/main_app_page.dart';
 
 class CreateUpdateOperation extends StatefulWidget {
   final Operation? operation;
@@ -94,7 +95,10 @@ class _CreateUpdateOperationState extends State<CreateUpdateOperation> {
       amount: newAmmount,
     );
 
-    Navigator.of(context).pop();
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const MainAppPage()),
+      (route) => false,
+    );
   }
 
   @override
