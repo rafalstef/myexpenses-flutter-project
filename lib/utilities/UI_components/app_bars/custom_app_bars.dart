@@ -32,7 +32,7 @@ class CustomAppBar {
       actions: [
         IconButton(
           icon: const Icon(Icons.delete),
-          onPressed: () async => await onTapDelete(),
+          onPressed: () => onTapDelete(),
         )
       ],
       iconTheme: const IconThemeData(color: AppColors.light100),
@@ -40,6 +40,27 @@ class CustomAppBar {
         'Transaction Detail',
         style: AppTextStyles.title3(AppColors.light100),
       ),
+    );
+  }
+
+  static SliverAppBar accountDetail({required onTapEdit}) {
+    return SliverAppBar(
+      title: Text(
+        'Detail account',
+        style: AppTextStyles.title3(AppColors.dark60),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.edit_outlined),
+          onPressed: () => onTapEdit(),
+        )
+      ],
+      elevation: 0,
+      pinned: false,
+      floating: true,
+      centerTitle: true,
+      backgroundColor: AppColors.transparent,
+      iconTheme: const IconThemeData(color: AppColors.dark100),
     );
   }
 }

@@ -8,7 +8,7 @@ class AppTextStyles {
       color: color,
       fontSize: 64,
       height: 1.25,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
     );
   }
 
@@ -17,7 +17,7 @@ class AppTextStyles {
       color: color,
       fontSize: 32,
       height: 1.0,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
     );
   }
 
@@ -26,7 +26,7 @@ class AppTextStyles {
       color: color,
       fontSize: 24.0,
       height: 1.2,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
     );
   }
 
@@ -35,7 +35,7 @@ class AppTextStyles {
       color: color,
       fontSize: 18.0,
       height: 1.2,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w600,
     );
   }
 

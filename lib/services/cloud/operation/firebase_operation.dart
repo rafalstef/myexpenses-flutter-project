@@ -76,7 +76,7 @@ class FirebaseOperation {
     }
 
     if (transactions.length == 2) {
-      return allOperations(
+      return _allOperations(
         preferences: preferences,
       );
     }
@@ -85,7 +85,7 @@ class FirebaseOperation {
         .where((operation) => false));
   }
 
-  Stream<Iterable<Operation>> allOperations({
+  Stream<Iterable<Operation>> _allOperations({
     required ListPreferences preferences,
   }) {
     DateTime startDate = preferences.startDate;
@@ -138,8 +138,8 @@ class FirebaseOperation {
                   .contains(operation.account.documentId))
               .where(
                 (operation) =>
-                    (operation.date.compareTo(startDate) > 0) &&
-                    (operation.date.compareTo(endDate) < 0),
+                    (operation.date.compareTo(startDate) >= 0) &&
+                    (operation.date.compareTo(endDate) <= 0),
               ),
         );
   }
@@ -154,11 +154,35 @@ class FirebaseOperation {
         .map((event) => event.docs.map((doc) => Operation.fromSnapshot(doc)));
   }
 
-  Future<Iterable<Operation>> getOperations() async {
+  Future<Iterable<Operation>> getOperations({
+    required ListPreferences preferences,
+  }) async {
     try {
-      return await operations.get().then(
-            (value) => value.docs.map((doc) => Operation.fromSnapshot(doc)),
-          );
+      DateTime startDate = preferences.startDate;
+      DateTime endDate = preferences.endDate;
+      SortMethod sort = preferences.sortMethod;
+      String fieldSort =
+          (sort == SortMethod.newest || sort == SortMethod.oldest)
+              ? dateFieldName
+              : costFieldName;
+      bool descending =
+          (sort == SortMethod.newest || sort == SortMethod.biggest)
+              ? true
+              : false;
+      return await operations
+          .orderBy(fieldSort, descending: descending)
+          .get()
+          .then((value) => value.docs
+              .map(
+                (doc) => Operation.fromSnapshot(doc),
+              )
+              .where((operation) => preferences.filteredAccountIds
+                  .contains(operation.account.documentId))
+              .where(
+                (operation) =>
+                    (operation.date.compareTo(startDate) >= 0) &&
+                    (operation.date.compareTo(endDate) <= 0),
+              ));
     } catch (e) {
       throw CouldNotGetAllOperationsException();
     }

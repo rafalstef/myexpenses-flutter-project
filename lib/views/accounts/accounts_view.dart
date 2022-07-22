@@ -9,6 +9,7 @@ import 'package:myexpenses/utilities/UI_components/buttons/large_buttons.dart';
 import 'package:myexpenses/utilities/formats/money_formats.dart';
 import 'package:myexpenses/utilities/UI_components/tiles/account_tile.dart';
 import 'package:myexpenses/utilities/UI_components/loading_widgets/loading_widget.dart';
+import 'package:myexpenses/views/details/account_details.dart';
 import 'package:myexpenses/views/navBar.dart';
 
 class AccountsView extends StatefulWidget {
@@ -129,9 +130,11 @@ class _AccountsViewState extends State<AccountsView> {
             AccountTile(
               account: account,
               onTap: (account) {
-                Navigator.of(context).pushNamed(
-                  createOrUpdateAccountRoute,
-                  arguments: account,
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        AccountDetails(account: account),
+                  ),
                 );
               },
             ),
