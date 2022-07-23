@@ -72,6 +72,15 @@ class FirebaseCategory {
     }
   }
 
+  Stream<Iterable<OperationCategory>> onTypeCategory({
+    required UserTransaction type,
+  }) {
+    bool isIncome = (type == UserTransaction.income) ? true : false;
+    return categories.snapshots().map((event) => event.docs
+        .map((doc) => OperationCategory.fromSnapshot(doc))
+        .where((element) => element.isIncome == isIncome));
+  }
+
   Future<Iterable<OperationCategory>> oneTypeCategories({
     required UserTransaction type,
   }) async {
