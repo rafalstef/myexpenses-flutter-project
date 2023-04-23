@@ -1,24 +1,37 @@
-## Overview
+## Expense tracker build with Flutter and Firebase
 
-1. Skład grupy: Rafał Stefanowicz, Hubert Ambroziak
-2. Tytuł projektu: myexpenses
-3. Rodzaj aplikacji: mobilna na platformy android, iOS
-4. Języki programowania i użyte technologie: Dart, Flutter, Firebase
-5. Opis funkcjonalności
+This Flutter project is an expense tracker app that is integrated with Firebase. The app allows users to track their daily expenses and income, categorize their expenses, and view reports on their spending.
 
-### Czym jest aplikacja do zarządzania budżetem?
+### Getting Started
 
-Aplikacja pozwala zebrać wszystkie wydatki, pogrupować je i na bieżąco śledzić ile wydajemy pieniędzy, a co za tym idzie lepiej zarządzać swoimi finansami. 
+To get started with this project, follow the steps below:
 
-### Aplikacja powstaje z myślą o:
+#### Prerequisites
 
-- Łatwym zarządzaniu wydatkami
-- Zobrazowaniu na co i ile użytkownik wydaje pieniędzy
-- Przemyślanym planowaniu wydatków
-- Pogrupowaniem wszystkich wydatków w jednym miejscu
-- Przedstawieniem wydatków za pomocą wykresów
+- Flutter SDK
+- Android Studio or Xcode
+- Firebase account
 
-### Jakie problemy rozwiązuje aplikacja do zarządzania budżetem?
+#### Installation
 
-Aplikacja do zarządzania budżetem pozwala zauważyć, jak zarządzamy swoimi pieniędzmi i na co je wydajemy. W prosty sposób grupuje wydatki na różne kategorie domyślne, a także pozwala tworzyć własne. Aplikacja rozwiązuje problem złego zarządzania pieniędzmi, jak i również pozwala wychwycić obszary, gdzie wydajemy zbyt dużo. Dzięki możliwości wprowadzenia określonego budżetu początkowego, aplikacja rozwiewa wątpliwości, jaką kwotą aktualnie dysponujemy. 
-Aplikacja pozwala zobrazować jak wygląda nasz sposób wydawania pieniędzy, przedstawia wydatki w sposób graficzny przy pomocy czytelnych wykresów. W ten sposób użytkownik widzi na co poświęca znaczną część budżetu i potrafi zaplanować kolejny okres w lepszy sposób.
+1. Clone this repository to your local machine using:
+
+```bash
+git clone https://github.com/rafalstef/myexpenses-flutter-project.git
+```
+
+2. Open the project in your preferred IDE (Android Studio or Xcode)
+
+3. Set up Firebase in your project by following the [official documentation](https://firebase.google.com/docs/flutter/setup?hl=pl&platform=ios).
+
+4. Run the app on an emulator or physical device.
+
+#### Features
+
+This Flutter project with Firebase includes the following features:
+
+- [x] Authentication using Firebase Authentication
+- [x] Real-time database using Firebase
+- [x] Add/edit/delete expenses
+- [x] Categorize expenses
+- [ ] Chart and Graphs to view expenses
